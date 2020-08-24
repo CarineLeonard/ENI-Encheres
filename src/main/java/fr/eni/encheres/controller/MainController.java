@@ -48,9 +48,9 @@ public class MainController {
 	    public String userInfo(Model model, Principal principal) {
 	 
 	        // After user login successfully.
-	        String userName = principal.getName();
+	        String pseudo = principal.getName();
 	 
-	        System.out.println("User Name: " + userName);
+	        System.out.println(" Pseudo : " + pseudo);
 	 
 	        User loginedUser = (User) ((Authentication) principal).getPrincipal();
 	 
@@ -70,8 +70,8 @@ public class MainController {
 	 
 	            model.addAttribute("userInfo", userInfo);
 	 
-	            String message = "Hi " + principal.getName() //
-	                    + "<br> You do not have permission to access this page!";
+	            String message = "Salut " + principal.getName() //
+	                    + "<br> vous n'avez pas la premission d'accéder à cette page!";
 	            model.addAttribute("message", message);
 	 
 	        }
