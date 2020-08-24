@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import fr.eni.encheres.service.UserDetailsServiceImpl;
+
 //informe spring que c'est une classe de configuration à executer au démarrage de l'app 
 // configure l'application Spring Security 
 @Configuration														
