@@ -10,19 +10,24 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-@Configuration														// informe spring que c'est une classe de configuration à executer au démarrage de l'app 
+//informe spring que c'est une classe de configuration à executer au démarrage de l'app 
+// configure l'application Spring Security 
+@Configuration														
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired														// explication : 
+	// réalise l'injection de dépendance de Spring entre les beans de l'application 
+	@Autowired														
     private UserDetailsServiceImpl userDetailsService;
  
     @Autowired														
     private DataSource dataSource;
  
-    @Bean															// explication : 
+ // ou compoinent ou object  : représente une classe "bean"  
+    @Bean															
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
@@ -43,17 +48,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
  
         // The pages does not require login
-        http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
+        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/newUser").permitAll();
  
-        // /userInfo page requires login as ROLE_USER or ROLE_ADMIN.
+        // pages requires login as ROLE_USER or ROLE_ADMIN.
         // If no login, it will redirect to /login page.
-        http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/userInfo" , "/myUserInfo", "/updateUserInfo", "/welcome").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
  
         // For ADMIN only.
         http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
  
-        // When the user has logged in as XX.
-        // But access a page that requires role YY,
+        // When the user has logged in as XX, but access a page that requires role YY,
         // AccessDeniedException will be thrown.
         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
  
@@ -62,29 +66,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Submit URL of login page.
                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
                 .loginPage("/login")//
-                .defaultSuccessUrl("/userAccountInfo")//
+                .defaultSuccessUrl("/welcome")//
                 .failureUrl("/login?error=true")//
-                .usernameParameter("username")//
-                .passwordParameter("password")
+                .usernameParameter("Identifiant : ")//
+                .passwordParameter("Mot de passe : ")
                 // Config for Logout Page
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
  
-        // Config Remember Me.
+        // Config Remember Me : permet de mémoriser le couple id/mdp 
         http.authorizeRequests().and() //
                 .rememberMe().tokenRepository(this.persistentTokenRepository()) //
-                .tokenValiditySeconds(1 * 24 * 60 * 60); // 24h
+                .tokenValiditySeconds(7 * 24 * 60 * 60); // 7j
  
     }
- 
+ // Token : une cahine de carractère cryptée, stockée en base automatiquement par l'option Remember me 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
-        db.setDataSource(dataSource);
+        db.setDataSource(this.dataSource);
         return db;
     }
 	
-	
-	
-	
-
 }
