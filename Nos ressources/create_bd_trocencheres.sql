@@ -40,12 +40,42 @@ CREATE TABLE UTILISATEURS (
     ville            VARCHAR(30) NOT NULL,
     mot_de_passe     VARCHAR(30) NOT NULL,
     credit           INTEGER NOT NULL,
-    administrateur   bit NOT NULL
-)
+    actif   bit NOT NULL								-- ajout de tables app_role et user_role pour la gestion des droits avec spring security, gestion de l'admin de cette manière 
+) 
 
 ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk PRIMARY KEY (no_utilisateur)
+ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk UNIQUE (pseudo);		-- un pseudo unique ! 
 
-
+-- Create table pour les rôles et leur nom (pour spring sécurity) 
+create table APP_ROLE (
+  ROLE_ID   BIGINT not null,
+  ROLE_NAME VARCHAR(30) not null
+) ;
+alter table APP_ROLE add constraint APP_ROLE_PK primary key (ROLE_ID);
+alter table APP_ROLE add constraint APP_ROLE_UK unique (ROLE_NAME);
+ 
+ -- Create table pour le lien utilisateur / rôle (pour spring security) 
+create table USER_ROLE (
+  ID			 BIGINT not null,
+  no_utilisateur BIGINT not null,
+  ROLE_ID		 BIGINT not null
+);
+--  
+alter table USER_ROLE  add constraint USER_ROLE_PK primary key (ID);
+alter table USER_ROLE  add constraint USER_ROLE_UK unique (no_utilisateur, ROLE_ID);
+alter table USER_ROLE  add constraint USER_ROLE_FK1 foreign key (no_utilisateur)  references APP_USER (no_utilisateur);
+alter table USER_ROLE  add constraint USER_ROLE_FK2 foreign key (ROLE_ID)  references APP_ROLE (ROLE_ID);
+  
+-- Create table, Used by Spring Remember Me API.  
+CREATE TABLE Persistent_Logins (
+ 
+    username varchar(64) not null,
+    series varchar(64) not null,
+    token varchar(64) not null,
+    last_used Datetime not null,
+    PRIMARY KEY (series)
+    );
+	
 CREATE TABLE ARTICLES_VENDUS (
     no_article                    INTEGER IDENTITY(1,1) NOT NULL,
     nom_article                   VARCHAR(30) NOT NULL,
