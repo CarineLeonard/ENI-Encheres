@@ -20,12 +20,12 @@ public class AppRoleDAO {
     @Autowired
     private EntityManager entityManager;
  
-    public List<String> getRoleNames(Long userId) {
+    public List<String> getRoleNames(Long noUtilisateur) {
         String sql = "Select ur.appRole.roleName from " + UserRole.class.getName() + " ur " //
-                + " where ur.appUser.userId = :userId ";
+                + " where ur.appUser.noUtilisateur = :noUtilisateur ";
  
         Query query = this.entityManager.createQuery(sql, String.class);
-        query.setParameter("userId", userId);
+        query.setParameter("noUtilisateur", noUtilisateur);
         return query.getResultList();
     }
  
