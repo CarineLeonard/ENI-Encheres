@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.dao.AppRoleDAO;
 import fr.eni.encheres.dao.AppUserDAO;
-import fr.eni.encheres.entity.AppUser;
+import fr.eni.encheres.entity.Utilisateur;
  
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
  
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        AppUser appUser = this.appUserDAO.findUserAccount(userName);
+        Utilisateur appUser = this.appUserDAO.findUserAccount(userName);
  
         if (appUser == null) {
             System.out.println("User not found! " + userName);

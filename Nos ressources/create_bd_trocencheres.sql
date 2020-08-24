@@ -41,14 +41,15 @@ CREATE TABLE UTILISATEURS (
     mot_de_passe     VARCHAR(30) NOT NULL,
     credit           INTEGER NOT NULL,
     actif   bit NOT NULL								-- ajout de tables app_role et user_role pour la gestion des droits avec spring security, gestion de l'admin de cette manière 
+														
 ) 
 
 ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk PRIMARY KEY (no_utilisateur)
-ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk UNIQUE (pseudo);		-- un pseudo unique ! 
+ALTER TABLE UTILISATEURS ADD constraint utilisateur_uk UNIQUE (pseudo);		-- un pseudo unique ! 
 
 -- Create table pour les rôles et leur nom (pour spring sécurity) 
 create table APP_ROLE (
-  ROLE_ID   BIGINT not null,
+  ROLE_ID   INTEGER IDENTITY(1,1) NOT NULL,
   ROLE_NAME VARCHAR(30) not null
 ) ;
 alter table APP_ROLE add constraint APP_ROLE_PK primary key (ROLE_ID);
@@ -56,7 +57,7 @@ alter table APP_ROLE add constraint APP_ROLE_UK unique (ROLE_NAME);
  
  -- Create table pour le lien utilisateur / rôle (pour spring security) 
 create table USER_ROLE (
-  ID			 BIGINT not null,
+  ID			 INTEGER IDENTITY(1,1) NOT NULL,			-- identity généré automatiquement dans entity (jpa)
   no_utilisateur BIGINT not null,
   ROLE_ID		 BIGINT not null
 );
