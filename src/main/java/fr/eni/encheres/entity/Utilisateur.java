@@ -42,7 +42,7 @@ public class Utilisateur {
     @Column(name = "ville", length = 30, nullable = false)
     private String ville;
     
-    @Column(name = "mot_de_passe", length = 30, nullable = false)
+    @Column(name = "mot_de_passe", length = 128, nullable = false)
     private String motDePasse;
     
     @Column(name = "credit", nullable = false)

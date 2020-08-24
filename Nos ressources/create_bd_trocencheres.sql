@@ -120,3 +120,14 @@ ALTER TABLE ARTICLES_VENDUS
 ON DELETE NO ACTION 
     ON UPDATE no action 
 
+-- Used by Spring Remember Me API.  pas à créer donc ? 
+CREATE TABLE Persistent_Logins (
+ 
+    username varchar(64) not null,
+    series varchar(64) not null,
+    token varchar(64) not null,
+    last_used Datetime not null,
+    PRIMARY KEY (series)
+     
+);
+
