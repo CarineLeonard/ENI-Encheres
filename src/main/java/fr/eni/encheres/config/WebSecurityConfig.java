@@ -1,4 +1,4 @@
-package fr.eni.encheres.congif;
+package fr.eni.encheres.config;
 
 import javax.sql.DataSource;
 
