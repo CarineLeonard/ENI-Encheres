@@ -15,12 +15,10 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
 	// select by id
 	Utilisateur findByNoUtilisateur (Long noUtilisateur); 
 	
-	//select by pseudo
+	// select by pseudo
 	Utilisateur findByPseudo (String pseudo); 
 	
-	// ("Select new " + UtilisateurBO.class.getName() + " FROM " + Utilisateur.class.getName() + " u") 
-	
-	@Query
+	// selectAll 
 	Iterable<Utilisateur> findAll(); 
 	
 	// delete 
@@ -37,13 +35,9 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
 
 	
 	// nb total d'entité dans une table 
-	long count(); 
+	long count(); 	
+	
 
-	
-	
-	
-	/* @Query("SELECT u FROM User u WHERE u.username = :username")
-    public User getUserByUsername(@Param("username") String username); */ 
 
 	
 	

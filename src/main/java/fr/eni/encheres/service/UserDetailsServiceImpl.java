@@ -13,21 +13,21 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import fr.eni.encheres.dao.AppRoleDAO;
-import fr.eni.encheres.dao.UtilisateurDAO;
+import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.entity.Utilisateur;
  
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
  
     @Autowired
-    private UtilisateurDAO utilisateurDAO;
+    private UtilisateurRepository utilisateurRepository;
  
     @Autowired
     private AppRoleDAO appRoleDAO;
  
     @Override
     public UserDetails loadUserByUsername(String pseudo) throws UsernameNotFoundException {
-        Utilisateur utilisateur = this.utilisateurDAO.findUserAccount(pseudo);
+        Utilisateur utilisateur = this.utilisateurRepository.findByPseudo(pseudo);
  
         if (utilisateur == null) {
             System.out.println("Utilisateur non trouvé !" + pseudo);

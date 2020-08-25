@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired														
     private DataSource dataSource;
  
- // ou compoinent ou object  : représente une classe "bean"  
+ // ou compononent ou object  : représente une classe "bean"  
     @Bean															
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
