@@ -106,7 +106,7 @@ public class UtilisateurDAO {
 	}
 	
      
-    // insertUser(form) 
+    /* // insertUser(form) 
     public Utilisateur insertUser(UtilisateurForm form) {
         String encrytedPassword = this.passwordEncoder.encode(form.getPassword());
  
@@ -118,7 +118,7 @@ public class UtilisateurDAO {
         USERS_MAP.put(userId, user);
         return user;
     }
-    
+    */ 
 	
 	// update 
 	

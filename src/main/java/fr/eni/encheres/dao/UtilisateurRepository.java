@@ -18,10 +18,9 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
 	//select by pseudo
 	Utilisateur findByPseudo (String pseudo); 
 	
-	// selectAll
-	private static final String SQL_ALL = "Select new " + UtilisateurBO.class.getName() + " FROM " + Utilisateur.class.getName() + "(u"
+	// ("Select new " + UtilisateurBO.class.getName() + " FROM " + Utilisateur.class.getName() + " u") 
 	
-	@Query()
+	@Query
 	Iterable<Utilisateur> findAll(); 
 	
 	// delete 
@@ -43,8 +42,8 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
 	
 	
 	
-	@Query("SELECT u FROM User u WHERE u.username = :username")
-    public User getUserByUsername(@Param("username") String username);
+	/* @Query("SELECT u FROM User u WHERE u.username = :username")
+    public User getUserByUsername(@Param("username") String username); */ 
 
 	
 	
