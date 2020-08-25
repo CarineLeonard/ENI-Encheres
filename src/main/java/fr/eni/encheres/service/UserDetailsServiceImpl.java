@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import fr.eni.encheres.dao.AppRoleDAO;
+import fr.eni.encheres.dao.AppRoleRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.entity.Utilisateur;
  
@@ -21,9 +21,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
  
     @Autowired
     private UtilisateurRepository utilisateurRepository;
- 
     @Autowired
-    private AppRoleDAO appRoleDAO;
+    private AppRoleRepository appRoleRepository;
  
     @Override
     public UserDetails loadUserByUsername(String pseudo) throws UsernameNotFoundException {
@@ -37,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         System.out.println("Utilisateur trouvé : " + utilisateur);
  
         // [ROLE_USER, ROLE_ADMIN,..]
-        List<String> roleNames = this.appRoleDAO.getRoleNames(utilisateur.getNoUtilisateur());
+        List<String> roleNames = this.appRoleRepository.findRoleNameByNoUtilisateur(utilisateur.getNoUtilisateur());
  
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
         if (roleNames != null) {
