@@ -15,6 +15,9 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
 	// select by id
 	Utilisateur findByNoUtilisateur (Long noUtilisateur); 
 	
+	// select by email
+	Utilisateur findByEmail (String email); 
+	
 	// select by pseudo
 	Utilisateur findByPseudo (String pseudo); 
 	

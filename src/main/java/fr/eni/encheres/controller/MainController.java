@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.utils.WebUtils;
+import fr.eni.encheres.validator.UtilisateurValidator;
 
 // used to map web requests to Spring Controller methods.
 @Controller
@@ -20,6 +21,10 @@ public class MainController {
 	@Autowired
 	private UtilisateurRepository utilisateurRepository; 
 	
+	@Autowired
+	   private UtilisateurValidator utilisateurValidator;
+	
+	// répartition des accès au pages avec web security 
 	 @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	    public String welcomePage(Model model) {
 	        model.addAttribute("title", "Welcome");
@@ -84,4 +89,7 @@ public class MainController {
 	 
 	        return "403Page";
 	    }
+	    
+	 // Set a form validator
+	    
 }
