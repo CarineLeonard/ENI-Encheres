@@ -1,10 +1,17 @@
 package fr.eni.encheres.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,69 +46,45 @@ public class UtilisateurDAO {
     @Autowired
     private PasswordEncoder passwordEncoder;
  
-    private static final Map<Long, AppUser> USERS_MAP = new HashMap<>();
+    private static final Map<Long, Utilisateur> USERS_MAP = new HashMap<>();
  
-    static {
-        initDATA();
-    }
  
-    private static void initDATA() {
-        String encrytedPassword = "";
- 
-        AppUser tom = new AppUser(1L, "tom", "Tom", "Tom", //
-                true, Gender.MALE, "tom@waltdisney.com", encrytedPassword, "US");
- 
-        AppUser jerry = new AppUser(2L, "jerry", "Jerry", "Jerry", //
-                true, Gender.MALE, "jerry@waltdisney.com", encrytedPassword, "US");
- 
-        USERS_MAP.put(tom.getUserId(), tom);
-        USERS_MAP.put(jerry.getUserId(), jerry);
-    }
- 
-    public Long getMaxUserId() {
-        long max = 0;
-        for (Long id : USERS_MAP.keySet()) {
-            if (id > max) {
-                max = id;
-            }
+   // selectUserByPseudo
+    public Utilisateur selectUserByPseudo(String pseudo) {
+        Collection<Utilisateur> appUsers = USERS_MAP.values();
+        Utilisateur unUtilisateur=null; 
+        for (Utilisateur u : appUsers) {
+            if (u.getPseudo().equals(pseudo)) {
+            	unUtilisateur = u;
+            } 
         }
-        return max;
-    }
+        return unUtilisateur;
+	    }
  
-    //
- 
-    public AppUser findAppUserByUserName(String userName) {
-        Collection<AppUser> appUsers = USERS_MAP.values();
-        for (AppUser u : appUsers) {
-            if (u.getUserName().equals(userName)) {
-                return u;
-            }
-        }
-        return null;
-    }
- 
-    public AppUser findAppUserByEmail(String email) {
-        Collection<AppUser> appUsers = USERS_MAP.values();
-        for (AppUser u : appUsers) {
+    // selectUserByEmail
+    public Utilisateur selectUserByEmail(String email) {
+        Collection<Utilisateur> appUsers = USERS_MAP.values();
+        Utilisateur unUtilisateur=null; 
+        for (Utilisateur u : appUsers) {
             if (u.getEmail().equals(email)) {
-                return u;
+                unUtilisateur = u;
             }
         }
-        return null;
+        return unUtilisateur;
     }
  
-    public List<AppUser> getAppUsers() {
-        List<AppUser> list = new ArrayList<>();
- 
+    // selectAllUsers() 
+    public List<Utilisateur> selectAllUsers() {
+        List<Utilisateur> list = new ArrayList<>();
         list.addAll(USERS_MAP.values());
         return list;
     }
  
-    public AppUser createAppUser(AppUserForm form) {
-        Long userId = this.getMaxUserId() + 1;
+    // insertUser(forl) 
+    public Utilisateur insertUser(UtilisateurForm form) {
         String encrytedPassword = this.passwordEncoder.encode(form.getPassword());
  
-        AppUser user = new AppUser(userId, form.getUserName(), //
+        Utilisateur user = new Utilisateur(userId, form.getUserName(), //
                 form.getFirstName(), form.getLastName(), false, //
                 form.getGender(), form.getEmail(), form.getCountryCode(), //
                 encrytedPassword);
