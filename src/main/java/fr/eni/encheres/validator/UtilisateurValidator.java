@@ -42,7 +42,7 @@ public class UtilisateurValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "mot_de_passe", "NotEmpty.UtilisateurForm.mot_de_passe"); 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UtilisateurForm.confirmPassword"); 
 		
-        if (!this.emailValidator.isValid(utilisateurForm.getEmail())) {
+       /*  if (!this.emailValidator.isValid(utilisateurForm.getEmail())) {
             // Invalid email.
             errors.rejectValue("email", "Pattern.appUserForm.email");
         } else if (utilisateurForm.getNoUtilisateur() == null) {
@@ -64,7 +64,7 @@ public class UtilisateurValidator implements Validator {
                 if (!utilisateurForm.getConfirmPassword().equals(utilisateurForm.getMotDePasse())) {
                     errors.rejectValue("confirmPassword", "Match.appUserForm.confirmPassword");
                 }
-            }
-	}
+            }*/
+	}  
 
 }
