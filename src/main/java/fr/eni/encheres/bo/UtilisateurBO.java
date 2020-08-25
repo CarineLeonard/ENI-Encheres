@@ -1,6 +1,6 @@
 package fr.eni.encheres.bo;
 
-public class Utilisateur {
+public class UtilisateurBO {
  
     private Long noUtilisateur;
     private String pseudo;
@@ -15,7 +15,7 @@ public class Utilisateur {
     private int credit;
     private boolean actif;
     
-	public Utilisateur(String string) {
+	public UtilisateurBO(String string) {
 		this.pseudo = string;
 	}
 
@@ -118,7 +118,7 @@ public class Utilisateur {
 	/**
 	 * 
 	 */
-	public Utilisateur() {
+	public UtilisateurBO() {
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class Utilisateur {
 	 * @param credit
 	 * @param actif
 	 */
-	public Utilisateur(Long noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
+	public UtilisateurBO(Long noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String code_postal, String ville, String motDePasse, int credit, boolean actif) {
 		super(); 
 		this.noUtilisateur = noUtilisateur;

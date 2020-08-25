@@ -2,6 +2,7 @@ package fr.eni.encheres.controller;
 
 import java.security.Principal;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -9,11 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.utils.WebUtils;
 
 // used to map web requests to Spring Controller methods.
 @Controller
 public class MainController {
+	
+	@Autowired
+	private UtilisateurRepository utilisateurRepository; 
+	
 	 @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	    public String welcomePage(Model model) {
 	        model.addAttribute("title", "Welcome");

@@ -1,6 +1,6 @@
 package fr.eni.encheres.bo;
 
-public class AppRole {
+public class AppRoleBO {
 	
 	private Long roleId;
 	private String roleName;
@@ -33,13 +33,13 @@ public class AppRole {
 	/**
 	 * 
 	 */
-	public AppRole() {
+	public AppRoleBO() {
 	}
 	/**
 	 * @param roleId
 	 * @param roleName
 	 */
-	public AppRole(Long roleId, String roleName) {
+	public AppRoleBO(Long roleId, String roleName) {
 		super(); 
 		this.roleId = roleId;
 		this.roleName = roleName;

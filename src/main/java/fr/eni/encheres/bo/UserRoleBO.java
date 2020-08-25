@@ -1,20 +1,20 @@
 package fr.eni.encheres.bo;
 
-public class UserRole {
+public class UserRoleBO {
 	private Long id;
 
 	
 	/**
 	 * 
 	 */
-	public UserRole() {
+	public UserRoleBO() {
 	}
 
 
 	/**
 	 * @param id
 	 */
-	public UserRole(Long id) {
+	public UserRoleBO(Long id) {
 		super(); 
 		this.id = id;
 	}
