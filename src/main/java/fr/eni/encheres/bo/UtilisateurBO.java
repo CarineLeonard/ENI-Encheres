@@ -122,6 +122,7 @@ public class UtilisateurBO {
 	}
 
 	/**
+	 * Used in JPA query.
 	 * @param noUtilisateur
 	 * @param pseudo
 	 * @param nom
