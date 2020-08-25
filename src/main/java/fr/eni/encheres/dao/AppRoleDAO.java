@@ -22,8 +22,8 @@ public class AppRoleDAO {
  
     public List<String> getRoleNames(Long noUtilisateur) {
         String sql = "Select ur.appRole.roleName from " + UserRole.class.getName() + " ur " //
-                + " where ur.Utilisateur.noUtilisateur = :noUtilisateur ";
- 
+                + " where ur.utilisateur.noUtilisateur = :noUtilisateur ";
+        
         Query query = this.entityManager.createQuery(sql, String.class);
         query.setParameter("noUtilisateur", noUtilisateur);
         return query.getResultList();
