@@ -20,8 +20,8 @@
 		<h2><span th:utext="${titre_register}"></span></h2>
 		
 		<!-- /login?error=true -->
-		<div th:if="${errorMessage != null}"
-           th:utext="${errorMessage}" class="error">...</div>
+		<!--<div th:if="${errorMessage != null}"
+           th:utext="${errorMessage}" class="error">...</div> -->
 		
 		<form th:action="@{/register}" th:object="${utilisateurForm}" method="POST">
 			<div class="form-group row justify-content-center">
