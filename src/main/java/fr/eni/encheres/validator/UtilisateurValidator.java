@@ -44,13 +44,13 @@ public class UtilisateurValidator implements Validator {
 		
        if (!this.emailValidator.isValid(utilisateurForm.getEmail())) {
             // Invalid email.
-            errors.rejectValue("email", "Pattern.appUserForm.email");
+            errors.rejectValue("email", "Pattern.utilisateurForm.email");
         } else if (utilisateurForm.getNoUtilisateur() == null) {
         	Utilisateur dbUser = utilisateurRepository.findByEmail(utilisateurForm.getEmail());
         	// AppUser dbUser = appUserDAO.findAppUserByEmail(appUserForm.getEmail());
             if (dbUser != null) {
                 // Email has been used by another account.
-                errors.rejectValue("email", "Duplicate.appUserForm.email");
+                errors.rejectValue("email", "Duplicate.utilisateurForm.email");
             }
         }
           if (!errors.hasFieldErrors("pseudo")) {
@@ -58,13 +58,13 @@ public class UtilisateurValidator implements Validator {
             	// AppUser dbUser = appUserDAO.findAppUserByUserName(appUserForm.getUserName());
                 if (dbUser != null) {
                     // pseudo is not available.
-                    errors.rejectValue("pseudo", "Duplicate.UtilisateurForm.pseudo");
+                    errors.rejectValue("pseudo", "Duplicate.utilisateurForm.pseudo");
                 }
             }
      
             if (!errors.hasErrors()) {
                 if (!utilisateurForm.getConfirmPassword().equals(utilisateurForm.getMotDePasse())) {
-                    errors.rejectValue("confirmPassword", "Match.appUserForm.confirmPassword");
+                    errors.rejectValue("confirmPassword", "Match.utilisateurForm.confirmPassword");
                 }
             }
 	}  
