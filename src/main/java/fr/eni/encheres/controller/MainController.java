@@ -141,9 +141,9 @@ public class MainController {
 	       if (result.hasErrors()) {
 	          return "registerPage";
 	       }
-	       Utilisateur newUser= null;
+	       Utilisateur newUser = new Utilisateur(utilisateurForm.getNoUtilisateur(), utilisateurForm.getPseudo(), utilisateurForm.getNom(), utilisateurForm.getPrenom(), utilisateurForm.getEmail(), utilisateurForm.getTelephone(), utilisateurForm.getRue(), utilisateurForm.getCode_postal(), utilisateurForm.getVille(), utilisateurForm.getMotDePasse(), utilisateurForm.getCredit(), utilisateurForm.isActif());
 	       try {
-	          newUser = utilisateurRepository.save(utilisateurForm);
+	          newUser = utilisateurRepository.save(newUser);
 	          // newUser = appUserDAO.createAppUser(appUserForm);
 	       }
 	       // Other error!!

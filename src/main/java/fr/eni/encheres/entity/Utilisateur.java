@@ -147,6 +147,35 @@ public class Utilisateur {
 	public void setActif(boolean actif) {
 		this.actif = actif;
 	}
-   
-    
+	
+	/**
+	 * @param noUtilisateur
+	 * @param pseudo
+	 * @param nom
+	 * @param prenom
+	 * @param email
+	 * @param telephone
+	 * @param rue
+	 * @param code_postal
+	 * @param ville
+	 * @param motDePasse
+	 * @param credit
+	 * @param actif
+	 */
+	public Utilisateur(Long noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
+			String rue, String code_postal, String ville, String motDePasse, int credit, boolean actif) {
+		this.noUtilisateur = noUtilisateur;
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.telephone = telephone;
+		this.rue = rue;
+		this.code_postal = code_postal;
+		this.ville = ville;
+		this.motDePasse = motDePasse;
+		this.credit = credit;
+		this.actif = actif;
+	}
+	
 }
