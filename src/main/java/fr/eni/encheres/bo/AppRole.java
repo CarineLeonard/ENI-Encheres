@@ -1,4 +1,4 @@
-package fr.eni.encheres.entity;
+package fr.eni.encheres.bo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

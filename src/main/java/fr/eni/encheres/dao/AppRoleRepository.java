@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import fr.eni.encheres.entity.AppRole;
+import fr.eni.encheres.bo.AppRole;
 
 //This is an Interface. No need Annotation here.
 //Long: Type of AppRole ID.

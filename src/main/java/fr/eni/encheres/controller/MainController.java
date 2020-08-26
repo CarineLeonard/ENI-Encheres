@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import fr.eni.encheres.bo.AppRole;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.UtilisateurRepository;
-import fr.eni.encheres.entity.Utilisateur;
 import fr.eni.encheres.form.UtilisateurForm;
 import fr.eni.encheres.utils.WebUtils;
 import fr.eni.encheres.validator.UtilisateurValidator;
@@ -142,6 +143,8 @@ public class MainController {
 	          return "registerPage";
 	       }
 	       Utilisateur newUser = new Utilisateur(utilisateurForm.getNoUtilisateur(), utilisateurForm.getPseudo(), utilisateurForm.getNom(), utilisateurForm.getPrenom(), utilisateurForm.getEmail(), utilisateurForm.getTelephone(), utilisateurForm.getRue(), utilisateurForm.getCode_postal(), utilisateurForm.getVille(), utilisateurForm.getMotDePasse(), utilisateurForm.getCredit(), utilisateurForm.isActif());
+	       // TODO - user role à paramétrer - si on veut améliorer : mapper (+tard)
+	       
 	       try {
 	          newUser = utilisateurRepository.save(newUser);
 	          // newUser = appUserDAO.createAppUser(appUserForm);
@@ -154,14 +157,14 @@ public class MainController {
 	  
 	       redirectAttributes.addFlashAttribute("flashUser", newUser);
 	        
-	       return "redirect:/registerSuccessful";
+	       return "redirect:/registerSuccessfull";
 	    }
 	    
-	    @RequestMapping("/registerSuccessful")
+	    @RequestMapping("/registerSuccessfull")
 	    public String viewRegisterSuccessful(Model model) {
 	        model.addAttribute("title_registerSuccessfull", "Compte créé");
 	        model.addAttribute("titre_registerSuccessfull", "Compte créé avec succès !");
-	       return "registerSuccessfulPage";
+	       return "registerSuccessfullPage";
 	    }
 	    
 	    

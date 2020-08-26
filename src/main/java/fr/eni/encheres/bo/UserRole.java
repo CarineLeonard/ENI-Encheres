@@ -1,5 +1,6 @@
-package fr.eni.encheres.entity;
+package fr.eni.encheres.bo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +23,7 @@ public class UserRole {
     private Long id;
  
     // @ManyToOne à expliquer ! 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "no_utilisateur", nullable = false)
     private Utilisateur utilisateur;
  

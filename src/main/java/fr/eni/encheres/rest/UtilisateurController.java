@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.UtilisateurRepository;
-import fr.eni.encheres.entity.Utilisateur;
 
 @RestController
 public class UtilisateurController {

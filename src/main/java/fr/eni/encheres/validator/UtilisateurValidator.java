@@ -7,9 +7,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import fr.eni.encheres.bo.UtilisateurBO;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.UtilisateurRepository;
-import fr.eni.encheres.entity.Utilisateur;
 import fr.eni.encheres.form.UtilisateurForm;
 
 @Component 

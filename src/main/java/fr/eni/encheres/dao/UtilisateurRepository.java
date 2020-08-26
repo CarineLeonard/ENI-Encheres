@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import fr.eni.encheres.bo.UtilisateurBO;
-import fr.eni.encheres.entity.Utilisateur;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.form.UtilisateurForm;
 
 //This is an Interface. No need Annotation here.
@@ -31,12 +30,10 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
 	// deleteById 
 	void deleteById (Long noUtilisateur) ; 
 	
-	// save : update et create  ----------------------- à revoir ! 
-//	<S extends Utilisateur> S save(UtilisateurForm utilisateurForm);
+	// save : on est passé par la fonction héritée
 
 	// utilisateur de cet ID existe ? 
 	boolean existsById (Long noUtilisateur);
-
 	
 	// nb total d'entité dans une table 
 	long count(); 	

@@ -1,4 +1,4 @@
-package fr.eni.encheres.entity;
+package fr.eni.encheres.bo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,10 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+// TODO - tester lombok 
 @Entity
 @Table(name = "UTILISATEURS", //
         uniqueConstraints = { //
-                @UniqueConstraint(name = "utilisateur_uk", columnNames = "pseudo") })
+                @UniqueConstraint(name = "utilisateur_uk", columnNames = "pseudo") }) 
 public class Utilisateur {
  
     @Id

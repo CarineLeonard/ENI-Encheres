@@ -12,9 +12,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.AppRoleRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
-import fr.eni.encheres.entity.Utilisateur;
  
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -24,14 +24,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private AppRoleRepository appRoleRepository;
  
+    // TODO - remplacer le speudo de la méthode par identifiant , là et donc là où on l'appelle 
     @Override
     public UserDetails loadUserByUsername(String pseudo) throws UsernameNotFoundException {
         Utilisateur utilisateur = this.utilisateurRepository.findByPseudo(pseudo);
  
+        // find by pseudo 
+        
         if (utilisateur == null) {
             System.out.println("Utilisateur non trouvé !" + pseudo);
             throw new UsernameNotFoundException("Utilisateur  " + pseudo + " n'a pas été trouvé dans la base de données.");
         }
+        
+        // find by email 
+        
+        // un des deux doit etre bon  
  
         System.out.println("Utilisateur trouvé : " + utilisateur);
  
