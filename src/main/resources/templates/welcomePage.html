@@ -14,14 +14,14 @@
 
 <body>
 
-	<!-- Include _menu.html -->
-	<th:block th:include="/_menu"></th:block>
+	<!-- Include _header.html -->
+	<th:block th:include="/_header"></th:block>
 
-	<section>
+	<section class="container text-center">
 		<h2>Message : <span th:utext="${message}"></span></h2>
 	</section>
 
-	<!-- Include footer.html -->
-	<th:block th:include="/footer"></th:block>
+	<!-- Include _footer.html -->
+	<th:block th:include="/_footer"></th:block>
 </body>
 </html>

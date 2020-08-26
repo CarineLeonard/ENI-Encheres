@@ -1,22 +1,35 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-      <title th:utext="${title}"></title>
-   </head>
-   <body>
-      <!-- Include _menu.html -->
-      <th:block th:include="/_menu"></th:block>
-       
-      <h2>Admin Page</h2>
-      <h3>Welcome :
-         <span th:utext="${#request.userPrincipal.name}"></span>
-      </h3>
-      <b>This is protected page!</b>  
-       
-      <br/><br/>
-       
-      <div th:if="${userInfo != null}" th:utext="${userInfo}"></div>
-       
-   </body>
-    
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Site d'enchères">
+	<meta name="author" content="L&L">
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/css/bootstrap.min.css}"/>
+	<link href="css/style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<title>Accés refusé</title>
+</head>
+
+<body>
+
+	<!-- Include _header.html -->
+	<th:block th:include="/_header"></th:block>
+
+	<section class="container text-center">
+		<h2>Admin Page</h2>
+		<h3>Welcome :
+		   <span th:utext="${#request.userPrincipal.name}"></span>
+		</h3>
+		<b>This is protected page!</b>  
+		 
+		<br/><br/>
+		 
+		<div th:if="${userInfo != null}" th:utext="${userInfo}"></div>
+	</section>
+
+	<!-- Include _footer.html -->
+	<th:block th:include="/_footer"></th:block>
+</body>
 </html>
