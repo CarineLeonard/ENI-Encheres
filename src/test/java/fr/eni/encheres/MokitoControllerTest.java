@@ -4,22 +4,22 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
-
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.entity.Utilisateur;
+import fr.eni.encheres.rest.UtilisateurController;
 
 public class MokitoControllerTest {
 	
 	
 	@InjectMocks
-	private UserControllerTest userController; 
+	private UtilisateurController userController;
 	
 	@Mock
 	private UtilisateurRepository userRepository; 
@@ -30,15 +30,15 @@ public class MokitoControllerTest {
 	}
 	
 	@Test 
-	public void testFindById() {
-		Utilisateur u = new Utilisateur(); 
-		u.setNoUtilisateur(1l);
-		// when(userRepository.findById(1l)).thenReturn(u);				// bug
-		
-		Utilisateur user = userController.get(1L);
-		verify(userRepository).findById(1l);
-		
-		assertEquals(1l, user.getNoUtilisateur().longValue());
+	public void testFindByPseudo() {
+//		Utilisateur u = Mockito.mock(Utilisateur.class); 
+//		u.setPseudo("dbuser");
+//		when(this.userRepository.findByPseudo("dbuser")).thenReturn(u);				// bug
+//		
+//		Utilisateur user = userController.getUser("dbuser");
+//		verify(this.userRepository).findByPseudo("dbuser");
+//		
+//		assertEquals("dbuser", user.getPseudo());
 	}
 	// https://stackabuse.com/how-to-test-a-spring-boot-application/ 
 }
