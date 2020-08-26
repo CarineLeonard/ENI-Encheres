@@ -1,54 +1,60 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-      <title>Login</title>
-   </head>
-   <body>
-      <!-- Include _menu.html -->
-      <th:block th:include="/_menu"></th:block>
-       
-      <h1>Login</h1>
-       
-      <!-- /login?error=true -->
-      <div th:if="${#request.getParameter('error') == 'true'}"
-            style="color:red;margin:10px 0px;">
-         Login Failed!!!<br />
-         Reason :
-         <span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
-            th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
-                Static summary
-         </span>
-            
-      </div>
-      
-      <h3>Enter user name and password:</h3>
-      <form name='f' th:action="@{/j_spring_security_check}" method='POST'>
-         <table>
-            <tr>
-               <td>User:</td>
-               <td><input type='text' name='pseudo' value=''></td>
-            </tr>
-            <tr>
-               <td>Password:</td>
-               <td><input type='password' name=mot_de_passe /></td>
-            </tr>
-            <tr>
-               <td>Remember Me?</td>
-               <td><input type="checkbox" name="remember-me" /></td>
-            </tr>            
-            <tr>
-               <td><input name="submit" type="submit" value="submit" /></td>
-            </tr>
-         </table>
-      </form>
-       
-      <br>
-      Username/pass:
-      <ul>
-        <li>dbuser/123</li>
-        <li>dbadmin/123</li>
-      </ul>  
-       
-   </body>
-    
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Site d'enchères">
+<meta name="author" content="L&L">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/vendor/css/bootstrap.min.css}" />
+<link href="css/style.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<title th:utext="${title}"></title>
+</head>
+
+<body>
+
+	<!-- Include _header.html -->
+	<th:block th:include="/_header"></th:block>
+
+	<section class="container text-center">
+		<!-- /login?error=true -->
+		<div th:if="${#request.getParameter('error') == 'true'}" style="color: red; margin: 10px 0px;">
+			Login Failed!!!<br />
+			Reason :
+			<span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
+					th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
+				Static summary
+			</span>
+		</div>
+
+		<form name='f' th:action="@{/j_spring_security_check}" method='POST'>
+			<div class="form-group">
+				<label for="InputPseudo">Identifiant :</label>
+				<input type="text" class="form-control" id="InputPseudo" name='pseudo'>
+			</div>
+			<div class="form-group">
+				<label for="InputPassword">Mot de passe :</label>
+				<input type="password" class="form-control" id="InputPassword" name="mot_de_passe">
+			</div>
+			<div class="form-group form-check">
+				<input type="checkbox" class="form-check-input" id="Check" name="remember-me">
+				<label class="form-check-label" for="Check">Se souvenir de moi ?</label>
+			</div>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+
+		<br> Username/pass:
+		<ul>
+			<li>dbuser/123</li>
+			<li>dbadmin/123</li>
+		</ul>
+
+	</section>
+
+	<!-- Include _footer.html -->
+	<th:block th:include="/_footer"></th:block>
+</body>
 </html>
