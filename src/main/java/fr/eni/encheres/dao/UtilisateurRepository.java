@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import fr.eni.encheres.bo.UtilisateurBO;
 import fr.eni.encheres.entity.Utilisateur;
+import fr.eni.encheres.form.UtilisateurForm;
 
 //This is an Interface. No need Annotation here.
 //Long: Type of Utilisateur ID.
@@ -31,7 +32,7 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
 	void deleteById (Long noUtilisateur) ; 
 	
 	// save : update et create  ----------------------- à revoir ! 
-	<S extends Utilisateur> S save(S entity);
+	<S extends Utilisateur> S save(UtilisateurForm utilisateurForm);
 
 	// utilisateur de cet ID existe ? 
 	boolean existsById (Long noUtilisateur);

@@ -7,10 +7,18 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.eni.encheres.dao.UtilisateurRepository;
+import fr.eni.encheres.entity.Utilisateur;
+import fr.eni.encheres.form.UtilisateurForm;
 import fr.eni.encheres.utils.WebUtils;
 import fr.eni.encheres.validator.UtilisateurValidator;
 
@@ -22,9 +30,25 @@ public class MainController {
 	private UtilisateurRepository utilisateurRepository; 
 	
 	@Autowired
-	   private UtilisateurValidator utilisateurValidator;
+	  private UtilisateurValidator utilisateurValidator;
 	
-	// répartition des accès au pages avec web security 
+	 // Set a form validator
+    @InitBinder
+    protected void initBinder(WebDataBinder dataBinder) {
+       // Form target
+       Object target = dataBinder.getTarget();
+       if (target == null) {
+          return;
+       }
+       System.out.println("Target=" + target);
+  
+       if (target.getClass() == UtilisateurForm.class) {
+          dataBinder.setValidator(utilisateurValidator);
+       }
+       // ...
+    }   
+    
+    // répartition des accès au pages avec web security 
 	 @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	    public String welcomePage(Model model) {
 	        model.addAttribute("title", "Welcome");
@@ -90,6 +114,46 @@ public class MainController {
 	        return "403Page";
 	    }
 	    
-	 // Set a form validator
+	    // Show Register page.
+	    @RequestMapping(value = "/register", method = RequestMethod.GET)
+	    public String viewRegister(Model model) {
+	  
+	       UtilisateurForm form = new UtilisateurForm();
+
+	       model.addAttribute("utilisateurForm", form);
+	  
+	       return "registerPage";
+	    }
+	    
+	    // This method is called to save the registration information.
+	    // @Validated: To ensure that this Form
+	    // has been Validated before this method is invoked.
+	    @RequestMapping(value = "/register", method = RequestMethod.POST)
+	    public String saveRegister(Model model, //
+	          @ModelAttribute("utilisateurForm") @Validated UtilisateurForm utilisateurForm, //
+	          BindingResult result, //
+	          final RedirectAttributes redirectAttributes) {
+	  
+	       // Validate result
+	       if (result.hasErrors()) {
+	          return "registerPage";
+	       }
+	       Utilisateur newUser= null;
+	       try {
+	          newUser = utilisateurRepository.save(utilisateurForm);
+	          // newUser = appUserDAO.createAppUser(appUserForm);
+	       }
+	       // Other error!!
+	       catch (Exception e) {
+	          model.addAttribute("errorMessage", "Error: " + e.getMessage());
+	          return "registerPage";
+	       }
+	  
+	       redirectAttributes.addFlashAttribute("flashUser", newUser);
+	        
+	       return "redirect:/registerSuccessful";
+	    }
+	    
+	    
 	    
 }

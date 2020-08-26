@@ -42,18 +42,20 @@ public class UtilisateurValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "mot_de_passe", "NotEmpty.UtilisateurForm.mot_de_passe"); 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UtilisateurForm.confirmPassword"); 
 		
-       /*  if (!this.emailValidator.isValid(utilisateurForm.getEmail())) {
+       if (!this.emailValidator.isValid(utilisateurForm.getEmail())) {
             // Invalid email.
             errors.rejectValue("email", "Pattern.appUserForm.email");
         } else if (utilisateurForm.getNoUtilisateur() == null) {
-        	Utilisateur dbUser = UtilisateurRepository.findByEmail(utilisateurForm.getEmail()));
+        	Utilisateur dbUser = utilisateurRepository.findByEmail(utilisateurForm.getEmail());
+        	// AppUser dbUser = appUserDAO.findAppUserByEmail(appUserForm.getEmail());
             if (dbUser != null) {
                 // Email has been used by another account.
                 errors.rejectValue("email", "Duplicate.appUserForm.email");
             }
         }
           if (!errors.hasFieldErrors("pseudo")) {
-            	Utilisateur dbUser = UtilisateurRepository.findByPseudo(utilisateurForm.getPseudo()));
+            	Utilisateur dbUser = utilisateurRepository.findByPseudo(utilisateurForm.getPseudo());
+            	// AppUser dbUser = appUserDAO.findAppUserByUserName(appUserForm.getUserName());
                 if (dbUser != null) {
                     // pseudo is not available.
                     errors.rejectValue("pseudo", "Duplicate.UtilisateurForm.pseudo");
@@ -64,7 +66,7 @@ public class UtilisateurValidator implements Validator {
                 if (!utilisateurForm.getConfirmPassword().equals(utilisateurForm.getMotDePasse())) {
                     errors.rejectValue("confirmPassword", "Match.appUserForm.confirmPassword");
                 }
-            }*/
+            }
 	}  
 
 }
