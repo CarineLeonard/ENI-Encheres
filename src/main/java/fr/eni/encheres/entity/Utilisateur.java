@@ -47,10 +47,10 @@ public class Utilisateur {
     private String motDePasse;
     
     @Column(name = "credit", nullable = false)
-    private int credit;
+    private int credit = 0 ;
  
     @Column(name = "actif", length = 1, nullable = false)
-    private boolean actif;
+    private boolean actif = true ;
 
 	public Long getNoUtilisateur() {
 		return noUtilisateur;
