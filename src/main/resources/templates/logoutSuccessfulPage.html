@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/vendor/css/bootstrap.min.css}"/>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<title th:utext="${title}"></title>
+	<title th:utext="${title_logout}"></title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
 	<th:block th:include="/_header"></th:block>
 
 	<section class="container text-center">
-		<h1>Logout Successful!</h1>
+		<h2><span th:utext="${titre_logout}"></span></h2>
 	</section>
 
 	<!-- Include _footer.html -->

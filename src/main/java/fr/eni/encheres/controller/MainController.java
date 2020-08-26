@@ -74,9 +74,10 @@ public class MainController {
 	        return "loginPage";
 	    }
 	 
-	    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+	    @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
 	    public String logoutSuccessfulPage(Model model) {
-	        model.addAttribute("title", "Logout");
+	        model.addAttribute("title_logout", "Déconnexion");
+	        model.addAttribute("titre_logout", "Vous êtes bien déconnecté !");
 	        return "logoutSuccessfulPage";
 	    }
 	 

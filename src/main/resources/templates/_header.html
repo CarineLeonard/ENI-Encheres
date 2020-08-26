@@ -6,7 +6,7 @@
 			<a class="nav-link text-light " th:href="@{/admin}">Admin</a>
 			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/vente}">Vendre un article</a>
 			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/profil}">Mon profil</a>
-			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>
+			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Se déconnecter</a>
 		</nav>
 	</header>
 </div>
