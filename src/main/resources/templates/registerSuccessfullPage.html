@@ -1,27 +1,33 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Site d'enchères">
 	<meta name="author" content="L&L">
     <link rel="stylesheet" type="text/css" th:href="@{/vendor/css/bootstrap.min.css}"/>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<title th:utext="${title_logout}"></title>
+	<title th:utext="${title_registerSuccessfull}"></title>
 </head>
 
-<body>
+<body class="homepage">
 
 	<!-- Include _header.html -->
 	<th:block th:include="/_header"></th:block>
 
 	<section class="container text-center">
-		<h2><span th:utext="${titre_logout}"></span></h2>
+		<h2><span th:utext="${titre_registerSuccessfull}"></span></h2>
+		
+		<div th:if="${flashUser != null}">
+         <ul>
+            <li>Pseudo: <span th:utext="${flashUser.pseudo}">..</span></li>
+            <li>Email: <span th:utext="${flashUser.email}">..</span></li>
+         </ul>
+      </div>
+		
 	</section>
 
 	<!-- Include _footer.html -->
 	<th:block th:include="/_footer"></th:block>
 </body>
-</html>

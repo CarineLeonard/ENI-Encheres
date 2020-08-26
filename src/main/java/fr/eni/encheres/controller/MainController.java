@@ -51,8 +51,8 @@ public class MainController {
     // répartition des accès au pages avec web security 
 	 @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	    public String welcomePage(Model model) {
-	        model.addAttribute("title", "Welcome");
-	        model.addAttribute("message", "This is welcome page!");
+	        model.addAttribute("title_welcome", "Accueil");
+	        model.addAttribute("titre_welcome", "Liste des enchères");
 	        return "welcomePage";
 	    }
 	 
@@ -69,13 +69,15 @@ public class MainController {
 	 
 	    @RequestMapping(value = "/login", method = RequestMethod.GET)
 	    public String loginPage(Model model) {
-	 
+	        model.addAttribute("title_login", "Se connecter");
+	        model.addAttribute("titre_login", "Se connecter");
 	        return "loginPage";
 	    }
 	 
 	    @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
 	    public String logoutSuccessfulPage(Model model) {
-	        model.addAttribute("title", "Logout");
+	        model.addAttribute("title_logout", "Déconnexion");
+	        model.addAttribute("titre_logout", "Vous êtes bien déconnecté !");
 	        return "logoutSuccessfulPage";
 	    }
 	 
@@ -119,7 +121,8 @@ public class MainController {
 	    public String viewRegister(Model model) {
 	  
 	       UtilisateurForm form = new UtilisateurForm();
-
+	        model.addAttribute("title_register", "Créer un compte");
+	        model.addAttribute("titre_register", "Créer un compte");
 	       model.addAttribute("utilisateurForm", form);
 	  
 	       return "registerPage";
@@ -154,6 +157,12 @@ public class MainController {
 	       return "redirect:/registerSuccessful";
 	    }
 	    
+	    @RequestMapping("/registerSuccessful")
+	    public String viewRegisterSuccessful(Model model) {
+	        model.addAttribute("title_registerSuccessfull", "Compte créé");
+	        model.addAttribute("titre_registerSuccessfull", "Compte créé avec succès !");
+	       return "registerSuccessfulPage";
+	    }
 	    
 	    
 }

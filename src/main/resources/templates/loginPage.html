@@ -1,17 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Site d'enchères">
-<meta name="author" content="L&L">
-<link rel="stylesheet" type="text/css"
-	th:href="@{/vendor/css/bootstrap.min.css}" />
-<link href="css/style.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<title th:utext="${title}"></title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Site d'enchères">
+	<meta name="author" content="L&L">
+	<link rel="stylesheet" type="text/css"
+		th:href="@{/vendor/css/bootstrap.min.css}" />
+	<link href="css/style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		rel="stylesheet">
+	<title th:utext="${title_login}"></title>
 </head>
 
 <body>
@@ -19,38 +18,44 @@
 	<!-- Include _header.html -->
 	<th:block th:include="/_header"></th:block>
 
-	<section class="container text-center">
+	<section class="container text-center align-middle">
 		<!-- /login?error=true -->
 		<div th:if="${#request.getParameter('error') == 'true'}" style="color: red; margin: 10px 0px;">
 			Login Failed!!!<br />
-			Reason :
+			Raison :
 			<span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
 					th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
 				Static summary
 			</span>
 		</div>
+		
+		<h2><span th:utext="${titre_login}"></span></h2>
 
 		<form name='f' th:action="@{/j_spring_security_check}" method='POST'>
-			<div class="form-group">
-				<label for="InputPseudo">Identifiant :</label>
-				<input type="text" class="form-control" id="InputPseudo" name='pseudo'>
+			<div class="form-group row justify-content-center">
+				<label for="InputPseudo" >Identifiant :</label>
+				<input type="text" class="form-control col-sm-4" id="InputPseudo" name='pseudo'>
 			</div>
-			<div class="form-group">
-				<label for="InputPassword">Mot de passe :</label>
-				<input type="password" class="form-control" id="InputPassword" name="mot_de_passe">
+			<div class="form-group row justify-content-center">
+				<label for="InputPassword" >Mot de passe :</label>
+				<input type="password" class="form-control col-sm-4" id="InputPassword" name="mot_de_passe">
 			</div>
-			<div class="form-group form-check">
-				<input type="checkbox" class="form-check-input" id="Check" name="remember-me">
-				<label class="form-check-label" for="Check">Se souvenir de moi ?</label>
+			<div class= "row justify-content-center">
+			<button type="submit" class="btn btn-outline-success">Connexion</button>
+			<div class="form-group form-check" >
+				<div class="row justify-content-center">
+					<input type="checkbox" class="form-check-input" id="Check" name="remember-me">
+					<label class="form-check-label" for="Check">Se souvenir de moi ?</label>
+				</div>
+				<p><a>Mot de passe oublié</a></p>
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
 		</form>
+		
+		<button type="submit" class="btn btn-secondary"><a th:href="@{/register}">Créer un compte</a></button>
 
-		<br> Username/pass:
-		<ul>
-			<li>dbuser/123</li>
-			<li>dbadmin/123</li>
-		</ul>
+		<br> 
+		<p>Provisoire : Username/pass: dbuser/123 + dbadmin/123</p>
 
 	</section>
 
