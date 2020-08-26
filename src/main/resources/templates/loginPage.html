@@ -18,11 +18,11 @@
 	<!-- Include _header.html -->
 	<th:block th:include="/_header"></th:block>
 
-	<section class="container text-center">
+	<section class="container text-center align-middle">
 		<!-- /login?error=true -->
 		<div th:if="${#request.getParameter('error') == 'true'}" style="color: red; margin: 10px 0px;">
 			Login Failed!!!<br />
-			Reason :
+			Raison :
 			<span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
 					th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
 				Static summary
@@ -34,17 +34,19 @@
 		<form name='f' th:action="@{/j_spring_security_check}" method='POST'>
 			<div class="form-group row justify-content-center">
 				<label for="InputPseudo" >Identifiant :</label>
-				<input type="text" class="form-control col-sm-6" id="InputPseudo" name='pseudo'>
+				<input type="text" class="form-control col-sm-4" id="InputPseudo" name='pseudo'>
 			</div>
 			<div class="form-group row justify-content-center">
 				<label for="InputPassword" >Mot de passe :</label>
-				<input type="password" class="form-control col-sm-6" id="InputPassword" name="mot_de_passe">
+				<input type="password" class="form-control col-sm-4" id="InputPassword" name="mot_de_passe">
 			</div>
 			<div class= "row justify-content-center">
 			<button type="submit" class="btn btn-outline-success">Connexion</button>
 			<div class="form-group form-check" >
-				<input type="checkbox" class="form-check-input" id="Check" name="remember-me">
-				<label class="form-check-label" for="Check">Se souvenir de moi ?</label>
+				<div class="row justify-content-center">
+					<input type="checkbox" class="form-check-input" id="Check" name="remember-me">
+					<label class="form-check-label" for="Check">Se souvenir de moi ?</label>
+				</div>
 				<p><a>Mot de passe oublié</a></p>
 			</div>
 			</div>
