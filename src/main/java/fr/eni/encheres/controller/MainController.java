@@ -157,6 +157,12 @@ public class MainController {
 	       return "redirect:/registerSuccessful";
 	    }
 	    
+	    @RequestMapping("/registerSuccessful")
+	    public String viewRegisterSuccessful(Model model) {
+	        model.addAttribute("title_registerSuccessfull", "Compte créé");
+	        model.addAttribute("titre_registerSuccessfull", "Compte créé avec succès !");
+	       return "registerSuccessfulPage";
+	    }
 	    
 	    
 }
