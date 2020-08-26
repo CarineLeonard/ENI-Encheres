@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.AppRole;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.UtilisateurRepository;
@@ -28,7 +29,10 @@ import fr.eni.encheres.validator.UtilisateurValidator;
 public class MainController {
 	
 	@Autowired
-	private UtilisateurRepository utilisateurRepository; 
+	private UtilisateurRepository utilisateurRepository;
+
+	@Autowired
+	private UtilisateurManager utilisateurManager; 
 	
 	@Autowired
 	  private UtilisateurValidator utilisateurValidator;
@@ -142,12 +146,13 @@ public class MainController {
 	       if (result.hasErrors()) {
 	          return "registerPage";
 	       }
-	       Utilisateur newUser = new Utilisateur(utilisateurForm.getNoUtilisateur(), utilisateurForm.getPseudo(), utilisateurForm.getNom(), utilisateurForm.getPrenom(), utilisateurForm.getEmail(), utilisateurForm.getTelephone(), utilisateurForm.getRue(), utilisateurForm.getCode_postal(), utilisateurForm.getVille(), utilisateurForm.getMotDePasse(), utilisateurForm.getCredit(), utilisateurForm.isActif());
+//	       Utilisateur newUser = new Utilisateur(utilisateurForm.getNoUtilisateur(), utilisateurForm.getPseudo(), utilisateurForm.getNom(), utilisateurForm.getPrenom(), utilisateurForm.getEmail(), utilisateurForm.getTelephone(), utilisateurForm.getRue(), utilisateurForm.getCode_postal(), utilisateurForm.getVille(), utilisateurForm.getMotDePasse(), utilisateurForm.getCredit(), utilisateurForm.isActif());
 	       // TODO - user role à paramétrer - si on veut améliorer : mapper (+tard)
-	       
+	       Utilisateur newUser = null;
 	       try {
-	          newUser = utilisateurRepository.save(newUser);
+//	          newUser = utilisateurRepository.save(newUser);
 	          // newUser = appUserDAO.createAppUser(appUserForm);
+	    	   newUser = utilisateurManager.ajouterUtilisateur(utilisateurForm);
 	       }
 	       // Other error!!
 	       catch (Exception e) {

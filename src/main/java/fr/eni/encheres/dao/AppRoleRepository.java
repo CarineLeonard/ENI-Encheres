@@ -16,7 +16,7 @@ public interface AppRoleRepository extends CrudRepository<AppRole, Long> {
 	AppRole findByRoleId(Long roleId);
 	
 	// select by roleName
-	AppRole findByRoleName(Long roleName);
+	AppRole findByRoleName(String roleName);
 	
 	// select roleNames by user id 			TESTE OK
 	@Query("SELECT ur.appRole.roleName FROM UserRole ur WHERE ur.utilisateur.noUtilisateur = ?1")

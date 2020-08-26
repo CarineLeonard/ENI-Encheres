@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +19,7 @@ import javax.persistence.UniqueConstraint;
 public class UserRole {
  
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
     private Long id;
  
@@ -55,5 +56,15 @@ public class UserRole {
     public void setAppRole(AppRole appRole) {
         this.appRole = appRole;
     }
+
+	/**
+	 * @param id
+	 * @param utilisateur
+	 * @param appRole
+	 */
+	public UserRole(Utilisateur utilisateur, AppRole appRole) {
+		this.utilisateur = utilisateur;
+		this.appRole = appRole;
+	}
 
 }

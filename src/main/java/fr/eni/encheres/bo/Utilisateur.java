@@ -150,6 +150,12 @@ public class Utilisateur {
 	}
 	
 	/**
+	 * 
+	 */
+	public Utilisateur() {
+	}
+
+	/**
 	 * @param noUtilisateur
 	 * @param pseudo
 	 * @param nom
