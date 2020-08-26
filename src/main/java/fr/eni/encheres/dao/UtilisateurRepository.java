@@ -32,7 +32,7 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long>
 	void deleteById (Long noUtilisateur) ; 
 	
 	// save : update et create  ----------------------- à revoir ! 
-	<UtilisateurForm extends Utilisateur> UtilisateurForm save(UtilisateurForm utilisateurForm);
+	<UtilisateurForm extends Utilisateur> UtilisateurForm save(fr.eni.encheres.form.UtilisateurForm utilisateurForm);
 
 	// utilisateur de cet ID existe ? 
 	boolean existsById (Long noUtilisateur);
