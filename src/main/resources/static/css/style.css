@@ -1,4 +1,62 @@
+@import url("../vendor/css/font-awesome.min.css");
+
+/* Basic */
 body {
 	margin-top: 80px;
 	margin-bottom: 140px;
 }
+
+footer {
+	padding : 20px; 
+}
+
+body, input, select, textarea {
+	color: #555555;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12pt;
+	font-weight: 300;
+	line-height: 1.65em;
+}
+
+
+/* Form */ 
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+	padding: 0.75em;
+	margin : 1em; 
+}
+
+/* Bouton */ 
+.btn-outline-success, .btn-outline-success:hover  {
+	margin : 2em; 
+	border: 2px solid;
+	background-color: #82b440;
+	border-color: #82b440;
+	color : white; 
+	cursor: pointer;
+	padding: 0.90em 1.2em;
+	letter-spacing: 1px;
+	text-align: center;
+	border-radius: 10%; 
+}
+	
+.btn-secondary, .btn-secondary:hover  {
+	margin : 1em; 
+	border: 2px solid;
+	cursor: pointer;
+	color : white; 
+	padding: 0.90em 1.2em;
+	text-align: center;
+	border-radius: 10%; 
+}
+
+a, a:hover {
+	text-decoration: none; 
+	color : inherit; 
+}
+
+
+
+
