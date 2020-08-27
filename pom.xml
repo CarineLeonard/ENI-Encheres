@@ -20,7 +20,6 @@
 	</properties>
 
 	<dependencies>
-	
 	        <!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
 	    <dependency>
 	        <groupId>commons-validator</groupId>
@@ -74,8 +73,13 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+	        <groupId>org.projectlombok</groupId>
+	        <artifactId>lombok</artifactId>
+	        <version>1.18.12</version>
+	        <scope>provided</scope>
+    	</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
