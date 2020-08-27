@@ -39,8 +39,7 @@ public interface AppRoleRepository extends CrudRepository<AppRole, Long> {
 	// deleteById
 	void deleteById(Long roleId);
 
-	// save : update et create ----------------------- à revoir !
-	<S extends AppRole> S save(S entity);
+	// save : on est passé par la fonction héritée
 
 	// appRole de cet ID existe ?
 	boolean existsById(Long roleId);

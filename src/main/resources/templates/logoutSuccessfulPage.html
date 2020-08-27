@@ -19,9 +19,17 @@
 
 	<section class="container text-center">
 		<h2><span th:utext="${titre_logout}"></span></h2>
+
+		<h3>Vous allez être redirigé ...</h3>
 	</section>
 
 	<!-- Include _footer.html -->
 	<th:block th:include="/_footer"></th:block>
+	<script>
+		function redirectionAccueil(){
+			window.location.replace("/welcome");
+		}
+		setTimeout(redirectionAccueil, 3000);
+	</script>
 </body>
 </html>

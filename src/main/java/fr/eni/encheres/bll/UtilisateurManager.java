@@ -25,6 +25,9 @@ public class UtilisateurManager {
 	private AppRoleRepository appRoleRepository;
 	
 	@Autowired
+	private AppRoleManager appRoleManager;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	public Utilisateur ajouterUtilisateur(UtilisateurForm utilisateurForm) throws Exception {
@@ -45,8 +48,11 @@ public class UtilisateurManager {
 															utilisateurForm.isActif());
 			nouvelUtilisateur.setMotDePasse(passwordEncoder.encode(nouvelUtilisateur.getMotDePasse()));
 			nouvelUtilisateur = this.utilisateurRepository.save(nouvelUtilisateur);
-			System.out.println(nouvelUtilisateur);
+
 			AppRole userAppRole = appRoleRepository.findByRoleName("ROLE_USER");
+			if (userAppRole == null) {
+				userAppRole = appRoleManager.ajouterAppRole("ROLE_USER");
+			}
 	
 			UserRole nouvelUserRole = new UserRole(nouvelUtilisateur, userAppRole);
 			nouvelUserRole = userRoleRepository.save(nouvelUserRole);

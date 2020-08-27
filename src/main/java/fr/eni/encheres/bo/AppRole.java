@@ -3,6 +3,7 @@ package fr.eni.encheres.bo;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -17,15 +18,15 @@ public class AppRole {
     
 	//indicaion de la génération de l'ID automatique
     @Id
-    @GeneratedValue				
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "Role_Id", nullable = false)
     private Long roleId;
     
     // @Colum : le nom et les attriubts de la colonnes 
     @Column(name = "Role_Name", length = 30, nullable = false)
     private String roleName;
- 
-    // la liste dees getters et setters 
+
+	// la liste dees getters et setters 
     public Long getRoleId() {
         return roleId;
     }
@@ -41,5 +42,12 @@ public class AppRole {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-     
+    
+    public AppRole() {
+    	
+	}
+    
+    public AppRole(String roleName) {
+		this.roleName = roleName;
+	}
 }
