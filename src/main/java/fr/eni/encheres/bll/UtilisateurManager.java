@@ -62,4 +62,14 @@ public class UtilisateurManager {
 		return nouvelUtilisateur;
 	}
 	
+	public Utilisateur selectionnerUtilisateur(String pseudo) throws Exception {
+		Utilisateur utilisateur = null;
+		try {
+			utilisateur = utilisateurRepository.findByPseudo(pseudo);
+		} catch (Exception e) {
+			throw e;
+		}
+		return utilisateur;
+	}
+	
 }
