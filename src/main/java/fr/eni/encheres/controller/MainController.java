@@ -89,9 +89,9 @@ public class MainController {
 	    public String userInfo(Model model, Principal principal) {
 	 
 	        // After user login successfully.
-	        String pseudo = principal.getName();
+	        String identifiant = principal.getName();
 	 
-	        System.out.println(" Pseudo : " + pseudo);
+	        System.out.println(" Identifiant : " + identifiant);
 	 
 	        User loginedUser = (User) ((Authentication) principal).getPrincipal();
 	 

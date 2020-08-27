@@ -2,7 +2,7 @@ insert into Utilisateurs (pseudo, nom, prenom, email, telephone, rue, code_posta
 values ('dbuser', 'nomUser', 'prenomuser', 'monemail@gmail.com', '06.00.00.00.00', 'ma rue', '01000', 'VILLE','$2a$10$PrI5Gk9L.tSZiW9FXhTS8O8Mz9E97k2FZbFvGFFaSsiTUIl.TCrFu', 0, 1);
  
 insert into Utilisateurs (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, actif)
-values ('dbadmin', 'nomUser2', 'prenomuser2', 'monemail@gmail.com', '06.00.00.00.00', 'ma rue', '01000', 'VILLE','$2a$10$PrI5Gk9L.tSZiW9FXhTS8O8Mz9E97k2FZbFvGFFaSsiTUIl.TCrFu', 0, 1);
+values ('dbadmin', 'nomUser2', 'prenomuser2', 'monemailadmin@gmail.com', '06.00.00.00.00', 'ma rue', '01000', 'VILLE','$2a$10$PrI5Gk9L.tSZiW9FXhTS8O8Mz9E97k2FZbFvGFFaSsiTUIl.TCrFu', 0, 1);
  
 ---
  
