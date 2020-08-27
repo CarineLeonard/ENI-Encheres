@@ -17,21 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.eni.encheres.bll.UtilisateurManager;
-import fr.eni.encheres.bo.AppRole;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.UtilisateurForm;
 import fr.eni.encheres.services.WebUtils;
 
 // used to map web requests to Spring Controller methods.
 @Controller
 public class MainController {
-	
-	@Autowired
-	private UtilisateurRepository utilisateurRepository;
 
 	@Autowired
-	private UtilisateurManager utilisateurManager; 
+	private UtilisateurManager utilisateurManager;
 	
 	@Autowired
 	  private UtilisateurValidator utilisateurValidator;
@@ -170,6 +165,5 @@ public class MainController {
 	        model.addAttribute("titre_registerSuccessfull", "Compte créé avec succès !");
 	       return "registerSuccessfullPage";
 	    }
-	    
 	    
 }
