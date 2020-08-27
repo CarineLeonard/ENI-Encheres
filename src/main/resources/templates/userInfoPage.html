@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/vendor/css/bootstrap.min.css}"/>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<title th:utext="${title}"></title>
+	<title th:utext="${title_userInfo}"></title>
 </head>
 
 <body>
@@ -18,13 +18,45 @@
 	<th:block th:include="/_header"></th:block>
 
 	<section class="container text-center">
-		<h2>User Info Page</h2>
-		<h3>Welcome : <span th:utext="${#request.userPrincipal.name}"></span></h3>
-		<b>This is protected page!</b>  
-		 
-		<br/><br/>
-		 
-		<div th:if="${userInfo != null}" th:utext="${userInfo}"></div>
+		<table class="table table-borderless text-center">
+			<tbody>
+				<tr>
+					<th scope="row" class="text-left">Pseudo :</th>
+					<td th:text="${userPseudo}"></td>
+				</tr>
+				<tr>
+					<th scope="row" class="text-left">Nom :</th>
+					<td th:text="${userNom}"></td>
+				</tr>
+				<tr>
+					<th scope="row" class="text-left">Prénom :</th>
+					<td th:text="${userPrenom}"></td>
+				</tr>
+				<tr>
+					<th scope="row" class="text-left">Email :</th>
+					<td th:text="${userEmail}"></td>
+				</tr>
+				<tr>
+					<th scope="row" class="text-left">Téléphone :</th>
+					<td th:text="${userTelephone}"></td>
+				</tr>
+				<tr>
+					<th scope="row" class="text-left">Rue :</th>
+					<td th:text="${userRue}"></td>
+				</tr>
+				<tr>
+					<th scope="row" class="text-left">Code postal :</th>
+					<td th:text="${userCodePostal}"></td>
+				</tr>
+				<tr>
+					<th scope="row" class="text-left">Ville :</th>
+					<td th:text="${userVille}"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<a class="btn btn-secondary" th:if="${session.userPseudo == userPseudo}" th:href="@{/editInfo}">Modifier</a>
+		
 	</section>
 
 	<!-- Include _footer.html -->

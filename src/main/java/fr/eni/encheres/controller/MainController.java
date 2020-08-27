@@ -5,6 +5,7 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.UtilisateurForm;
 import fr.eni.encheres.services.WebUtils;
 
@@ -29,10 +32,16 @@ public class MainController {
 	private UtilisateurManager utilisateurManager;
 	
 	@Autowired
-	  private UtilisateurValidator utilisateurValidator;
+	private UtilisateurRepository utilisateurRepository;
+	
+	@Autowired
+	private UtilisateurValidator utilisateurValidator;
+	
+	@Autowired
+	private UtilisateurEditValidator utilisateurEditValidator;
 	
 	 // Set a form validator
-    @InitBinder
+    @InitBinder("register")
     protected void initBinder(WebDataBinder dataBinder) {
        // Form target
        Object target = dataBinder.getTarget();
@@ -45,6 +54,21 @@ public class MainController {
           dataBinder.setValidator(utilisateurValidator);
        }
        // ...
+    }
+    
+    @InitBinder("editInfo")
+    protected void initEditBinder(WebDataBinder dataBinder) {
+       Object target = dataBinder.getTarget();
+       
+       if (target == null) {
+          return;
+       }
+       
+       System.out.println("Target=" + target);
+  
+       if (target.getClass() == UtilisateurForm.class) {
+          dataBinder.setValidator(utilisateurEditValidator);
+       }
     }   
     
     // répartition des accès au pages avec web security 
@@ -81,20 +105,89 @@ public class MainController {
 	    }
 	 
 	    @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-	    public String userInfo(Model model, Principal principal) {
+	    public String userInfo(@RequestParam(value = "pseudo", defaultValue= "") String pseudo, Model model, Principal principal) {
 	 
 	        // After user login successfully.
-	        String identifiant = principal.getName();
-	 
-	        System.out.println(" Identifiant : " + identifiant);
-	 
-	        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-	 
-	        String userInfo = WebUtils.toString(loginedUser);
-	        model.addAttribute("userInfo", userInfo);
-	 
+//	    	String identifiant = principal.getName();
+//	 
+//	        System.out.println(" Identifiant : " + identifiant);
+//	 
+//	        User loginedUser = (User) ((Authentication) principal).getPrincipal();
+//	 
+//	        String userInfo = WebUtils.toString(loginedUser);
+//	        model.addAttribute("userInfo", userInfo);
+			model.addAttribute("title_userInfo", "Profil");
+			
+	    	if (pseudo.equals("")) {
+	    		pseudo = principal.getName();
+	    	}
+	    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+	        model.addAttribute("userPseudo", user.getPseudo());
+	        model.addAttribute("userNom", user.getNom());
+	        model.addAttribute("userPrenom", user.getPrenom());
+	        model.addAttribute("userEmail", user.getEmail());
+	        model.addAttribute("userTelephone", user.getTelephone());
+	        model.addAttribute("userRue", user.getRue());
+	        model.addAttribute("userCodePostal", user.getCode_postal());
+	        model.addAttribute("userVille", user.getVille());
+	        
 	        return "userInfoPage";
 	    }
+	 
+	    @RequestMapping(value = "/editInfo", method = RequestMethod.GET)
+	    public String editInfo(Model model, Principal principal) {
+	    	String pseudo = principal.getName();
+	    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+	        model.addAttribute("userPseudo", user.getPseudo());
+	        model.addAttribute("userNom", user.getNom());
+	        model.addAttribute("userPrenom", user.getPrenom());
+	        model.addAttribute("userEmail", user.getEmail());
+	        model.addAttribute("userTelephone", user.getTelephone());
+	        model.addAttribute("userRue", user.getRue());
+	        model.addAttribute("userCodePostal", user.getCode_postal());
+	        model.addAttribute("userVille", user.getVille());
+
+			UtilisateurForm form = new UtilisateurForm();
+			model.addAttribute("title_editInfo", "Modifier mon compte");
+			model.addAttribute("titre_editInfo", "Modifier mon compte");
+			model.addAttribute("utilisateurForm", form);
+				        
+	        return "editInfoPage";
+	    }
+	    
+		@RequestMapping(value = "/editInfo", method = RequestMethod.POST)
+		public String editInfo(Model model, Principal principal, //
+				@ModelAttribute("utilisateurForm") UtilisateurForm utilisateurForm, //
+				BindingResult result, //
+				final RedirectAttributes redirectAttributes) {
+			
+			try {
+				Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
+				utilisateurForm.setNoUtilisateur(currentUser.getNoUtilisateur());
+				
+			    utilisateurEditValidator.validate(utilisateurForm, result);
+			} catch (Exception e) {
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+				return "editInfoPage";
+			}
+			
+			if (result.hasErrors()) {
+				return "editInfoPage";
+			}
+			
+			Utilisateur newUser = null;
+			
+			try {
+				newUser = utilisateurManager.updateUtilisateur(utilisateurForm);
+			} catch (Exception e) {
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+				return "editInfoPage";
+			}
+
+			redirectAttributes.addFlashAttribute("flashUser", newUser);
+			
+			return "redirect:/userInfo";
+		}
 	 
 	    @RequestMapping(value = "/403", method = RequestMethod.GET)
 	    public String accessDenied(Model model, Principal principal) {

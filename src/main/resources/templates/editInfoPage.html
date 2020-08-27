@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Site d'enchères">
+	<meta name="author" content="L&L">
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/css/bootstrap.min.css}"/>
+	<link href="css/style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<title th:utext="${title_editInfo}"></title>
+</head>
+
+<body class="homepage">
+
+	<!-- Include _header.html -->
+	<th:block th:include="/_header"></th:block>
+
+	<section class="container text-center">
+		<h2><span th:utext="${titre_editInfo}"></span></h2>
+		
+		<!-- /login?error=true -->
+		<div class="erreurs" th:if="${errorMessage != null}" th:utext="${errorMessage}">...</div>
+		
+		<form th:action="@{/editInfo}" th:object="${utilisateurForm}" method="POST">
+			<div class="form-group row justify-content-center">
+				<label for="InputPseudo" >Pseudo :</label>
+				<input type="text" class="form-control col-sm-3" id="InputPseudo" th:name="pseudo" th:value="*{pseudo != null} ? *{pseudo} : ${userPseudo}">
+				<label for="InputNom" >Nom :</label>
+				<input type="text" class="form-control col-sm-3" id="InputNom" th:name="nom" th:value="*{nom != null} ? *{nom} : ${userNom}">
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputPrenom" >Prénom :</label>
+				<input type="text" class="form-control col-sm-3" id="InputPrenom" th:name="prenom" th:value="*{prenom != null} ? *{prenom} : ${userPrenom}">
+				<label for="InputEmail" >Email :</label>
+				<input type="text" class="form-control col-sm-3" id="InputEmail" th:name="email" th:value="*{email != null} ? *{email} : ${userEmail}">
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputTelephone" >Téléphone :</label>
+				<input type="text" class="form-control col-sm-3" id="InputTelephone" th:name="telephone" th:value="*{telephone != null} ? *{telephone} : ${userTelephone}">
+				<label for="InputRue" >Rue :</label>
+				<input type="text" class="form-control col-sm-3" id="InputRue" th:name="rue" th:value="*{rue != null} ? *{rue} : ${userRue}">
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputCodePostal" >Code postal :</label>
+				<input type="text" class="form-control col-sm-3" id="InputCodePostal" th:name="code_postal" th:value="*{code_postal != null} ? *{code_postal} : ${userCodePostal}">
+				<label for="InputVille" >Ville :</label>
+				<input type="text" class="form-control col-sm-3" id="InputVille" th:name="ville" th:value="*{ville != null} ? *{ville} : ${userVille}">
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputActualPassword" >Mot de passe actuel :</label>
+				<input type="password" class="form-control col-sm-3" id="InputActualPassword" th:field="*{currentPassword}">
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputPassword" >Nouveau mot de passe :</label>
+				<input type="password" class="form-control col-sm-3" id="InputPassword" th:field="*{motDePasse}">
+				<label for="InputConfirmPassword" >Confirmation :</label>
+				<input type="password" class="form-control col-sm-3" id="InputConfirmPassword" th:field="*{confirmPassword}">
+			</div>
+			<div class="erreurs">
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('rue')}" th:errors="*{rue}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('code_postal')}" th:errors="*{code_postal}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}">..<br><br></span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('motDePasse')}" th:errors="*{motDePasse}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}">..</span>
+			</div>
+			<div class="form-group row justify-content-center">
+				<button type="submit" class="btn btn-outline-success">Valider</button>
+				<button type="submit" class="btn btn-outline-success"><a th:href="@{/}">Annuler</a></button>
+			</div>
+		</form>
+	</section>
+
+	<!-- Include _footer.html -->
+	<th:block th:include="/_footer"></th:block>
+</body>
+</html>

@@ -1,7 +1,7 @@
 package fr.eni.encheres.bll;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import fr.eni.encheres.bo.AppRole;
@@ -28,7 +28,7 @@ public class UtilisateurManager {
 	private AppRoleManager appRoleManager;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	public Utilisateur ajouterUtilisateur(UtilisateurForm utilisateurForm) throws Exception {
 		// TODO valider les paramètres avant de créer l'utilisateur ?
@@ -70,6 +70,30 @@ public class UtilisateurManager {
 			throw e;
 		}
 		return utilisateur;
+	}
+
+	public Utilisateur updateUtilisateur(UtilisateurForm utilisateurForm) throws Exception {
+		// TODO valider les paramètres avant de créer l'utilisateur ?
+		Utilisateur nouvelUtilisateur = null;
+		try {
+			nouvelUtilisateur = new Utilisateur(utilisateurForm.getNoUtilisateur(),
+															utilisateurForm.getPseudo().trim(),
+															utilisateurForm.getNom().trim().toUpperCase(),
+															utilisateurForm.getPrenom().trim(),
+															utilisateurForm.getEmail().trim(),
+															utilisateurForm.getTelephone().trim(),
+															utilisateurForm.getRue().trim(),
+															utilisateurForm.getCode_postal().trim(),
+															utilisateurForm.getVille().trim().toUpperCase(),
+															utilisateurForm.getMotDePasse(),
+															utilisateurForm.getCredit(),
+															utilisateurForm.isActif());
+			nouvelUtilisateur.setMotDePasse(passwordEncoder.encode(nouvelUtilisateur.getMotDePasse()));
+			nouvelUtilisateur = this.utilisateurRepository.save(nouvelUtilisateur);
+		} catch (Exception e) {
+			throw e;
+		}
+		return nouvelUtilisateur;
 	}
 	
 }

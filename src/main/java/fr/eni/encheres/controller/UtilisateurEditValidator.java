@@ -2,6 +2,9 @@ package fr.eni.encheres.controller;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -12,13 +15,16 @@ import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.UtilisateurForm;
 
 @Component
-public class UtilisateurValidator implements Validator {
+public class UtilisateurEditValidator implements Validator {
 
 	// common-validator library.
 	private EmailValidator emailValidator = EmailValidator.getInstance();
 
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	// The classes are supported by this validator.
 	@Override
@@ -40,25 +46,35 @@ public class UtilisateurValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "ville", "NotEmpty.UtilisateurForm.ville");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "motDePasse", "NotEmpty.UtilisateurForm.mot_de_passe");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UtilisateurForm.confirmPassword");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "currentPassword", "NotEmpty.UtilisateurForm.currentPassword"); // message à ajouter
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Utilisateur currentUser = utilisateurRepository.findByPseudo(authentication.getName());
 
 		// email
 		if (!this.emailValidator.isValid(utilisateurForm.getEmail())) {
 			// Invalid email.
 			errors.rejectValue("email", "Pattern.UtilisateurForm.email");
-		} else if (utilisateurForm.getNoUtilisateur() == null) {
+		} else {
 			Utilisateur dbUser = utilisateurRepository.findByEmail(utilisateurForm.getEmail());
-			// AppUser dbUser = appUserDAO.findAppUserByEmail(appUserForm.getEmail());
-			if (dbUser != null) {
+			if (dbUser != null && dbUser.getNom() != currentUser.getNom()) {
 				// Email has been used by another account.
 				errors.rejectValue("email", "Duplicate.UtilisateurForm.email");
+			}
+		}
+
+		// currentPassword
+		if (!errors.hasFieldErrors("currentPassword")) {
+			if ( passwordEncoder.matches(utilisateurForm.getCurrentPassword(), currentUser.getMotDePasse()) ) {
+				System.out.println(currentUser.getMotDePasse() +" "+ passwordEncoder.encode(utilisateurForm.getCurrentPassword()));
+				errors.rejectValue("currentPassword", "NotMatching.UtilisateurForm.currentPassword");
 			}
 		}
 
 		// pseudo
 		if (!errors.hasFieldErrors("pseudo")) {
 			Utilisateur dbUser = utilisateurRepository.findByPseudo(utilisateurForm.getPseudo());
-			// AppUser dbUser = appUserDAO.findAppUserByUserName(appUserForm.getUserName());
-			if (dbUser != null) {
+			if (dbUser != null && dbUser.getNom() != currentUser.getNom()) {
 				// pseudo is not available.
 				errors.rejectValue("pseudo", "Duplicate.UtilisateurForm.pseudo");
 			}
@@ -72,7 +88,7 @@ public class UtilisateurValidator implements Validator {
 			} else if (utilisateurForm.getMotDePasse().trim().length() > 30) {
 				errors.rejectValue("motDePasse", "Size.UtilisateurForm.mot_de_passe");
 			}
-
+			
 			if (utilisateurForm.getPseudo().trim().length() > 30) {
 				errors.rejectValue("pseudo", "Size.UtilisateurForm.pseudo");
 			}

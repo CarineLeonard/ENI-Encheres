@@ -1,8 +1,5 @@
 package fr.eni.encheres.services;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 public class UtilisateurForm {
 	
 	private Long noUtilisateur;
@@ -18,6 +15,7 @@ public class UtilisateurForm {
     private int credit;
     private boolean actif;
     private String confirmPassword;
+    private String currentPassword;
     
     
 
@@ -45,7 +43,7 @@ public class UtilisateurForm {
 	 * @param actif
 	 */
 	public UtilisateurForm(Long noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String code_postal, String ville, String motDePasse, int credit, boolean actif, String confirmPassword) {
+			String rue, String code_postal, String ville, String motDePasse, int credit, boolean actif, String confirmPassword, String currentPassword) {
 		super(); 
 		this.noUtilisateur = noUtilisateur;
 		this.pseudo = pseudo;
@@ -60,6 +58,7 @@ public class UtilisateurForm {
 		this.credit = credit;
 		this.actif = actif;
 		this.confirmPassword = confirmPassword; 
+		this.currentPassword = currentPassword; 
 	}
 
 	public Long getNoUtilisateur() {
@@ -158,24 +157,19 @@ public class UtilisateurForm {
 		this.actif = actif;
 	}
 
-
-
-	/**
-	 * @return the confirmPassword
-	 */
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
 
-
-
-	/**
-	 * @param confirmPassword the confirmPassword to set
-	 */
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	
-	
-	
+
+	public String getCurrentPassword() {
+		return currentPassword;
+	}
+
+	public void setCurrentPassword(String currentPassword) {
+		this.currentPassword = currentPassword;
+	}
 }

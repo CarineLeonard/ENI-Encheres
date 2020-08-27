@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,20 +39,24 @@ public class MainControllerInterceptor implements HandlerInterceptor {
 			req.getSession().setAttribute("userIsAdmin", false);
 			req.getSession().setAttribute("userIsUser", false);
 			
-//	    	Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
 	    	List<AppRole> listeAppRoles = appRoleManager.selectionnerAppRolesByPseudo(principal.getName());
 	    	
 	    	for (AppRole appRole : listeAppRoles) {
 		        System.out.println(appRole.getRoleName());
 	    		if (appRole.getRoleName().equals("ROLE_ADMIN")) {
-//	    			modelAndView.addObject("userIsAdmin", true);
 	    			req.getSession().setAttribute("userIsAdmin", true);
 	    		}
 	    		if (appRole.getRoleName().equals("ROLE_USER")) {
-//	    			modelAndView.addObject("userIsUser", true);
 	    			req.getSession().setAttribute("userIsUser", true);
 	    		}
 	    	}
+		}
+		
+		String userPseudo = (String) req.getSession().getAttribute("userPseudo");
+		
+		if (userPseudo == null && modelAndView != null && principal != null) {
+	    	Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
+	    	req.getSession().setAttribute("userPseudo", currentUser.getPseudo());
 		}
 	}
 
