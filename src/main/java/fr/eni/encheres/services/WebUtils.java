@@ -1,4 +1,4 @@
-package fr.eni.encheres.utils;
+package fr.eni.encheres.services;
 
 import java.util.Collection;
 

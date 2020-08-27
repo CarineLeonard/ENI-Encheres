@@ -12,8 +12,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.controller.rest.UtilisateurController;
 import fr.eni.encheres.dao.UtilisateurRepository;
-import fr.eni.encheres.rest.UtilisateurController;
 
 public class MokitoControllerTest {
 	

@@ -10,7 +10,7 @@ import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.AppRoleRepository;
 import fr.eni.encheres.dao.UserRoleRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
-import fr.eni.encheres.form.UtilisateurForm;
+import fr.eni.encheres.services.UtilisateurForm;
 
 @Component
 public class UtilisateurManager {

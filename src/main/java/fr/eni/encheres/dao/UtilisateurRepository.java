@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.form.UtilisateurForm;
+import fr.eni.encheres.services.UtilisateurForm;
 
 //This is an Interface. No need Annotation here.
 //Long: Type of Utilisateur ID.

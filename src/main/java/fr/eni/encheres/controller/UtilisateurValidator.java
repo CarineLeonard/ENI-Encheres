@@ -1,4 +1,4 @@
-package fr.eni.encheres.validator;
+package fr.eni.encheres.controller;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.UtilisateurRepository;
-import fr.eni.encheres.form.UtilisateurForm;
+import fr.eni.encheres.services.UtilisateurForm;
 
 @Component 
 public class UtilisateurValidator implements Validator {

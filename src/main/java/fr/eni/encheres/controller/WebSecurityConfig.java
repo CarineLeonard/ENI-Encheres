@@ -1,4 +1,4 @@
-package fr.eni.encheres.config;
+package fr.eni.encheres.controller;
 
 import javax.sql.DataSource; 
 
@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import fr.eni.encheres.service.UserDetailsServiceImpl;
+import fr.eni.encheres.bll.UserDetailsServiceImpl;
 
 //informe spring que c'est une classe de configuration à executer au démarrage de l'app 
 // configure l'application Spring Security 

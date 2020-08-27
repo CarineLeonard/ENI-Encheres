@@ -1,4 +1,4 @@
-package fr.eni.encheres.form;
+package fr.eni.encheres.services;
 
 public class UtilisateurForm {
 	private Long noUtilisateur;

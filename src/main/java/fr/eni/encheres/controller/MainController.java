@@ -20,9 +20,8 @@ import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.AppRole;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.UtilisateurRepository;
-import fr.eni.encheres.form.UtilisateurForm;
-import fr.eni.encheres.utils.WebUtils;
-import fr.eni.encheres.validator.UtilisateurValidator;
+import fr.eni.encheres.services.UtilisateurForm;
+import fr.eni.encheres.services.WebUtils;
 
 // used to map web requests to Spring Controller methods.
 @Controller

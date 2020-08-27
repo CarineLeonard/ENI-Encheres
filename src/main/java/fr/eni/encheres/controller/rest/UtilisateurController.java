@@ -1,4 +1,4 @@
-package fr.eni.encheres.rest;
+package fr.eni.encheres.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
