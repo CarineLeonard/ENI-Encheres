@@ -1,6 +1,10 @@
 package fr.eni.encheres.services;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class UtilisateurForm {
+	
 	private Long noUtilisateur;
     private String pseudo;
     private String nom;

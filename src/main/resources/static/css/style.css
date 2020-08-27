@@ -2,7 +2,7 @@
 
 /* Basic */
 body {
-	margin-top: 80px;
+	margin-top: 120px;
 	margin-bottom: 140px;
 }
 
@@ -59,4 +59,8 @@ a, a:hover {
 	color : inherit; 
 }
 
-
+/* Erreurs */ 
+.erreurs {
+	color : #B80000; 
+	font-style : italic;
+}

@@ -6,11 +6,11 @@ values ('dbadmin', 'nomUser2', 'prenomuser2', 'monemailadmin@gmail.com', '06.00.
  
 ---
  
-insert into app_role (ROLE_ID, ROLE_NAME)
-values (1, 'ROLE_ADMIN');
+insert into app_role (ROLE_NAME)
+values ('ROLE_ADMIN');
 
-insert into app_role (ROLE_ID, ROLE_NAME)
-values (2, 'ROLE_USER');
+insert into app_role (ROLE_NAME)
+values ('ROLE_USER');
  
 ---
  

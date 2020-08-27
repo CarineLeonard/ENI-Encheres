@@ -20,7 +20,7 @@
 
 	<section class="container text-center align-middle">
 		<!-- /login?error=true -->
-		<div th:if="${#request.getParameter('error') == 'true'}" style="color: red; margin: 10px 0px;">
+		<div class = "erreurs" th:if="${#request.getParameter('error') == 'true'}">
 			Login Failed!!!<br />
 			Raison :
 			<span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
@@ -53,9 +53,6 @@
 		</form>
 		
 		<button type="submit" class="btn btn-secondary"><a th:href="@{/register}">Créer un compte</a></button>
-
-		<br> 
-		<p>Provisoire : Username/pass: dbuser/123 + dbadmin/123</p>
 
 	</section>
 

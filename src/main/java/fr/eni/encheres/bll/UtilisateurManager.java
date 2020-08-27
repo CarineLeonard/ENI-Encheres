@@ -35,14 +35,14 @@ public class UtilisateurManager {
 		Utilisateur nouvelUtilisateur = null;
 		try {
 			nouvelUtilisateur = new Utilisateur(utilisateurForm.getNoUtilisateur(),
-															utilisateurForm.getPseudo(),
-															utilisateurForm.getNom(),
-															utilisateurForm.getPrenom(),
-															utilisateurForm.getEmail(),
-															utilisateurForm.getTelephone(),
-															utilisateurForm.getRue(),
-															utilisateurForm.getCode_postal(),
-															utilisateurForm.getVille(),
+															utilisateurForm.getPseudo().trim(),
+															utilisateurForm.getNom().trim().toUpperCase(),
+															utilisateurForm.getPrenom().trim(),
+															utilisateurForm.getEmail().trim(),
+															utilisateurForm.getTelephone().trim(),
+															utilisateurForm.getRue().trim(),
+															utilisateurForm.getCode_postal().trim(),
+															utilisateurForm.getVille().trim().toUpperCase(),
 															utilisateurForm.getMotDePasse(),
 															utilisateurForm.getCredit(),
 															utilisateurForm.isActif());
