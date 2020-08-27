@@ -20,10 +20,8 @@
 		<h2><span th:utext="${titre_registerSuccessfull}"></span></h2>
 		
 		<div th:if="${flashUser != null}">
-         <ul>
-            <li>Pseudo: <span th:utext="${flashUser.pseudo}">..</span></li>
-            <li>Email: <span th:utext="${flashUser.email}">..</span></li>
-         </ul>
+            <p>Pseudo: <span th:utext="${flashUser.pseudo}">..</span></p>
+            <p>Email: <span th:utext="${flashUser.email}">..</span></p>
       </div>
 		
 	</section>
