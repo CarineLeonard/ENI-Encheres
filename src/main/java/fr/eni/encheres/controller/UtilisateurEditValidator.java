@@ -36,21 +36,50 @@ public class UtilisateurEditValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		UtilisateurForm utilisateurForm = (UtilisateurForm) target;
 
-		// Check the fields of UtilisateurForm.
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pseudo", "NotEmpty.UtilisateurForm.pseudo");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nom", "NotEmpty.UtilisateurForm.nom");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "prenom", "NotEmpty.UtilisateurForm.prenom");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.UtilisateurForm.email");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rue", "NotEmpty.UtilisateurForm.rue");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code_postal", "NotEmpty.UtilisateurForm.code_postal");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "ville", "NotEmpty.UtilisateurForm.ville");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "motDePasse", "NotEmpty.UtilisateurForm.mot_de_passe");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UtilisateurForm.confirmPassword");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "currentPassword", "NotEmpty.UtilisateurForm.currentPassword"); // message à ajouter
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "currentPassword", "NotEmpty.UtilisateurForm.currentPassword");
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Utilisateur currentUser = utilisateurRepository.findByPseudo(authentication.getName());
-
+		
+		//remplacer champs vide par valeurs précédente
+		//pseudo
+		if (utilisateurForm.getPseudo().trim().length() <= 0) {
+			utilisateurForm.setPseudo(currentUser.getPseudo());
+		}
+		//nom
+		if (utilisateurForm.getNom().trim().length() <= 0) {
+			utilisateurForm.setNom(currentUser.getNom());
+		}
+		//prenom
+		if (utilisateurForm.getPrenom().trim().length() <= 0) {
+			utilisateurForm.setPrenom(currentUser.getPrenom());
+		}
+		//email
+		if (utilisateurForm.getEmail().trim().length() <= 0) {
+			utilisateurForm.setEmail(currentUser.getEmail());
+		}
+		//telephone pas obligatoire
+//		if (utilisateurForm.getTelephone().trim().length() <= 0) {
+//			utilisateurForm.setTelephone(currentUser.getTelephone());
+//		}
+		//rue
+		if (utilisateurForm.getRue().trim().length() <= 0) {
+			utilisateurForm.setRue(currentUser.getRue());
+		}
+		//code_postal
+		if (utilisateurForm.getCode_postal().trim().length() <= 0) {
+			utilisateurForm.setCode_postal(currentUser.getCode_postal());
+		}
+		//ville
+		if (utilisateurForm.getVille().trim().length() <= 0) {
+			utilisateurForm.setVille(currentUser.getVille());
+		}
+		//motDePasse
+		if (utilisateurForm.getMotDePasse().trim().length() <= 0) {
+			utilisateurForm.setMotDePasse(utilisateurForm.getCurrentPassword());
+			utilisateurForm.setConfirmPassword(utilisateurForm.getCurrentPassword());
+		}
+		
 		// email
 		if (!this.emailValidator.isValid(utilisateurForm.getEmail())) {
 			// Invalid email.
@@ -83,6 +112,7 @@ public class UtilisateurEditValidator implements Validator {
 
 		// autres
 		if (!errors.hasErrors()) {
+			
 			// password
 			if (!utilisateurForm.getConfirmPassword().equals(utilisateurForm.getMotDePasse())) {
 				errors.rejectValue("confirmPassword", "Match.UtilisateurForm.confirmPassword");
@@ -90,10 +120,10 @@ public class UtilisateurEditValidator implements Validator {
 				errors.rejectValue("motDePasse", "Size.UtilisateurForm.mot_de_passe");
 			}
 			
+			//pseudo
 			if (utilisateurForm.getPseudo().trim().length() > 30) {
 				errors.rejectValue("pseudo", "Size.UtilisateurForm.pseudo");
 			}
-
 			if (!utilisateurForm.getPseudo().matches("^[a-zA-Z0-9]*$")) {
 				errors.rejectValue("pseudo", "Pattern.UtilisateurForm.pseudo");
 			}
@@ -115,8 +145,12 @@ public class UtilisateurEditValidator implements Validator {
 
 			// telephone
 			if (utilisateurForm.getTelephone().trim().length() > 15) {
-				errors.rejectValue("nom", "Size.UtilisateurForm.telephone");
+				errors.rejectValue("telephone", "Size.UtilisateurForm.telephone");
 			}
+			if (utilisateurForm.getTelephone().trim().length() > 0 && !utilisateurForm.getTelephone().matches("((\\+\\d{1,3}()?)?|0)[0-9]{9}")) { // numéro à 9 chiffres précédés d'un 0 ou d'un code international (+ddd)
+				errors.rejectValue("telephone", "Pattern.UtilisateurForm.telephone"); // TODO ajouter message
+			}
+			
 			// rue
 			if (utilisateurForm.getRue().trim().length() > 50) {
 				errors.rejectValue("rue", "Size.UtilisateurForm.rue");

@@ -98,7 +98,10 @@ public class UtilisateurValidator implements Validator {
 
 			// telephone
 			if (utilisateurForm.getTelephone().trim().length() > 15) {
-				errors.rejectValue("nom", "Size.UtilisateurForm.telephone");
+				errors.rejectValue("telephone", "Size.UtilisateurForm.telephone");
+			}
+			if (utilisateurForm.getTelephone().trim().length() > 0 && !utilisateurForm.getTelephone().matches("((\\+\\d{1,3}()?)?|0)[0-9]{9}")) { // numéro à 9 chiffres précédés d'un 0 ou d'un code international (+ddd)
+				errors.rejectValue("telephone", "Pattern.UtilisateurForm.telephone");
 			}
 			// rue
 			if (utilisateurForm.getRue().trim().length() > 50) {
