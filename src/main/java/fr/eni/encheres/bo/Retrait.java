@@ -1,5 +1,7 @@
 package fr.eni.encheres.bo;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -17,16 +19,17 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="CATEGORIES") 
-public @Data class Retrait {
+@Table(name="RETRAIT") 
+public @Data class Retrait implements Serializable {
 	
 	// TODO - si possible se passer de l'id rajouter et pk : noArticle
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="no_retrait", nullable=false)
-    private Long noRetrait;
 	
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Column(name="no_retrait", nullable=false)
+    //private Long noRetrait;
+	
+	@Id
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "no_article", nullable = false)
     private ArticleVendu articleVendu;
  
