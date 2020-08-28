@@ -9,5 +9,4 @@ import fr.eni.encheres.bo.Retrait;
 public interface RetraitRepository extends CrudRepository<Retrait, Long> {
 	
 
-	
-}
+	}

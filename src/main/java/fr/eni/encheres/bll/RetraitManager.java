@@ -18,15 +18,16 @@ public class RetraitManager {
 	@Autowired
 	ArticleVenduRepository articleVenduRep; 
 	
-	public Retrait ajouterRetrait(ArticleVendu article) throws Exception {
+	// TODO - ne marche pas encore 
+	/*public Retrait ajouterRetrait(ArticleVendu article) throws Exception {
 		Retrait retrait = null;
 		try {
-			retrait = new Retrait(article);
+			retrait = new Retrait();
 			retrait = retraitRep.save(retrait);
 		} catch (Exception e) {
 			throw e;
 		}
 		return retrait;
-	}
+	} */ 
 	
 }

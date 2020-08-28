@@ -20,18 +20,13 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Entity
-@Table(name="RETRAIT") 
+@Table(name="RETRAITS") 
 public @Data class Retrait implements Serializable {
 	
-
-	@NonNull
-	@Id
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "no_article", nullable = false)
-    private ArticleVendu articleVendu;
- 
+	@EmbeddedId
+	private RetraitId retraitId;
+	 
 	@Column(name="rue", length = 30, nullable=false)
     private String rue;
 	

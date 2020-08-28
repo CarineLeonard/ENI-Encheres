@@ -38,8 +38,8 @@ public class ArticleVenduManager {
 	@Autowired
 	CategorieManager categorieManage; 
 	
-	@Autowired
-	RetraitManager retraitManage ; 
+	//@Autowired
+	//RetraitManager retraitManage ; 
 	
 	
 	public ArticleVendu ajouterArticleVendu(ArticleVenduForm articleForm) throws Exception {
