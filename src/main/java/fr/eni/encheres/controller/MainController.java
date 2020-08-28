@@ -1,9 +1,14 @@
 package fr.eni.encheres.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.eni.encheres.bll.ArticleVenduManager;
+import fr.eni.encheres.bll.UserDetailsServiceImpl;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
@@ -44,6 +50,9 @@ public class MainController {
 	
 	@Autowired
 	private UtilisateurEditValidator utilisateurEditValidator;
+	
+	@Autowired
+	private UserDetailsServiceImpl userDetailsServiceImpl;
 	
 	 // Set a form validator
     @InitBinder("utilisateurForm")
@@ -157,16 +166,22 @@ public class MainController {
 			
 			Utilisateur newUser = null;
 			
+			
 			try {
 				newUser = utilisateurManager.updateUtilisateur(utilisateurForm);
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
 				return "editInfoPage";
 			}
+			
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+			Authentication authentication = new UsernamePasswordAuthenticationToken(userDetailsServiceImpl.loadUserByUsername(newUser.getPseudo()), newUser.getMotDePasse(), updatedAuthorities);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 
 			redirectAttributes.addFlashAttribute("flashUser", newUser);
 			
-			return "redirect:/logout";
+			return "redirect:/userInfo";
 		}
 	 
 	    @RequestMapping(value = "/deleteAccount", method = RequestMethod.GET)
