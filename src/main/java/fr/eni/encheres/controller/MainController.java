@@ -56,7 +56,7 @@ public class MainController {
        // ...
     }
     
-    @InitBinder("editInfo")
+   @InitBinder("editInfo")
     protected void initEditBinder(WebDataBinder dataBinder) {
        Object target = dataBinder.getTarget();
        
@@ -69,11 +69,11 @@ public class MainController {
        if (target.getClass() == UtilisateurForm.class) {
           dataBinder.setValidator(utilisateurEditValidator);
        }
-    }   
+    }  
     
     // répartition des accès au pages avec web security 
 	 @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
-	    public String welcomePage(Model model) {
+	  public String welcomePage(Model model) {
 	        model.addAttribute("title_welcome", "Accueil");
 	        model.addAttribute("titre_welcome", "Liste des enchères");
 	        return "welcomePage";
@@ -209,7 +209,7 @@ public class MainController {
 	    }
 	    
 	    // Show Register page.
-	    @RequestMapping(value = "/register", method = RequestMethod.GET)
+	     @RequestMapping(value = "/register", method = RequestMethod.GET)
 	    public String viewRegister(Model model) {
 	  
 	       UtilisateurForm form = new UtilisateurForm();

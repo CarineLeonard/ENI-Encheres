@@ -10,7 +10,8 @@ CREATE TABLE CATEGORIES (
 ALTER TABLE CATEGORIES ADD constraint categorie_pk PRIMARY KEY (no_categorie)
 
 CREATE TABLE ENCHERES (
-    no_utilisateur   INTEGER NOT NULL,
+    no_enchere   INTEGER IDENTITY(1,1) NOT NULL,				-- ajout d'une ID pour compatibilité entre @Id et @ManytoOne et OnetoMany 
+	no_utilisateur   INTEGER NOT NULL,
     no_article       INTEGER NOT NULL,
     date_enchere     datetime NOT NULL,
 	montant_enchere  INTEGER NOT NULL
@@ -20,6 +21,7 @@ CREATE TABLE ENCHERES (
 ALTER TABLE ENCHERES ADD constraint enchere_pk PRIMARY KEY (no_utilisateur, no_article)
 
 CREATE TABLE RETRAITS (
+	no_retrait   INTEGER IDENTITY(1,1) NOT NULL,				-- ajout d'une ID pour compatibilité entre @Id et @ManytoOne et OnetoMany 
 	no_article         INTEGER NOT NULL,
     rue              VARCHAR(50) NOT NULL,					-- champ trop petit
     code_postal      VARCHAR(15) NOT NULL,
