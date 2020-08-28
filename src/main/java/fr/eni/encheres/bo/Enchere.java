@@ -21,13 +21,6 @@ import lombok.Data;
 @Table(name="ENCHERES") 
 public @Data class Enchere {
 	
-	// TODO - si possible se passer de l'id rajouter et pk : noUtilisateur + noCategorie
-	// @Id
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	// @Column(name="no_enchere", nullable=false)
-    // private Long noEnchere;
-	
-	// lien FK entre les deux tables : c'est ici qu'on apelle un champ d'une autre table donc lien ici ! 
 	@EmbeddedId
 	private EnchereId enchereId;
     

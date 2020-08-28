@@ -17,17 +17,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Entity
 @Table(name="RETRAIT") 
 public @Data class Retrait implements Serializable {
 	
-	// TODO - si possible se passer de l'id rajouter et pk : noArticle
-	
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@Column(name="no_retrait", nullable=false)
-    //private Long noRetrait;
-	
+
+	@NonNull
 	@Id
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "no_article", nullable = false)

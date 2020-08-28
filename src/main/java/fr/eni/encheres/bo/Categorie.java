@@ -8,7 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Entity
 @Table(name="CATEGORIES") 
 public @Data class Categorie { 
@@ -18,6 +21,7 @@ public @Data class Categorie {
 	@Column(name="no_categorie", nullable=false)
     private Long noCategorie;
  
+	@NonNull
 	@Column(name="libelle", length = 30, nullable=false)
     private String libelle;
 	

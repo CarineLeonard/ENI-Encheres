@@ -13,8 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@AllArgsConstructor
 @Entity
 @Table(name="ARTICLES_VENDUS") 
 public @Data class ArticleVendu { 
@@ -25,10 +27,10 @@ public @Data class ArticleVendu {
     private Long noArticle;
 	
 	@Column(name="nom_article", length = 30, nullable=false)
-    private Long nomArticle;
+    private String nomArticle;
 	
 	@Column(name="description", length = 300, nullable=false)
-    private Long description;
+    private String description;
 	
 	@Column(name="date_debut_encheres", nullable=false)
     private LocalDate dateDebutEncheres;
