@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import fr.eni.encheres.bo.AppRole;
 import fr.eni.encheres.bo.ArticleVendu;
@@ -16,6 +17,7 @@ import fr.eni.encheres.dao.RetraitRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.ArticleVenduForm;
 
+@Component 
 public class ArticleVenduManager {
 	
 	@Autowired
