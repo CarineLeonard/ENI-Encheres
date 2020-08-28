@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.UtilisateurManager;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.UtilisateurRepository;
+import fr.eni.encheres.services.ArticleVenduForm;
 import fr.eni.encheres.services.UtilisateurForm;
 import fr.eni.encheres.services.WebUtils;
 
@@ -29,6 +32,9 @@ public class MainController {
 
 	@Autowired
 	private UtilisateurManager utilisateurManager;
+	
+	@Autowired
+	private ArticleVenduManager articleVenduMana; 
 	
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
@@ -241,5 +247,55 @@ public class MainController {
 	        model.addAttribute("titre_registerSuccessfull", "Compte créé avec succès !");
 	       return "registerSuccessfullPage";
 	    }
+	    
+	    @RequestMapping(value = "/newSale", method = RequestMethod.GET)
+	    public String newSale(Model model, Principal principal) {
+	    	String pseudo = principal.getName();
+	    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+
+			ArticleVenduForm form = new ArticleVenduForm();
+			model.addAttribute("title_newSale", "Modifier mon compte");
+			model.addAttribute("titre_newSale", "Modifier mon compte");
+			model.addAttribute("articleForm", form);
+				        
+	        return "newSalePage";
+	    }
+	    
+		@RequestMapping(value = "/newSale", method = RequestMethod.POST)
+		public String newSale(Model model, Principal principal, //
+				@ModelAttribute("articleForm") ArticleVenduForm articleForm, //
+				BindingResult result, //
+				final RedirectAttributes redirectAttributes) {
+			
+			try {
+				Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
+				articleForm.setUtilisateur(currentUser);
+				
+			    utilisateurEditValidator.validate(articleForm, result);
+			} catch (Exception e) {
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+				return "newSalePage";
+			}
+			
+			if (result.hasErrors()) {
+				return "newSalePage";
+			}
+			
+			ArticleVendu newArticle = null;
+			
+			try {
+				newArticle = articleVenduMana.ajouterArticleVendu(articleForm);
+			} catch (Exception e) {
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+				return "editInfoPage";
+			}
+
+			redirectAttributes.addFlashAttribute("flashUser", newArticle);
+			
+			return "redirect:/welcome";
+		}
+	    
+	    
+	    
 	    
 }

@@ -17,7 +17,7 @@ public @Data class ArticleVenduForm {
 	 private LocalDate dateFinEncheres;
 	 private int prixInital;
 	 private int prixVente;
-	 private Utilisateur utilisateur;
+	 private Utilisateur Utilisateur;
 	 private Categorie categorie;
 	 
 	 // TODO - Udload de la photo : stockage où ? 
