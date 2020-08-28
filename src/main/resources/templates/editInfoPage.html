@@ -71,8 +71,8 @@
 				<span class="row justify-content-center" th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}">..</span>
 			</div>
 			<div class="form-group row justify-content-center">
-				<button type="submit" class="btn btn-outline-success">Valider</button>
-				<button type="submit" class="btn btn-outline-success"><a th:href="@{/}">Annuler</a></button>
+				<button type="submit" class="btn btn-outline-success">Enregistrer</button>
+				<a class="btn btn-outline-success" th:href="@{/deleteAccount}">Supprimer mon compte</a>
 			</div>
 		</form>
 	</section>

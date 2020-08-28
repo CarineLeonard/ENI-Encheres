@@ -96,4 +96,14 @@ public class UtilisateurManager {
 		return nouvelUtilisateur;
 	}
 	
+	public Utilisateur supprimerUtilisateur(Long noUtilisateur) throws Exception {
+		Utilisateur utilisateur = null;
+		try {
+			utilisateurRepository.deleteById(noUtilisateur);;
+		} catch (Exception e) {
+			throw e;
+		}
+		return utilisateur;
+	}
+	
 }

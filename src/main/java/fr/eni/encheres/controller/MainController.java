@@ -5,7 +5,6 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -91,16 +90,6 @@ public class MainController {
 	 
 	    @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
 	    public String userInfo(@RequestParam(value = "pseudo", defaultValue= "") String pseudo, Model model, Principal principal) {
-	 
-	        // After user login successfully.
-//	    	String identifiant = principal.getName();
-//	 
-//	        System.out.println(" Identifiant : " + identifiant);
-//	 
-//	        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-//	 
-//	        String userInfo = WebUtils.toString(loginedUser);
-//	        model.addAttribute("userInfo", userInfo);
 			model.addAttribute("title_userInfo", "Profil");
 			
 	    	if (pseudo.equals("")) {
@@ -173,6 +162,15 @@ public class MainController {
 			
 			return "redirect:/logout";
 		}
+	 
+	    @RequestMapping(value = "/deleteAccount", method = RequestMethod.GET)
+	    public String deleteAccount(Model model, Principal principal) {
+	    	String pseudo = principal.getName();
+	    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+	    	utilisateurRepository.deleteById(user.getNoUtilisateur());
+
+			return "redirect:/logout";
+	    }
 	 
 	    @RequestMapping(value = "/403", method = RequestMethod.GET)
 	    public String accessDenied(Model model, Principal principal) {
