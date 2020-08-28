@@ -41,7 +41,7 @@ public class MainController {
 	private UtilisateurEditValidator utilisateurEditValidator;
 	
 	 // Set a form validator
-    @InitBinder("register")
+    @InitBinder("utilisateurForm")
     protected void initBinder(WebDataBinder dataBinder) {
        // Form target
        Object target = dataBinder.getTarget();
@@ -55,21 +55,6 @@ public class MainController {
        }
        // ...
     }
-    
-    @InitBinder("editInfo")
-    protected void initEditBinder(WebDataBinder dataBinder) {
-       Object target = dataBinder.getTarget();
-       
-       if (target == null) {
-          return;
-       }
-       
-       System.out.println("Target=" + target);
-  
-       if (target.getClass() == UtilisateurForm.class) {
-          dataBinder.setValidator(utilisateurEditValidator);
-       }
-    }   
     
     // répartition des accès au pages avec web security 
 	 @RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
@@ -186,7 +171,7 @@ public class MainController {
 
 			redirectAttributes.addFlashAttribute("flashUser", newUser);
 			
-			return "redirect:/userInfo";
+			return "redirect:/logout";
 		}
 	 
 	    @RequestMapping(value = "/403", method = RequestMethod.GET)
