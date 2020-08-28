@@ -5,7 +5,6 @@ import lombok.Data;
 
 public @Data class RetraitForm {
 
-	private Long noRetrait;
 	private Long noArticle;
 	private String rue;
 	private String code_postal;

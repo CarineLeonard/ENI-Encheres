@@ -1,10 +1,94 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Site d'enchères">
+	<meta name="author" content="L&L">
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/css/bootstrap.min.css}"/>
+	<link href="css/style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<title th:utext="${title_newSale}"></title>
 </head>
-<body>
 
+<body class="homepage">
+
+	<!-- Include _header.html -->
+	<th:block th:include="/_header"></th:block>
+
+	<section class="container text-center">
+		<h2><span th:utext="${titre_newSale}"></span></h2>
+		
+		<!-- /login?error=true -->
+		<div class="erreurs" th:if="${errorMessage != null}" th:utext="${errorMessage}">...</div>
+		
+		<form th:action="@{/newSale}" th:object="${articleForm}" method="POST">
+			<div class="form-group row justify-content-center">
+				<label for="InputArticle" >Article :</label>
+				<input type="text" class="form-control col-sm-3" id="InputArticle" th:field="*{nomArticle}">
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputDescription" >Description :</label>
+				<textarea class="form-control col-sm-3" rows="3" id="InputDescription" th:field="*{description}"></textarea>
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputCategorie" >Catégorie :</label>
+				<select class="form-control col-sm-3" id="InputCategorie" >
+					<!-- TODO : avec des if pour les options --> 
+					<option value="test">Test</option>
+					<option value="test2">Test2</option>
+				</select>
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputPhoto" >Photo de l'article :</label>
+				<!-- TODO : photos de l'article : bouton "uploader" --> 
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputPrixInital" >Mise à prix :</label>
+				<input type="number" class="form-control col-sm-3" value="150" id="InputPrixInital" th:field="*{prixInital}">
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputDebutEnchere" >Début de l'enchère :</label>
+				<input type="datetime-local" class="form-control col-sm-3" id="InputDebutEnchere" th:field="*{dateDebutEncheres}">
+			</div>
+			<div class="form-group row justify-content-center">
+				<label for="InputFinEnchere" >Fin de l'enchère :</label>
+				<input type="datetime-local" class="form-control col-sm-3" id="InputFinEnchere" th:field="*{dateDebutEncheres}">
+			</div>
+			<fieldset>
+				<!-- TODO - partie retrait à faire !--> 
+				<legend>Retrait</legend>
+				<div class="form-group row justify-content-center">
+					<label for="InputRue" >Rue :</label>
+					<input type="text" class="form-control col-sm-3" id="InputRue" >
+				</div>
+				<div class="form-group row justify-content-center">
+					<label for="InputCodePostal" >Rue :</label>
+					<input type="text" class="form-control col-sm-3" id="InputCodePostal">
+				</div>
+				<div class="form-group row justify-content-center">
+					<label for="InputVille" >Rue :</label>
+					<input type="text" class="form-control col-sm-3" id="InputVille">
+				</div>
+			</fieldset>
+			
+			<div class="erreurs">
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('nomArticle')}" th:errors="*{nomArticle}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('dateDebutEncheres')}" th:errors="*{dateDebutEncheres}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('dateFinEncheres')}" th:errors="*{dateFinEncheres}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('prixInital')}" th:errors="*{prixInital}">..</span>
+				<span class="row justify-content-center" th:if="${#fields.hasErrors('categorie')}" th:errors="*{categorie}">..</span>
+				<!-- TODO - champs de retrait à ajouter -->
+			</div>
+			<div class="form-group row justify-content-center">
+				<button type="submit" class="btn btn-outline-success">Enregistrer</button>
+				<a class="btn btn-outline-success" th:href="@{/}">Annuler</a>
+			</div>
+		</form>
+	</section>
+		
+	<!-- Include _footer.html -->
+	<th:block th:include="/_footer"></th:block>
 </body>
 </html>

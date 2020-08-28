@@ -5,7 +5,7 @@
 			<a class="nav-link text-light " th:if="${#request.userPrincipal == null}" th:href="@{/userInfo}">S'inscrire - Se connecter</a>
 			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/userInfo}">Mon profil</a>
 			<a class="nav-link text-light " th:if="${session.userIsAdmin == true}" th:href="@{/admin}">Admin</a>
-			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/vente}">Vendre un article</a>
+			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/newSale}">Vendre un article</a>
 			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Se déconnecter</a>
 		</nav>
 	</header>

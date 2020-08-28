@@ -52,6 +52,9 @@ public class MainController {
 	private UtilisateurEditValidator utilisateurEditValidator;
 	
 	@Autowired
+	private ArticleVenduValidator articleVenduValidator; 
+	
+	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 	
 	 // Set a form validator
@@ -286,7 +289,7 @@ public class MainController {
 				Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
 				articleForm.setUtilisateur(currentUser);
 				
-			    utilisateurEditValidator.validate(articleForm, result);
+				articleVenduValidator.validate(articleForm, result);
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
 				return "newSalePage";
@@ -302,7 +305,7 @@ public class MainController {
 				newArticle = articleVenduMana.ajouterArticleVendu(articleForm);
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
-				return "editInfoPage";
+				return "newSalePage";
 			}
 
 			redirectAttributes.addFlashAttribute("flashUser", newArticle);

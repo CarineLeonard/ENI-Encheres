@@ -68,6 +68,9 @@ public class ArticleVenduValidator implements Validator{
 				errors.rejectValue("prixVente", "Pattern.ArticleVenduForm.prixVente");
 			}
 			
+			if (articleForm.getPrixInital()<0) {
+				errors.rejectValue("prixVente", "Pattern.ArticleVenduForm.prixInitial");
+			}
 		}
 
 	
