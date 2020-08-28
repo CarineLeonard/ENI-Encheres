@@ -65,7 +65,9 @@ public class UtilisateurEditValidator implements Validator {
 
 		// currentPassword
 		if (!errors.hasFieldErrors("currentPassword")) {
-			if ( passwordEncoder.matches(utilisateurForm.getCurrentPassword(), currentUser.getMotDePasse()) ) {
+//			utilisateurForm.setCurrentPassword(passwordEncoder.encode(utilisateurForm.getMotDePasse()));
+			if ( !passwordEncoder.matches(utilisateurForm.getCurrentPassword(), currentUser.getMotDePasse()) ) {
+				System.out.println(utilisateurForm.getCurrentPassword() + " " + currentUser.getMotDePasse());
 				errors.rejectValue("currentPassword", "NotMatching.UtilisateurForm.currentPassword");
 			}
 		}
