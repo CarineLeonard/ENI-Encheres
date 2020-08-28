@@ -26,7 +26,7 @@ public @Data class Retrait {
 	@Column(name="no_retrait", nullable=false)
     private Long noRetrait;
 	
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "no_article", nullable = false)
     private ArticleVendu articleVendu;
  

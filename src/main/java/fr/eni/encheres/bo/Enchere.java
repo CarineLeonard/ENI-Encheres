@@ -28,11 +28,11 @@ public @Data class Enchere {
     private Long noEnchere;
 	
 	// lien FK entre les deux tables : c'est ici qu'on apelle un champ d'une autre table donc lien ici ! 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "no_utilisateur", nullable = false)
     private Utilisateur utilisateur;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "no_article", nullable = false)
     private ArticleVendu articleVendu;
     
