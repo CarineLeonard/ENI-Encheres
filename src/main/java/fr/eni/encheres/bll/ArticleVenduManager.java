@@ -53,8 +53,9 @@ public class ArticleVenduManager {
 												articleForm.getDateFinEncheres(),
 												articleForm.getPrixInital(),
 												articleForm.getPrixVente(),
-												articleForm.getUtilisateur(), 
-												articleForm.getCategorie() ); 
+												articleForm.getUtilisateur(),
+												articleForm.getCategorie() 
+												); 
 				nouvelArticle = this.articleVenduRep.save(nouvelArticle);
 				
 			// TODO - appel des autres classes : à revoir 
