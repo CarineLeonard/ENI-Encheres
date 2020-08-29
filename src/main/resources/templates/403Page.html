@@ -18,7 +18,7 @@
 	<th:block th:include="/_header"></th:block>
 
 	<section class="container text-center">
-		<h3 th:if="${message != null}" th:utext="${message}" style="color: red;"></h3>
+		<h3 class="my-5" th:if="${message != null}" th:utext="${message}" style="color: red;"></h3>
 		
 		<div th:if="${userInfo != null}" th:utext="${userInfo}"></div>
 	</section>

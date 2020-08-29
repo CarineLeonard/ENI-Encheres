@@ -17,7 +17,7 @@
 	<th:block th:include="/_header"></th:block>
 
 	<section class="container text-center">
-		<h2><span th:utext="${titre_register}"></span></h2>
+		<h2 class="my-5" th:utext="${titre_register}"></h2>
 		
 		<!-- /login?error=true -->
 		<div class="erreurs" th:if="${errorMessage != null}" th:utext="${errorMessage}">...</div>
@@ -67,7 +67,7 @@
 			</div>
 			<div class="form-group row justify-content-center">
 				<button type="submit" class="btn btn-outline-success">Créer</button>
-				<button type="submit" class="btn btn-outline-success"><a th:href="@{/}">Annuler</a></button>
+				<a class="btn btn-outline-success" th:href="@{/login}">Annuler</a>
 			</div>
 		</form>
 	</section>
