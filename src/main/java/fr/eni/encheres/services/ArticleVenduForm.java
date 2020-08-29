@@ -1,6 +1,7 @@
 package fr.eni.encheres.services;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,9 +18,9 @@ public @Data class ArticleVenduForm {
 	 private LocalDate dateFinEncheres;
 	 private int prixInital;
 	 private int prixVente;
-	 private Utilisateur Utilisateur;
-	 private Categorie categorie;
-	 
+	 private Utilisateur utilisateur;
+	 private Categorie categorie; 
+
 	 // TODO - Udload de la photo : stockage où ? 
 	 
 }

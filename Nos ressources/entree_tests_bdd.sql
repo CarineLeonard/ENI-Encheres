@@ -38,3 +38,5 @@ select * from user_role ;
 
 insert into categories (libelle) values ('maison'); 
 insert into categories (libelle) values ('jardin'); 
+
+select * from articles_vendus;

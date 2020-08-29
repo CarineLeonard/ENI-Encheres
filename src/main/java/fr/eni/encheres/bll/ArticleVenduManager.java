@@ -54,7 +54,7 @@ public class ArticleVenduManager {
 												articleForm.getPrixInital(),
 												articleForm.getPrixVente(),
 												articleForm.getUtilisateur(),
-												articleForm.getCategorie() 
+												articleForm.getCategorie()
 												); 
 				nouvelArticle = this.articleVenduRep.save(nouvelArticle);
 				

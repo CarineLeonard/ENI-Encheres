@@ -299,12 +299,14 @@ public class MainController {
 				Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
 				articleForm.setUtilisateur(currentUser);
 				
-				Categorie currentCategorie = categorieManager.selectionnerCategorie(articleForm.getCategorie().getLibelle());
+				Categorie currentCategorie = (Categorie) model.getAttribute("categories") ; 
+				 // currentCategorie = categorieManager.selectionnerCategorie(libelle);
 				articleForm.setCategorie(currentCategorie);
 				
 				articleVenduValidator.validate(articleForm, result);
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+				model.addAttribute("categories"); 
 				return "newSalePage";
 			}
 			
@@ -318,6 +320,7 @@ public class MainController {
 				newArticle = articleVenduManager.ajouterArticleVendu(articleForm);
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+				model.addAttribute("categories"); 
 				return "newSalePage";
 			}
 
