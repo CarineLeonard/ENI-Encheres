@@ -29,30 +29,35 @@
 			</span>
 		</div>
 		
-		<h2><span th:utext="${titre_login}"></span></h2>
+<!-- 		<h2 class="m-5" th:utext="${titre_login}"></h2> -->
 
 		<form name='f' th:action="@{/j_spring_security_check}" method='POST'>
-			<div class="form-group row justify-content-center">
-				<label for="InputIdentifiant" >Identifiant :</label>
-				<input type="text" class="form-control col-sm-4" id="InputIdentifiant" name='identifiant'>
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputPassword" >Mot de passe :</label>
-				<input type="password" class="form-control col-sm-4" id="InputPassword" name="mot_de_passe">
-			</div>
-			<div class= "row justify-content-center">
-			<button type="submit" class="btn btn-outline-success">Connexion</button>
-			<div class="form-group form-check" >
-				<div class="row justify-content-center">
-					<input type="checkbox" class="form-check-input" id="Check" name="remember-me">
-					<label class="form-check-label" for="Check">Se souvenir de moi ?</label>
+			<div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-5">
+				<div class="form-group row">
+					<label for="InputIdentifiant" class="col-4">Identifiant:</label>
+					<input type="text" class="form-control col-8" id="InputIdentifiant" name='identifiant'>
 				</div>
-				<p><a>Mot de passe oublié</a></p>
-			</div>
+				<div class="form-group row">
+					<label for="InputPassword" class="col-4">Mot de passe:</label>
+					<input type="password" class="form-control col-8" id="InputPassword" name="mot_de_passe">
+				</div>
+				<div class= "row justify-content-center">
+					<div class="col-5 my-auto">
+						<button type="submit" class="btn btn-success btn-lg">Connexion</button>
+					</div>
+					<div class="col-7">
+						<div class="form-group form-check form-check-inline" >
+							<input type="checkbox" class="form-check-input" id="Check" name="remember-me">
+							<label class="form-check-label" for="Check">Se souvenir de moi</label>
+						</div>
+						<br />
+						<a href="">Mot de passe oublié</a>
+					</div>
+				</div>
 			</div>
 		</form>
 		
-		<a class="btn btn-secondary" th:href="@{/register}">Créer un compte</a>
+		<a class="btn btn-secondary btn-lg mt-5" th:href="@{/register}">Créer un compte</a>
 
 	</section>
 

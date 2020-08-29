@@ -1,12 +1,24 @@
 <div xmlns:th="http://www.thymeleaf.org">
-	<header class="text-center">	
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-			<a class="nav-link text-light " th:href="@{/}">Accueil</a>
-			<a class="nav-link text-light " th:if="${#request.userPrincipal == null}" th:href="@{/userInfo}">S'inscrire - Se connecter</a>
-			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/userInfo}">Mon profil</a>
-			<a class="nav-link text-light " th:if="${session.userIsAdmin == true}" th:href="@{/admin}">Admin</a>
-			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/newSale}">Vendre un article</a>
-			<a class="nav-link text-light " th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Se déconnecter</a>
+	<header class="text-left">	
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+			<a class="navbar-brand nav-link text-light text-left" th:href="@{/}">ENI-Enchères</a>
+			<ul class="navbar-nav navbar-collapse d-flex align-items-start justify-content-md-end">
+				<li class="nav-item" th:if="${#request.userPrincipal == null}">
+					<a class="nav-link text-light" th:href="@{/userInfo}">S'inscrire - Se connecter</a>
+				</li>
+				<li class="nav-item" th:if="${#request.userPrincipal != null}">
+					<a class="nav-link text-light" th:href="@{/newSale}">Vendre un article</a>
+				</li>
+				<li class="nav-item" th:if="${#request.userPrincipal != null}">
+					<a class="nav-link text-light" th:href="@{/userInfo}">Mon profil</a>
+				</li>
+				<li class="nav-item" th:if="${session.userIsAdmin == true}">
+					<a class="nav-link text-light" th:href="@{/admin}">Admin</a>
+				</li>
+				<li class="nav-item" th:if="${#request.userPrincipal != null}">
+					<a class="nav-link text-light" th:href="@{/logout}">Déconnexion</a>
+				</li>
+			</ul>
 		</nav>
 	</header>
 </div>

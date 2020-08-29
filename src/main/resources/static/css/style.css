@@ -2,7 +2,6 @@
 
 /* Basic */
 body {
-	margin-top: 120px;
 	margin-bottom: 140px;
 }
 
@@ -10,6 +9,13 @@ footer {
 	padding : 20px; 
 }
 
+/* Erreurs */ 
+.erreurs {
+	color : #B80000; 
+	font-style : italic;
+}
+
+/*
 body, input, select, textarea, label {
 	color: #555555;
 	font-family: 'Open Sans', sans-serif;
@@ -17,9 +23,9 @@ body, input, select, textarea, label {
 	font-weight: 300;
 	line-height: 1.65em;
 }
+*/
 
-
-/* Form */ 
+/* Form  
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -28,9 +34,10 @@ textarea,
 label {
 	padding: 0.75em;
 	margin : 1em; 
-}
+}*/
 
-/* Bouton */ 
+/* Bouton */
+/*
 .btn-outline-success, .btn-outline-success:hover  {
 	margin : 2em; 
 	border: 2px solid;
@@ -57,10 +64,5 @@ label {
 a, a:hover {
 	text-decoration: none; 
 	color : inherit; 
-}
+}*/
 
-/* Erreurs */ 
-.erreurs {
-	color : #B80000; 
-	font-style : italic;
-}

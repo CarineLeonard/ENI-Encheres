@@ -147,6 +147,7 @@ public class MainController {
 	        model.addAttribute("userRue", user.getRue());
 	        model.addAttribute("userCodePostal", user.getCode_postal());
 	        model.addAttribute("userVille", user.getVille());
+	        model.addAttribute("userCredits", user.getCredit());
 
 			UtilisateurForm form = new UtilisateurForm();
 			model.addAttribute("title_editInfo", "Modifier mon compte");
@@ -203,10 +204,17 @@ public class MainController {
 		}
 	 
 	    @RequestMapping(value = "/deleteAccount", method = RequestMethod.GET)
-	    public String deleteAccount(Model model, Principal principal) {
-	    	String pseudo = principal.getName();
-	    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
-	    	utilisateurRepository.deleteById(user.getNoUtilisateur());
+	    public String deleteAccount(Model model, Principal principal, //
+				final RedirectAttributes redirectAttributes) {
+			try {
+		    	String pseudo = principal.getName();
+		    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+		    	utilisateurRepository.deleteById(user.getNoUtilisateur());
+			} catch (Exception e) {
+				System.out.println(e);
+				redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
+				return "redirect:/editInfo";
+			}
 
 			return "redirect:/logout";
 	    }

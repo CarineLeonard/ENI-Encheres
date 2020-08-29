@@ -17,45 +17,42 @@
 	<th:block th:include="/_header"></th:block>
 
 	<section class="container text-center">
-		<h2><span th:utext="${titre_editInfo}"></span></h2>
+		<h2 class="m-5"><span th:utext="${titre_editInfo}"></span></h2>
 		
 		<!-- /login?error=true -->
 		<div class="erreurs" th:if="${errorMessage != null}" th:utext="${errorMessage}">...</div>
 		
 		<form th:action="@{/editInfo}" th:object="${utilisateurForm}" method="POST">
-			<div class="form-group row justify-content-center">
-				<label for="InputPseudo" >Pseudo :</label>
-				<input type="text" class="form-control col-sm-3" id="InputPseudo" th:name="pseudo" th:value="*{pseudo != null} ? *{pseudo} : ${userPseudo}">
-				<label for="InputNom" >Nom :</label>
-				<input type="text" class="form-control col-sm-3" id="InputNom" th:name="nom" th:value="*{nom != null} ? *{nom} : ${userNom}">
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputPrenom" >Prénom :</label>
-				<input type="text" class="form-control col-sm-3" id="InputPrenom" th:name="prenom" th:value="*{prenom != null} ? *{prenom} : ${userPrenom}">
-				<label for="InputEmail" >Email :</label>
-				<input type="text" class="form-control col-sm-3" id="InputEmail" th:name="email" th:value="*{email != null} ? *{email} : ${userEmail}">
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputTelephone" >Téléphone :</label>
-				<input type="text" class="form-control col-sm-3" id="InputTelephone" th:name="telephone" th:value="*{telephone != null} ? *{telephone} : ${userTelephone}">
-				<label for="InputRue" >Rue :</label>
-				<input type="text" class="form-control col-sm-3" id="InputRue" th:name="rue" th:value="*{rue != null} ? *{rue} : ${userRue}">
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputCodePostal" >Code postal :</label>
-				<input type="text" class="form-control col-sm-3" id="InputCodePostal" th:name="code_postal" th:value="*{code_postal != null} ? *{code_postal} : ${userCodePostal}">
-				<label for="InputVille" >Ville :</label>
-				<input type="text" class="form-control col-sm-3" id="InputVille" th:name="ville" th:value="*{ville != null} ? *{ville} : ${userVille}">
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputActualPassword" >Mot de passe actuel :</label>
-				<input type="password" class="form-control col-sm-3" id="InputActualPassword" th:field="*{currentPassword}">
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputPassword" >Nouveau mot de passe :</label>
-				<input type="password" class="form-control col-sm-3" id="InputPassword" th:field="*{motDePasse}">
-				<label for="InputConfirmPassword" >Confirmation :</label>
-				<input type="password" class="form-control col-sm-3" id="InputConfirmPassword" th:field="*{confirmPassword}">
+			<div class="form-group row text-wrap text-left">
+				<label for="InputPseudo" class="col-6 col-md-3 my-2 py-1">Pseudo:</label>
+				<input type="text" class="form-control col-6 col-md-3 my-2" id="InputPseudo" th:name="pseudo" th:value="*{pseudo != null} ? *{pseudo} : ${userPseudo}">
+				<label for="InputNom" class="col-6 col-md-2 offset-md-1 my-2 py-1">Nom:</label>
+				<input type="text" class="form-control col-6 col-md-3 my-2" id="InputNom" th:name="nom" th:value="*{nom != null} ? *{nom} : ${userNom}">
+				
+				<label for="InputPrenom" class="col-6 col-md-3 my-2 py-1">Prénom:</label>
+				<input type="text" class="form-control col-6 col-md-3 my-2" id="InputPrenom" th:name="prenom" th:value="*{prenom != null} ? *{prenom} : ${userPrenom}">
+				<label for="InputEmail" class="col-6 col-md-2 offset-md-1 my-2 py-1">Email:</label>
+				<input type="text" class="form-control col-6 col-md-3 my-2" id="InputEmail" th:name="email" th:value="*{email != null} ? *{email} : ${userEmail}">
+				
+				<label for="InputTelephone" class="col-6 col-md-3 my-2 py-1">Téléphone:</label>
+				<input type="text" class="form-control col-6 col-md-3 my-2" id="InputTelephone" th:name="telephone" th:value="*{telephone != null} ? *{telephone} : ${userTelephone}">
+				<label for="InputRue" class="col-6 col-md-2 offset-md-1 my-2 py-1">Rue:</label>
+				<input type="text" class="form-control col-6 col-md-3 my-2" id="InputRue" th:name="rue" th:value="*{rue != null} ? *{rue} : ${userRue}">
+				
+				<label for="InputCodePostal" class="col-6 col-md-3 my-2 py-1">Code postal:</label>
+				<input type="text" class="form-control col-6 col-md-3 my-2" id="InputCodePostal" th:name="code_postal" th:value="*{code_postal != null} ? *{code_postal} : ${userCodePostal}">
+				<label for="InputVille" class="col-6 col-md-2 offset-md-1 my-2 py-1">Ville:</label>
+				<input type="text" class="form-control col-6 col-md-3 my-2" id="InputVille" th:name="ville" th:value="*{ville != null} ? *{ville} : ${userVille}">
+				
+				<label for="InputActualPassword" class="col-6 col-md-3 my-2 py-1">Mot de passe actuel:</label>
+				<input type="password" class="form-control col-6 col-md-3 my-2" id="InputActualPassword" th:field="*{currentPassword}">
+				<div class="w-100"></div>
+				
+				<label for="InputPassword" class="col-6 col-md-3 my-2 py-1">Nouveau mot de passe:</label>
+				<input type="password" class="form-control col-6 col-md-3 my-2" id="InputPassword" th:field="*{motDePasse}">
+				<label for="InputConfirmPassword" class="col-6 col-md-2 offset-md-1 my-2 py-1">Confirmation:</label>
+				<input type="password" class="form-control col-6 col-md-3 my-2" id="InputConfirmPassword" th:field="*{confirmPassword}">
+				<p class="col-6 col-md-2 my-2 py-1">Crédits:</p><p class="col-6 col-md-1 my-2 py-1" th:text="${userCredits}"></p>
 			</div>
 			<div class="erreurs">
 				<span class="row justify-content-center" th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}">..</span>
@@ -71,8 +68,15 @@
 				<span class="row justify-content-center" th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}">..</span>
 			</div>
 			<div class="form-group row justify-content-center">
-				<button type="submit" class="btn btn-outline-success">Enregistrer</button>
-				<a class="btn btn-outline-success" th:href="@{/deleteAccount}">Supprimer mon compte</a>
+				<div class="col-12 col-sm-auto">
+					<button type="submit" class="btn btn-success btn-lg my-1">Enregistrer</button>
+				</div>
+				<div class="col-12 col-sm-auto">
+					<a class="btn btn-danger btn-lg my-1 text-nowrap" th:href="@{/deleteAccount}">Supprimer mon compte</a>
+				</div>
+				<div class="col-12 d-md-none">
+					<button class="btn btn-secondary btn-lg my-1" form ="" onclick="window.history.go(-1)">Retour</button>
+				</div>
 			</div>
 		</form>
 	</section>
