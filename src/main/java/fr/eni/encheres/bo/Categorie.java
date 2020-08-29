@@ -8,9 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+@NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
 @Table(name="CATEGORIES") 

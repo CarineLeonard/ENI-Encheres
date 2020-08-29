@@ -23,10 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.eni.encheres.bll.ArticleVenduManager;
+import fr.eni.encheres.bll.CategorieManager;
 import fr.eni.encheres.bll.UserDetailsServiceImpl;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dao.CategorieRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.ArticleVenduForm;
 import fr.eni.encheres.services.UtilisateurForm;
@@ -40,10 +43,16 @@ public class MainController {
 	private UtilisateurManager utilisateurManager;
 	
 	@Autowired
-	private ArticleVenduManager articleVenduMana; 
+	private ArticleVenduManager articleVenduManager; 
+	
+	@Autowired
+	private CategorieManager categorieManager; 
 	
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
+	
+	@Autowired
+	private CategorieRepository categorieRepository;
 	
 	@Autowired
 	private UtilisateurValidator utilisateurValidator;
@@ -272,15 +281,16 @@ public class MainController {
 	    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
 
 			ArticleVenduForm form = new ArticleVenduForm();
-			model.addAttribute("title_newSale", "Modifier mon compte");
-			model.addAttribute("titre_newSale", "Modifier mon compte");
+			model.addAttribute("title_newSale", "Nouvelle vente");
+			model.addAttribute("titre_newSale", "Nouvelle vente");
 			model.addAttribute("articleForm", form);
-				        
+			Iterable<Categorie> list = categorieRepository.findAll(); 
+			model.addAttribute("categories", list); 	        
 	        return "newSalePage";
 	    }
 	    
 		@RequestMapping(value = "/newSale", method = RequestMethod.POST)
-		public String newSale(Model model, Principal principal, //
+		public String saveNewSale(Model model, Principal principal, //
 				@ModelAttribute("articleForm") ArticleVenduForm articleForm, //
 				BindingResult result, //
 				final RedirectAttributes redirectAttributes) {
@@ -288,6 +298,9 @@ public class MainController {
 			try {
 				Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
 				articleForm.setUtilisateur(currentUser);
+				
+				Categorie currentCategorie = categorieManager.selectionnerCategorie(articleForm.getCategorie().getLibelle());
+				articleForm.setCategorie(currentCategorie);
 				
 				articleVenduValidator.validate(articleForm, result);
 			} catch (Exception e) {
@@ -302,7 +315,7 @@ public class MainController {
 			ArticleVendu newArticle = null;
 			
 			try {
-				newArticle = articleVenduMana.ajouterArticleVendu(articleForm);
+				newArticle = articleVenduManager.ajouterArticleVendu(articleForm);
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
 				return "newSalePage";

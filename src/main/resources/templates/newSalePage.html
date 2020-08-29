@@ -33,10 +33,10 @@
 			</div>
 			<div class="form-group row justify-content-center">
 				<label for="InputCategorie" >Catégorie :</label>
-				<select class="form-control col-sm-3" id="InputCategorie" >
+				<select class="form-control col-sm-3" id="InputCategorie" th:field="${categories}">
 					<!-- TODO : avec des if pour les options --> 
-					<option value="test">Test</option>
-					<option value="test2">Test2</option>
+					<option value=""> -- </option>
+					<option  th:each="categorie: ${categories}" th:value="${categorie.libelle}" th:utext="${categorie.libelle}" >..</option>
 				</select>
 			</div>
 			<div class="form-group row justify-content-center">
@@ -45,7 +45,7 @@
 			</div>
 			<div class="form-group row justify-content-center">
 				<label for="InputPrixInital" >Mise à prix :</label>
-				<input type="number" class="form-control col-sm-3" value="150" id="InputPrixInital" th:field="*{prixInital}">
+				<input type="number" class="form-control col-sm-3" th:value="150" id="InputPrixInital" th:field="*{prixInital}">
 			</div>
 			<div class="form-group row justify-content-center">
 				<label for="InputDebutEnchere" >Début de l'enchère :</label>
