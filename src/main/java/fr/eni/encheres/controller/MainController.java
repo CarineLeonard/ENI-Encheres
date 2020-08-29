@@ -169,10 +169,14 @@ public class MainController {
 			    utilisateurEditValidator.validate(utilisateurForm, result);
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+				model.addAttribute("title_editInfo", "Modifier mon compte");
+				model.addAttribute("titre_editInfo", "Modifier mon compte");
 				return "editInfoPage";
 			}
 			
 			if (result.hasErrors()) {
+				model.addAttribute("title_editInfo", "Modifier mon compte");
+				model.addAttribute("titre_editInfo", "Modifier mon compte");
 				return "editInfoPage";
 			}
 			
@@ -183,6 +187,8 @@ public class MainController {
 				newUser = utilisateurManager.updateUtilisateur(utilisateurForm);
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+				model.addAttribute("title_editInfo", "Modifier mon compte");
+				model.addAttribute("titre_editInfo", "Modifier mon compte");
 				return "editInfoPage";
 			}
 			
@@ -247,6 +253,8 @@ public class MainController {
 	  
 	       // Validate result
 	       if (result.hasErrors()) {
+		        model.addAttribute("title_register", "Créer un compte");
+		        model.addAttribute("titre_register", "Créer un compte");
 	          return "registerPage";
 	       }
 //	       Utilisateur newUser = new Utilisateur(utilisateurForm.getNoUtilisateur(), utilisateurForm.getPseudo(), utilisateurForm.getNom(), utilisateurForm.getPrenom(), utilisateurForm.getEmail(), utilisateurForm.getTelephone(), utilisateurForm.getRue(), utilisateurForm.getCode_postal(), utilisateurForm.getVille(), utilisateurForm.getMotDePasse(), utilisateurForm.getCredit(), utilisateurForm.isActif());
@@ -260,6 +268,8 @@ public class MainController {
 	       // Other error!!
 	       catch (Exception e) {
 	          model.addAttribute("errorMessage", "Error: " + e.getMessage());
+		        model.addAttribute("title_register", "Créer un compte");
+		        model.addAttribute("titre_register", "Créer un compte");
 	          return "registerPage";
 	       }
 	  
@@ -306,11 +316,18 @@ public class MainController {
 				articleVenduValidator.validate(articleForm, result);
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
-				model.addAttribute("categories"); 
+				model.addAttribute("title_newSale", "Nouvelle vente");
+				model.addAttribute("titre_newSale", "Nouvelle vente");
+				Iterable<Categorie> list = categorieRepository.findAll(); 
+				model.addAttribute("categories", list); 
 				return "newSalePage";
 			}
 			
 			if (result.hasErrors()) {
+				Iterable<Categorie> list = categorieRepository.findAll(); 
+				model.addAttribute("categories", list); 
+				model.addAttribute("title_newSale", "Nouvelle vente");
+				model.addAttribute("titre_newSale", "Nouvelle vente");
 				return "newSalePage";
 			}
 			
@@ -319,8 +336,11 @@ public class MainController {
 			try {
 				newArticle = articleVenduManager.ajouterArticleVendu(articleForm);
 			} catch (Exception e) {
+				model.addAttribute("title_newSale", "Nouvelle vente");
+				model.addAttribute("titre_newSale", "Nouvelle vente");
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
-				model.addAttribute("categories"); 
+				Iterable<Categorie> list = categorieRepository.findAll(); 
+				model.addAttribute("categories", list);  
 				return "newSalePage";
 			}
 
