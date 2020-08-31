@@ -1,6 +1,6 @@
 package fr.eni.encheres.bo;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,10 +12,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name="ARTICLES_VENDUS") 
@@ -32,11 +37,13 @@ public @Data class ArticleVendu {
 	@Column(name="description", length = 300, nullable=false)
     private String description;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name="date_debut_encheres", nullable=false)
-    private LocalDate dateDebutEncheres;
+    private Date dateDebutEncheres;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name="date_fin_encheres", nullable=false)
-    private LocalDate dateFinEncheres;
+    private Date dateFinEncheres;
 	
 	@Column(name="prix_initial", nullable=true)
     private int prixInital;

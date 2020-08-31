@@ -1,10 +1,15 @@
 package fr.eni.encheres.controller;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -316,6 +321,9 @@ public class MainController {
 			try {
 				Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
 				articleForm.setUtilisateur(currentUser);
+				
+				//articleForm.setDateDebutEncheres(new SimpleDateFormat("dd/MM/yyyy").parse(""));
+				//articleForm.setDateFinEncheres(new SimpleDateFormat("dd/MM/yyyy").parse(""));
 				
 				Categorie currentCategorie = (Categorie) model.getAttribute("categories") ; 
 				 // currentCategorie = categorieManager.selectionnerCategorie(libelle);

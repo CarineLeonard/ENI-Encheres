@@ -1,7 +1,6 @@
 package fr.eni.encheres.services;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,8 +13,8 @@ public @Data class ArticleVenduForm {
 	 private Long noArticle;
 	 private String nomArticle;
 	 private String description;
-	 private LocalDate  dateDebutEncheres;
-	 private LocalDate dateFinEncheres;
+	 private @DateTimeFormat Date dateDebutEncheres;
+	 private @DateTimeFormat Date dateFinEncheres;
 	 private int prixInital;
 	 private int prixVente;
 	 private Utilisateur utilisateur;

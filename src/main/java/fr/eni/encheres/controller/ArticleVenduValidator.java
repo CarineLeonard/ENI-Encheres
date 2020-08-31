@@ -1,8 +1,6 @@
 package fr.eni.encheres.controller;
 
-import java.time.LocalDate;
-import java.util.Set;
-
+import java.util.Date;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.ArticleVenduRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.ArticleVenduForm;
-import fr.eni.encheres.services.UtilisateurForm;
 
 @Component
 public class ArticleVenduValidator implements Validator{
@@ -57,7 +54,9 @@ public class ArticleVenduValidator implements Validator{
 			if (articleForm.getDescription().trim().length() > 300) {
 				errors.rejectValue("nomArticle", "Size.ArticleVenduForm.description");
 			}
-			LocalDate dateactuelle = LocalDate.now(); 
+			Long millis = System.currentTimeMillis();
+			Date dateactuelle = new Date (millis); 
+			
 			if (articleForm.getDateDebutEncheres().compareTo(dateactuelle) > 0) {
 				errors.rejectValue("dateDebutEncheres", "Pattern.ArticleVenduForm.dateDebutEncheres"); 
 			}

@@ -40,3 +40,5 @@ insert into categories (libelle) values ('maison');
 insert into categories (libelle) values ('jardin'); 
 
 select * from articles_vendus;
+
+select * from categories; 

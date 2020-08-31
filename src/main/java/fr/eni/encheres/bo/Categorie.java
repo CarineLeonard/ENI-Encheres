@@ -25,6 +25,6 @@ public @Data class Categorie {
  
 	@NonNull
 	@Column(name="libelle", length = 30, nullable=false)
-    private String libelle;
+    private String libelle; 
 	
 }
