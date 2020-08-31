@@ -13,9 +13,9 @@ public class EniEncheresApplication {
 
 	public static void main(String[] args) {
 		
-		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		ArticleVenduForm article = (ArticleVenduForm) context.getBean("ArticleVenduBean");
-		System.out.println("Date is : " + article.getDateDebutEncheres() + " or " + article.getDateFinEncheres());
+		//ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		//ArticleVenduForm article = (ArticleVenduForm) context.getBean("ArticleVenduBean");
+		//System.out.println("Date is : " + article.getDateDebutEncheres() + " or " + article.getDateFinEncheres());
 		SpringApplication.run(EniEncheresApplication.class, args);
 	}
 
