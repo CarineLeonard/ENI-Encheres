@@ -12,10 +12,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "User_Role", //
         uniqueConstraints = { //
                 @UniqueConstraint(name = "USER_ROLE_UK", columnNames = { "no_utilisateur", "Role_Id" }) })
+@NoArgsConstructor
 public class UserRole {
  
     @Id

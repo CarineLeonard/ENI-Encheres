@@ -1,7 +1,5 @@
 package fr.eni.encheres.bll;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -101,11 +99,7 @@ public class UtilisateurManager {
 	public void supprimerUtilisateur(Long noUtilisateur) throws Exception {
 		try {
 			Utilisateur utilisateur = utilisateurRepository.findByNoUtilisateur(noUtilisateur);
-			List<UserRole> userRoles = (List<UserRole>) userRoleRepository.findByUtilisateur(utilisateur);
-			System.out.println(userRoles);
-			for (UserRole ur : userRoles) {
-				userRoleRepository.deleteById(ur.getId());
-			}
+			userRoleRepository.deleteByUtilisateur(utilisateur);
 			utilisateurRepository.deleteById(noUtilisateur);;
 		} catch (Exception e) {
 			throw e;
