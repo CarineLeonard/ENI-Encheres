@@ -16,75 +16,74 @@
 	<!-- Include _header.html -->
 	<th:block th:include="/_header"></th:block>
 
-	<section class="container text-center">
-		<h2><span th:utext="${titre_newSale}"></span></h2>
+	<section class="container-fluid text-center">
+		<h2 class="my-5" th:utext="${titre_newSale}"></h2>
 		
 		<!-- /login?error=true -->
 		<div class="erreurs" th:if="${errorMessage != null}" th:utext="${errorMessage}">...</div>
 		
 		<form th:action="@{/newSale}" th:object="${articleForm}" method="POST">
-			<div class="form-group row justify-content-center">
-				<label for="InputArticle" >Article :</label>
-				<input type="text" class="form-control col-sm-3" id="InputArticle" th:field="*{nomArticle}">
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputDescription" >Description :</label>
-				<textarea class="form-control col-sm-3" rows="3" id="InputDescription" th:field="*{description}"></textarea>
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputCategorie" >Catégorie :</label>
-				<select class="form-control col-sm-3" id="InputCategorie" name="categorie">
-					<!-- TODO : avec des if pour les options --> 
-					<option value=""> -- </option>
-					<option  th:each="categorie: ${categories}" th:value="${categorie.libelle}" th:utext="${categorie.libelle}" >..</option>
-				</select> 
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputPhoto" >Photo de l'article :</label>
-				<!-- TODO : photos de l'article : bouton "uploader" --> 
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputPrixInital" >Mise à prix :</label>
-				<input type="number" class="form-control col-sm-3" id="InputPrixInital" th:name="prixInital" th:value="150">
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputDebutEnchere" >Début de l'enchère :</label>
-				<input type="date" class="form-control col-sm-3" id="InputDebutEnchere" th:field="*{dateDebutEncheres}">
-			</div>
-			<div class="form-group row justify-content-center">
-				<label for="InputFinEnchere" >Fin de l'enchère :</label>
-				<input type="date" class="form-control col-sm-3" id="InputFinEnchere" th:field="*{dateFinEncheres}">
-			</div>
-			<fieldset>
-				<!-- TODO - partie retrait à faire !--> 
-				<legend>Retrait</legend>
-				<div class="form-group row justify-content-center">
-					<label for="InputRue" >Rue :</label>
-					<input type="text" class="form-control col-sm-3" id="InputRue" >
+			<div class="row text-left">
+				<div class="form-group row col-md-6 order-md-2">
+					<label class="col-4 my-2 py-1" for="InputArticle" >Article:</label>
+					<input class="form-control col-8 my-2" type="text" id="InputArticle" th:field="*{nomArticle}">
+					<label class="col-4 my-2 py-1" for="InputDescription" >Description:</label>
+					<textarea class="form-control col-8 my-2" rows="3" id="InputDescription" th:field="*{description}"></textarea>
+					<label class="col-6 my-2 py-1" for="InputCategorie" >Catégorie:</label>
+					<select class="form-control col-6 my-2" id="InputCategorie" name="categorie">
+						<!-- TODO : avec des if pour les options --> 
+						<option value=""> -- </option>
+						<option  th:each="categorie: ${categories}" th:value="${categorie.libelle}" th:utext="${categorie.libelle}" >..</option>
+					</select> 
 				</div>
-				<div class="form-group row justify-content-center">
-					<label for="InputCodePostal" >Rue :</label>
-					<input type="text" class="form-control col-sm-3" id="InputCodePostal">
+				<div class="input-group mb-3 col-md-6 offset-md-3 order-md-3">
+					<div class="custom-file">
+						<label class="custom-file-label" for="InputPhoto" >Photo de l'article:</label>
+						<input class="custom-file-input" type="file" id="InputPhoto" name="InputPhoto" accept="image/png, image/jpeg">
+					</div>
 				</div>
-				<div class="form-group row justify-content-center">
-					<label for="InputVille" >Rue :</label>
-					<input type="text" class="form-control col-sm-3" id="InputVille">
+				<div class="col-12 col-md-3 text-center order-md-1">
+					<img class="img-fluid" src="/images/banner.jpg" alt="" />
 				</div>
-			</fieldset>
-			
-			<div class="erreurs">
-				<span class="row justify-content-center" th:if="${#fields.hasErrors('nomArticle')}" th:errors="*{nomArticle}">..</span>
-				<span class="row justify-content-center" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">..</span>
-				<span class="row justify-content-center" th:if="${#fields.hasErrors('dateDebutEncheres')}" th:errors="*{dateDebutEncheres}">..</span>
-				<span class="row justify-content-center" th:if="${#fields.hasErrors('dateFinEncheres')}" th:errors="*{dateFinEncheres}">..</span>
-				<span class="row justify-content-center" th:if="${#fields.hasErrors('prixInital')}" th:errors="*{prixInital}">..</span>
-				<span class="row justify-content-center" th:if="${#fields.hasErrors('categorie')}" th:errors="*{categorie}">..</span>
-				<!-- TODO - champs de retrait à ajouter -->
-			</div>
-			<div class="form-group row justify-content-center">
-				<button type="submit" class="btn btn-outline-success">Enregistrer</button>
-				<a class="btn btn-outline-success" th:href="@{/}">Annuler</a>
-			</div>
+				<div class="form-group row col-md-6 offset-md-3 order-md-4">
+					<label class="col-6 my-2 py-1" for="InputPrixInital" >Mise à prix:</label>
+					<input class="form-control col-3 my-2" type="number" id="InputPrixInital" th:name="prixInital" th:value="150">
+					<label class="col-6 my-2 py-1" for="InputDebutEnchere" >Début de l'enchère:</label>
+					<input class="form-control col-6 my-2" type="date" id="InputDebutEnchere" th:field="*{dateDebutEncheres}">
+					<label class="col-6 my-2 py-1" for="InputFinEnchere" >Fin de l'enchère:</label>
+					<input class="form-control col-6 my-2" type="date" id="InputFinEnchere" th:field="*{dateFinEncheres}">
+				</div>
+				<fieldset class="container-fluid order-md-5">
+					<div class="form-group row col-md-6 offset-md-3 border rounded border-dark">
+						<!-- TODO - partie retrait à faire !--> 
+						<legend class="">Retrait</legend>
+						<label class="col-6 my-2 py-1" for="InputRue" >Rue:</label>
+						<input class="form-control col-6 my-2" type="text" id="InputRue" >
+						<label class="col-6 my-2 py-1" for="InputCodePostal" >Code postal:</label>
+						<input class="form-control col-6 my-2" type="text" id="InputCodePostal">
+						<label class="col-6 my-2 py-1" for="InputVille" >Ville:</label>
+						<input class="form-control col-6 my-2" type="text" id="InputVille">
+					</div>
+				</fieldset>
+				
+				<div class="erreurs order-md-6">
+					<span class="row justify-content-center" th:if="${#fields.hasErrors('nomArticle')}" th:errors="*{nomArticle}">..</span>
+					<span class="row justify-content-center" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">..</span>
+					<span class="row justify-content-center" th:if="${#fields.hasErrors('dateDebutEncheres')}" th:errors="*{dateDebutEncheres}">..</span>
+					<span class="row justify-content-center" th:if="${#fields.hasErrors('dateFinEncheres')}" th:errors="*{dateFinEncheres}">..</span>
+					<span class="row justify-content-center" th:if="${#fields.hasErrors('prixInital')}" th:errors="*{prixInital}">..</span>
+					<span class="row justify-content-center" th:if="${#fields.hasErrors('categorie')}" th:errors="*{categorie}">..</span>
+					<!-- TODO - champs de retrait à ajouter -->
+				</div>
+				<div class="form-group row col-md-6 offset-md-3 text-center order-md-7 mt-1">
+					<div class="col-6">
+						<button class="btn btn-success btn-lg" type="submit">Enregistrer</button>
+					</div>
+					<div class="col-6">
+						<a class="btn btn-secondary btn-lg" th:href="@{/}">Annuler</a>
+					</div>
+				</div>
+		</div>
 		</form>
 	</section>
 		
