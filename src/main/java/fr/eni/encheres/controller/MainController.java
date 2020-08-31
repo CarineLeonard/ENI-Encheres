@@ -214,7 +214,7 @@ public class MainController {
 			try {
 		    	String pseudo = principal.getName();
 		    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
-		    	utilisateurRepository.deleteById(user.getNoUtilisateur());
+		    	utilisateurManager.supprimerUtilisateur(user.getNoUtilisateur());
 			} catch (Exception e) {
 				System.out.println(e);
 				redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
