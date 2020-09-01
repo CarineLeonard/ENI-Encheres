@@ -10,9 +10,6 @@
 					<a class="nav-link text-light" th:href="@{/newSale}">Vendre un article</a>
 				</li>
 				<li class="nav-item" th:if="${#request.userPrincipal != null}">
-					<a class="nav-link text-light" th:href="@{/editSale}">Update un article</a>
-				</li>
-				<li class="nav-item" th:if="${#request.userPrincipal != null}">
 					<a class="nav-link text-light" th:href="@{/userInfo}">Mon profil</a>
 				</li>
 				<li class="nav-item" th:if="${session.userIsAdmin == true}">
