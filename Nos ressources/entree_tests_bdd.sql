@@ -28,16 +28,46 @@ values (2, 2);
 
 ---
 
+insert into categories (libelle) values ('Maison'); 
+insert into categories (libelle) values ('Jardin'); 
+insert into categories (libelle) values ('Cuisine'); 
+
+---
+
+insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) 
+values ('Vélo', 'Vélo ancien en bon état de marche', '2020-09-03', '2020-09-06', 150, 1, 2); 
+
+insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) 
+values ('Robot multifonction', 'Robot de cuisine, fonctionne très bien', '2020-09-02', '2020-09-06', 50, 1, 3); 
+
+insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) 
+values ('Chaise de jardin', 'Chaise de jardin en bois vert', '2020-09-03', '2020-09-06', 100, 2, 2); 
+
+insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) 
+values ('Vélo enfant', 'Vélo en très état de marche', '2020-09-03', '2020-09-06', 200, 2, 2); 
+
+insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) 
+values ('Sophie la girafe', 'Jouet pour bébé', '2020-09-03', '2020-09-06', 150, 1, 1); 
+
+insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) 
+values ('Wii', 'Wii de 2010, plus de manuel mais bon état de marche', '2020-09-03', '2020-09-06', 300, 1, 1); 
+
+---
+
+insert into retraits (rue, code_postal, ville, no_article) values ('10 rue des fleurs', 55000, 'MANS', 1); 
+insert into retraits (rue, code_postal, ville, no_article) values ('10 rue des fleurs', 55000, 'MANS', 2); 
+insert into retraits (rue, code_postal, ville, no_article) values ('25 rue des citrons', 54000, 'VILLETTE', 3); 
+insert into retraits (rue, code_postal, ville, no_article) values ('25 rue des citrons', 54000, 'VILLETTE', 4); 
+insert into retraits (rue, code_postal, ville, no_article) values ('10 rue des fleurs', 55000, 'MANS', 5); 
+insert into retraits (rue, code_postal, ville, no_article) values ('10 rue des fleurs', 55000, 'MANS', 6); 
+
+---
+
 select * from utilisateurs;
 
 select * from app_role; 
 
 select * from user_role ; 
-
---- 
-
-insert into categories (libelle) values ('maison'); 
-insert into categories (libelle) values ('jardin'); 
 
 select * from articles_vendus;
 
