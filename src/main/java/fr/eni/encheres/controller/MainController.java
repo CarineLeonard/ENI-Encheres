@@ -1,8 +1,11 @@
 package fr.eni.encheres.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,9 +32,12 @@ import fr.eni.encheres.bll.UserDetailsServiceImpl;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.RetraitId;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dao.ArticleVenduRepository;
 import fr.eni.encheres.dao.CategorieRepository;
+import fr.eni.encheres.dao.RetraitRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.ArticleVenduForm;
 import fr.eni.encheres.services.UtilisateurForm;
@@ -70,6 +76,12 @@ public class MainController {
 	
 	@Autowired
 	private RetraitManager retraitManager ; 
+	
+	@Autowired
+	private ArticleVenduRepository articleRepository ; 
+	
+	@Autowired
+	private RetraitRepository retraitRepository ; 
 	
 	 // Set a form validator
     @InitBinder("utilisateurForm")
@@ -357,6 +369,103 @@ public class MainController {
 			return "redirect:/welcome";
 		}
 	    
+		// TODO - partie en cours Carine
+		
+		 @RequestMapping(value = "/editSale", method = RequestMethod.GET)
+		    public String editSale(Model model, Principal principal) {
+		    	String pseudo = principal.getName();
+		    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+		        model.addAttribute("user", user);
+		        ArticleVenduForm form = new ArticleVenduForm();
+				model.addAttribute("articleForm", form);
+		// à récupérer 
+
+				try {
+			        Long noArticleLong = 5L; 
+			        ArticleVendu article = articleVenduManager.selectionnerArticleVendu(noArticleLong);
+			        model.addAttribute("article", article); 
+			        
+					Retrait retrait = retraitManager.selectionnerRetrait(new RetraitId(article));
+					model.addAttribute("retrait", retrait); 
+					
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		        	        		
+				
+				model.addAttribute("title_editSale", "Modifier ma vente");
+				model.addAttribute("titre_editSale", "Modifier ma vente");
+
+					        
+		        return "editSalePage";
+		    }
+		    
+		 // TODO 
+			@RequestMapping(value = "/editSale", method = RequestMethod.POST)
+			public String editSale(Model model, Principal principal, //
+					@ModelAttribute("utilisateurForm") UtilisateurForm utilisateurForm, //
+					BindingResult result, //
+					final RedirectAttributes redirectAttributes) {
+				
+				try {
+					Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
+					utilisateurForm.setNoUtilisateur(currentUser.getNoUtilisateur());
+					
+				    utilisateurEditValidator.validate(utilisateurForm, result);
+				} catch (Exception e) {
+					model.addAttribute("errorMessage", "Error: " + e.getMessage());
+					model.addAttribute("title_editInfo", "Modifier mon compte");
+					model.addAttribute("titre_editInfo", "Modifier mon compte");
+					return "editInfoPage";
+				}
+				
+				if (result.hasErrors()) {
+					model.addAttribute("title_editInfo", "Modifier mon compte");
+					model.addAttribute("titre_editInfo", "Modifier mon compte");
+					return "editInfoPage";
+				}
+				
+				Utilisateur newUser = null;
+				
+				
+				try {
+					newUser = utilisateurManager.updateUtilisateur(utilisateurForm);
+				} catch (Exception e) {
+					model.addAttribute("errorMessage", "Error: " + e.getMessage());
+					model.addAttribute("title_editInfo", "Modifier mon compte");
+					model.addAttribute("titre_editInfo", "Modifier mon compte");
+					return "editInfoPage";
+				}
+				
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+				Authentication authentication = new UsernamePasswordAuthenticationToken(userDetailsServiceImpl.loadUserByUsername(newUser.getPseudo()), newUser.getMotDePasse(), updatedAuthorities);
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+
+				redirectAttributes.addFlashAttribute("flashUser", newUser);
+				
+				return "redirect:/userInfo";
+			}
+		 
+			// TODO 
+		    @RequestMapping(value = "/deleteSale", method = RequestMethod.GET)
+		    public String deleteSale(Model model, Principal principal, //
+					final RedirectAttributes redirectAttributes) {
+				try {
+			    	String pseudo = principal.getName();
+			    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+			    	utilisateurManager.supprimerUtilisateur(user.getNoUtilisateur());
+				} catch (Exception e) {
+					System.out.println(e);
+					redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
+					return "redirect:/editInfo";
+				}
+
+				return "redirect:/logout";
+		    }
+	
 	    
 	    
 	    

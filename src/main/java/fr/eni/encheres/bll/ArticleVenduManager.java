@@ -1,11 +1,14 @@
 package fr.eni.encheres.bll;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.ArticleVenduRepository;
 import fr.eni.encheres.dao.CategorieRepository;
 import fr.eni.encheres.dao.EnchereRepository;
@@ -41,15 +44,7 @@ public class ArticleVenduManager {
 					articleForm.getDescription().trim(), articleForm.getDateDebutEncheres(),
 					articleForm.getDateFinEncheres(), articleForm.getPrixInital(), articleForm.getPrixVente(),
 					articleForm.getUtilisateur(), articleForm.getCategorie());
-			System.out.println(nouvelArticle);
 			nouvelArticle = this.articleVenduRep.save(nouvelArticle);
-			System.out.println(nouvelArticle);
-
-			// TODO - appel des autres classes : à revoir
-			// Iterable<Categorie> listCategorie = categorieRep.findAll() ;
-
-			// Retrait retrait = retraitManage.ajouterRetrait(nouvelArticle);
-
 		} catch (Exception e) {
 			throw e;
 		}
@@ -66,4 +61,39 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
+	
+	public ArticleVendu selectionnerArticleVendu(Long noArticle) throws Exception {
+		ArticleVendu article = null;
+		try {
+			article = articleVenduRep.findByNoArticle(noArticle);
+		} catch (Exception e) {
+			throw e;
+		}
+		return article;
+	}
+	
+	public void supprimerArticleVendu (Long noArticle) throws Exception {
+		try {
+			ArticleVendu articleVendu = articleVenduRep.findByNoArticle(noArticle);
+			retraitRep.deleteById(noArticle);
+			articleVenduRep.deleteById(noArticle);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public ArticleVendu updateArticleVendu(ArticleVenduForm articleForm) throws Exception {
+		ArticleVendu newArticleVendu = null; 
+		try {
+			newArticleVendu = new ArticleVendu(articleForm.getNoArticle(), articleForm.getNomArticle().trim(),
+					articleForm.getDescription().trim(), articleForm.getDateDebutEncheres(),
+					articleForm.getDateFinEncheres(), articleForm.getPrixInital(), articleForm.getPrixVente(),
+					articleForm.getUtilisateur(), articleForm.getCategorie());
+			newArticleVendu = this.articleVenduRep.save(newArticleVendu);
+		} catch (Exception e) {
+			throw e;
+		}
+		return newArticleVendu; 
+	}
+	
 }

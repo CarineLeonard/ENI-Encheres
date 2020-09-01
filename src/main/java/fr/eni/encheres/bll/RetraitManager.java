@@ -1,5 +1,9 @@
 package fr.eni.encheres.bll;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +33,17 @@ public Retrait ajouterRetrait(RetraitId newRetraitId, ArticleVenduForm articleFo
 		throw e;
 	}
 	return retrait;
+}
+
+public Retrait selectionnerRetrait(RetraitId retraitId) {
+	Retrait retrait = null; 
+	try {
+		retrait = retraitRep.findByRetraitId(retraitId); 
+	} catch (Exception e) {
+		throw e;
+	}
+	return retrait;
+}
+
 } 
 	
-}

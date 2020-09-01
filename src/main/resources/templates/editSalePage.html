@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/vendor/css/bootstrap.min.css}"/>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<title th:utext="${title_newSale}"></title>
+	<title th:utext="${title_editSale}"></title>
 </head>
 
 <body class="homepage">
@@ -16,21 +16,21 @@
 	<!-- Include _header.html -->
 	<th:block th:include="/_header"></th:block>
 
-	<section class="container-fluid text-center">
-		<h2 class="my-5" th:utext="${titre_newSale}"></h2>
+	<section class="container text-center">
+		<h2 class="my-5"><span th:utext="${titre_editSale}"></span></h2>
 		
 		<!-- /login?error=true -->
 		<div class="erreurs" th:if="${errorMessage != null}" th:utext="${errorMessage}">...</div>
 		
-		<form th:action="@{/newSale}" th:object="${articleForm}" method="POST">
+		<form th:action="@{/editSale}" th:object="${articleForm}" method="POST">
 			<div class="row text-left">
 				<div class="col-12 col-md-3 text-center order-2 order-md-1 mx-2" id="containerImg">
 				</div>
 				<div class="form-group row col-md-6 order-1 order-md-2">
 					<label class="col-4 my-2 py-1" for="InputArticle" >Article:</label>
-					<input class="form-control col-8 my-2" type="text" id="InputArticle" th:field="*{nomArticle}">
+					<input class="form-control col-8 my-2" type="text" id="InputArticle" th:name="nomArticle" th:value="*{nomArticle != null} ? *{nomArticle} : ${article.nomArticle}" >
 					<label class="col-4 my-2 py-1" for="InputDescription" >Description:</label>
-					<textarea class="form-control col-8 my-2" rows="3" id="InputDescription" th:field="*{description}"></textarea>
+					<textarea class="form-control col-8 my-2" rows="3" id="InputDescription" th:name="description" th:value="*{description != null} ? *{description} : ${article.description}" ></textarea>
 					<label class="col-6 my-2 py-1" for="InputCategorie" >Catégorie:</label>
 					<select class="form-control col-6 my-2" id="InputCategorie" name="categorie">
 						<option value=""> -- </option>
@@ -46,25 +46,25 @@
 				</div>
 				<div class="form-group row col-md-6 offset-md-3 order-3 order-md-3">
 					<label class="col-6 my-2 py-1" for="InputPrixInital" >Mise à prix:</label>
-					<input class="form-control col-3 my-2" type="number" id="InputPrixInital" th:name="prixInital" th:value="150">
+					<input class="form-control col-3 my-2" type="number" id="InputPrixInital" th:name="prixInital" th:value="*{prixInital != null} ? *{prixInital} : ${article.prixInital}" >
 					<label class="col-6 my-2 py-1" for="InputDebutEnchere" >Début de l'enchère:</label>
-					<input class="form-control col-6 my-2" type="date" id="InputDebutEnchere" th:field="*{dateDebutEncheres}">
+					<input class="form-control col-6 my-2" type="date" id="InputDebutEnchere" th:name="dateDebutEncheres" th:value="*{dateDebutEncheres != null} ? *{dateDebutEncheres} : ${article.dateDebutEncheres}" >
 					<label class="col-6 my-2 py-1" for="InputFinEnchere" >Fin de l'enchère:</label>
-					<input class="form-control col-6 my-2" type="date" id="InputFinEnchere" th:field="*{dateFinEncheres}">
+					<input class="form-control col-6 my-2" type="date" id="InputFinEnchere" th:name="dateFinEncheres" th:value="*{dateFinEncheres != null} ? *{dateFinEncheres} : ${article.dateFinEncheres}" >
 				</div>
 				<fieldset class="container-fluid order-4 order-md-4">
 					<div class="form-group row col-md-6 offset-md-3 mx-auto border rounded border-dark">
 						<!-- TODO - partie retrait à faire !--> 
 						<legend class="">Retrait</legend>
 						<label class="col-6 my-2 py-1" for="InputRue" >Rue:</label>
-						<input class="form-control col-6 my-2" type="text" id="InputRue" th:name="rue" th:value="*{rue != null} ? *{rue} : ${user.rue}" >
+						<input class="form-control col-6 my-2" type="text" id="InputRue" th:name="rue" th:value="*{rue != null} ? *{rue} : ${retrait.rue}" >
 						<label class="col-6 my-2 py-1" for="InputCodePostal" >Code postal:</label>
-						<input class="form-control col-6 my-2" type="text" id="InputCodePostal" th:name="code_postal" th:value="*{code_postal != null} ? *{code_postal} : ${user.code_postal}">
+						<input class="form-control col-6 my-2" type="text" id="InputCodePostal" th:name="code_postal" th:value="*{code_postal != null} ? *{code_postal} : ${retrait.code_postal}">
 						<label class="col-6 my-2 py-1" for="InputVille" >Ville:</label>
-						<input class="form-control col-6 my-2" type="text" id="InputVille" th:name="ville" th:value="*{ville != null} ? *{ville} : ${user.ville}">
+						<input class="form-control col-6 my-2" type="text" id="InputVille" th:name="ville" th:value="*{ville != null} ? *{ville} : ${retrait.ville}">
 					</div>
 				</fieldset>
-				
+			
 				<div class="erreurs order-5 order-md-5 ">
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('nomArticle')}" th:errors="*{nomArticle}">..</span>
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">..</span>
@@ -76,20 +76,23 @@
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('code_postal')}" th:errors="*{code_postal}">..</span>
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}">..</span>
 				</div>
-				<div class="form-group row col-md-6 offset-md-3 text-center mt-1 order-6 order-md-6">
-					<div class="col-6">
-						<button class="btn btn-success btn-lg my-1" type="submit">Enregistrer</button>
-					</div>
-					<div class="col-6">
-						<a class="btn btn-secondary btn-lg my-1" th:href="@{/}">Annuler</a>
-					</div>
+			
+			<div class="form-group row justify-content-center">
+				<div class="col-12 col-sm-auto">
+					<button type="submit" class="btn btn-success btn-lg my-1">Enregistrer</button>
+				</div>
+				<div class="col-12 d-md-none">
+					<button class="btn btn-secondary btn-lg my-1" form ="" onclick="window.history.go(-1)">Retour</button>
+				</div>
+				<div class="col-12 col-sm-auto">
+					<a class="btn btn-danger btn-lg my-1 text-nowrap" th:href="@{/deleteSale}">Annuler la vente</a>
+				</div>
 				</div>
 			</div>
 		</form>
 	</section>
-		
+
 	<!-- Include _footer.html -->
 	<th:block th:include="/_footer"></th:block>
-	<script src="/js/newSale.js"></script>
 </body>
 </html>
