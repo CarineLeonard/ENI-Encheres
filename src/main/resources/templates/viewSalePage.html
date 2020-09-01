@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Site d'enchères">
+	<meta name="author" content="L&L">
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/css/bootstrap.min.css}"/>
+	<link href="/css/style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<title th:utext="${title_newSale}"></title>
+</head>
+
+<body class="homepage">
+
+	<!-- Include _header.html -->
+	<th:block th:include="/_header"></th:block>
+
+	<section class="container-fluid text-center">
+		<h2 class="my-5" th:utext="${titre_newSale}"></h2>
+		
+		<!-- /login?error=true -->
+		<div class="erreurs" th:if="${errorMessage != null}" th:utext="${errorMessage}">...</div>
+		
+		<div class="row text-left">
+			<div class="col-12 col-md-3 text-center order-2 order-md-1 mx-2" id="containerImg">
+			</div>
+			<div class="form-group row col-md-6 order-1 order-md-2">
+				<p class="col-12 my-2 py-1" th:utext="${article.nomArticle}"></p>
+				
+				<label class="col-4 my-2 py-1" for="InputDescription" >Description:</label>
+				<p class="col-8 my-2 text-right" rows="3" th:utext="${article.description}"></p>
+				
+				<label class="col-6 my-2 py-1">Catégorie:</label>
+				<p class="col-6 my-2" th:utext="${article.categorie}"></p>
+			</div>
+			<div class="form-group row col-md-6 offset-md-3 order-3 order-md-3">
+				<p class="col-6 my-2 py-1" >Mise à prix:</p>
+				<p class="form-control col-3 my-2" type="number" id="InputPrixInital" th:name="prixInital" th:value="150"></p>
+				<p class="col-6 my-2 py-1" >Fin de l'enchère:</p>
+			</div>
+			<fieldset class="container-fluid order-4 order-md-4">
+				<div class="form-group row col-md-6 offset-md-3 mx-auto border rounded border-dark">
+					<!-- TODO - partie retrait à faire !--> 
+					<legend class="">Retrait</legend>
+					<label class="col-6 my-2 py-1" for="InputRue" >Rue:</label>
+					<input class="form-control col-6 my-2" type="text" id="InputRue" th:name="rue" >
+					<label class="col-6 my-2 py-1" for="InputCodePostal" >Code postal:</label>
+					<input class="form-control col-6 my-2" type="text" id="InputCodePostal" th:name="code_postal" >
+					<label class="col-6 my-2 py-1" for="InputVille" >Ville:</label>
+					<input class="form-control col-6 my-2" type="text" id="InputVille" th:name="ville" >
+				</div>
+			</fieldset>
+			
+			<div class="form-group row col-md-6 offset-md-3 text-center mt-1 order-6 order-md-6">
+				<div class="col-6">
+					<button class="btn btn-success btn-lg my-1" type="submit">Enregistrer</button>
+				</div>
+				<div class="col-6">
+					<a class="btn btn-secondary btn-lg my-1" th:href="@{/}">Annuler</a>
+				</div>
+			</div>
+		</div>
+	</section>
+		
+	<!-- Include _footer.html -->
+	<th:block th:include="/_footer"></th:block>
+	<script src="/js/newSale.js"></script>
+</body>
+</html>

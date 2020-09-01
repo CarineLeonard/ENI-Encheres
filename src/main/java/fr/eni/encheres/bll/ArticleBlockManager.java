@@ -50,9 +50,12 @@ public class ArticleBlockManager {
 				articleBlock.setNoArticle(art.getNoArticle());
 				articleBlock.setNomArticle(art.getNomArticle());
 				articleBlock.setDescription(art.getDescription());
-				articleBlock.setPrix(art.getPrixInital());
+				articleBlock.setMeilleureOffre(art.getPrixInital()); //TODO Faire le lien avec la meilleur enchere sur l'article
+				articleBlock.setMiseAPrix(art.getPrixInital());
 				articleBlock.setDateFinEncheres(dateFormater.format( art.getDateFinEncheres() ));
+				//articleBlock.setRetrait(retrait); //TODO Faire le lien avec le retrait de l'article
 				articleBlock.setPseudoVendeur(art.getUtilisateur().getPseudo());
+				//articleBlock.setImage(image); //TODO Là ya du boulot
 				articleBlocks.add(articleBlock);
 			}
 			
@@ -60,6 +63,30 @@ public class ArticleBlockManager {
 			throw e;
 		}
 		return articleBlocks;
+	}
+	
+	public ArticleBlock selectionnerArticleBlockById(Long id) throws Exception {
+		ArticleBlock articleBlock = null;
+		SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			ArticleVendu art = this.articleVenduManager.selectionnerArticleVendu(id);
+			
+			articleBlock = new ArticleBlock();
+			articleBlock.setNoArticle(art.getNoArticle());
+			articleBlock.setNomArticle(art.getNomArticle());
+			articleBlock.setDescription(art.getDescription());
+			articleBlock.setCategorie(art.getCategorie().getLibelle());
+			articleBlock.setMeilleureOffre(art.getPrixInital()); //TODO Faire le lien avec la meilleur enchere sur l'article
+			articleBlock.setMiseAPrix(art.getPrixInital());
+			articleBlock.setDateFinEncheres(dateFormater.format( art.getDateFinEncheres() ));
+			//articleBlock.setRetrait(retrait); //TODO Faire le lien avec le retrait de l'article
+			articleBlock.setPseudoVendeur(art.getUtilisateur().getPseudo());
+			//articleBlock.setImage(image); //TODO Là ya du boulot
+			
+		} catch (Exception e) {
+			throw e;
+		}
+		return articleBlock;
 	}
 
 }

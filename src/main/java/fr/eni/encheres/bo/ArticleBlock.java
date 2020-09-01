@@ -13,8 +13,11 @@ public @Data class ArticleBlock {
 	private Long noArticle;
 	private String nomArticle;
 	private String description;
-	private int prix;
+	private String categorie;
+	private Integer meilleureOffre;
+	private int miseAPrix;
 	private String dateFinEncheres;
+	private Retrait retrait;
 	private String pseudoVendeur;
 	private Base64 image;
 	
