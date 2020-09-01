@@ -1,12 +1,14 @@
 <div xmlns:th="http://www.thymeleaf.org" class="row col-12 col-md-auto m-auto p-2">
-	<div class="media border rounded border-dark">
+	<a th:href="${'/encheres?id=' + a.noArticle}">
+	<div class="media border rounded border-dark w-100">
 		<img class="align-self-center pl-3" src="/images/placeholder.png" alt="Photo de l'article">
 		<div class="media-body text-left p-3">
 			<h5 class="mt-0" th:utext="${a.nomArticle}"></h5>
-			<p th:utext="${'Prix : ' + a.prixVente}"></p>
+			<p th:utext="${a.description}"></p>
+			<p th:utext="${'Prix : ' + a.prix}"></p>
 			<p th:utext="${'Fin de l''ench&egrave;re : ' + a.dateFinEncheres}"></p>
-			<p th:utext="${'Retrait : ' + a.nomArticle}"></p>
-			<p th:utext="${'Vendeur : ' + a.nomArticle}"></p>
+			<p th:utext="${'Vendeur : ' + a.pseudoVendeur}"></p>
 		</div>
 	</div>
+	</a>
 </div>

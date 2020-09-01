@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import fr.eni.encheres.bll.ArticleBlockManager;
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.CategorieManager;
 import fr.eni.encheres.bll.RetraitManager;
@@ -50,6 +51,9 @@ public class MainController {
 	
 	@Autowired
 	private ArticleVenduManager articleVenduManager; 
+	
+	@Autowired
+	private ArticleBlockManager articleBlockManager; 
 	
 	@Autowired
 	private CategorieManager categorieManager; 
@@ -105,7 +109,7 @@ public class MainController {
 			Iterable<Categorie> list = categorieRepository.findAll();
 			model.addAttribute("categories", list);
 	        try {
-				model.addAttribute("articles", articleVenduManager.selectionnerTousArticleVendus());
+				model.addAttribute("articles", articleBlockManager.selectionnerTousArticleBlocks());
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
