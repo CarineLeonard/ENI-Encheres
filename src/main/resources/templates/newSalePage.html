@@ -37,12 +37,11 @@
 				</div>
 				<div class="input-group mb-3 col-md-6 offset-md-3 order-md-3">
 					<div class="custom-file">
-						<label class="custom-file-label" for="InputPhoto" >Photo de l'article:</label>
-						<input class="custom-file-input" type="file" id="InputPhoto" name="InputPhoto" accept="image/png, image/jpeg">
+						<input class="custom-file-input" type="file" id="InputPhoto" accept="image/png, image/jpeg">
+						<label class="custom-file-label" for="InputPhoto" id="LabelInputPhoto" data-browse="Uploader">Photo de l'article:</label>
 					</div>
 				</div>
-				<div class="col-12 col-md-3 text-center order-md-1">
-					<img class="img-fluid" src="/images/banner.jpg" alt="" />
+				<div class="col-12 col-md-3 text-center order-md-1" id="containerImg">
 				</div>
 				<div class="form-group row col-md-6 offset-md-3 order-md-4">
 					<label class="col-6 my-2 py-1" for="InputPrixInital" >Mise à prix:</label>
@@ -53,7 +52,7 @@
 					<input class="form-control col-6 my-2" type="date" id="InputFinEnchere" th:field="*{dateFinEncheres}">
 				</div>
 				<fieldset class="container-fluid order-md-5">
-					<div class="form-group row col-md-6 offset-md-3 border rounded border-dark">
+					<div class="form-group row col-md-6 offset-md-3 mx-auto border rounded border-dark">
 						<!-- TODO - partie retrait à faire !--> 
 						<legend class="">Retrait</legend>
 						<label class="col-6 my-2 py-1" for="InputRue" >Rue:</label>
@@ -90,5 +89,6 @@
 		
 	<!-- Include _footer.html -->
 	<th:block th:include="/_footer"></th:block>
+	<script src="/js/newSale.js"></script>
 </body>
 </html>
