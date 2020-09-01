@@ -49,7 +49,7 @@ public @Data class ArticleVendu {
     private int prixInital;
 	
 	@Column(name="prix_vente", nullable=true)
-    private int prixVente;
+    private Integer prixVente;
 	
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "no_utilisateur", nullable = false)

@@ -22,7 +22,7 @@ public @Data class ArticleVenduForm {
 	 private @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateDebutEncheres;
 	 private @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFinEncheres;
 	 private int prixInital;
-	 private int prixVente;
+	 private Integer prixVente;
 	 private Utilisateur utilisateur;
 	 private Categorie categorie; 
 	 private String rue;
