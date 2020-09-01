@@ -53,37 +53,46 @@ public class ArticleVenduValidator implements Validator{
 		if (!errors.hasErrors()) { 
 			if (articleForm.getNomArticle().trim().length() > 30) {
 				errors.rejectValue("nomArticle", "Size.ArticleVenduForm.nomArticle");
+
 			}
 			if (articleForm.getDescription().trim().length() > 300) {
 				errors.rejectValue("nomArticle", "Size.ArticleVenduForm.description");
+
 			}
 			Long millis = System.currentTimeMillis();
 			Date dateactuelle = new Date (millis); 
 			
 			if (articleForm.getDateDebutEncheres().compareTo(dateactuelle) < 0) {
 				errors.rejectValue("dateDebutEncheres", "Pattern.ArticleVenduForm.dateDebutEncheres"); 
+	
 			}
 			if (articleForm.getDateFinEncheres().compareTo(dateactuelle) < 0 || articleForm.getDateFinEncheres().compareTo(articleForm.getDateDebutEncheres()) < 0 ) {
 				errors.rejectValue("dateDebutEncheres", "Pattern.ArticleVenduForm.dateFinEncheres"); 
+
 			}
-			if (articleForm.getPrixVente() < articleForm.getPrixInital()) {
+			/*if (articleForm.getPrixVente() < articleForm.getPrixInital()) {
 				errors.rejectValue("prixVente", "Pattern.ArticleVenduForm.prixVente");
-			}
+				System.out.println("5");
+			} */
 			
 			if (articleForm.getPrixInital()<0) {
-				errors.rejectValue("prixVente", "Pattern.ArticleVenduForm.prixInitial");
+				errors.rejectValue("prixInital", "Pattern.ArticleVenduForm.prixInitial");
+
 			}
 			// rue
 			if (articleForm.getRue().trim().length() > 50) {
 				errors.rejectValue("rue", "Size.ArticleVenduForm.rue");
+
 			}
 			// codepostal
 			if (articleForm.getCode_postal().trim().length() > 10) {
 				errors.rejectValue("code_postal", "Size.ArticleVenduForm.code_postal");
+
 			}
 			// ville
 			if (articleForm.getVille().trim().length() > 30) {
 				errors.rejectValue("ville", "Size.ArticleVenduForm.ville");
+
 			}
 		}
 

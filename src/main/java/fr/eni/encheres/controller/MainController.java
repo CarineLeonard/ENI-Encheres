@@ -38,6 +38,7 @@ import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.RetraitId;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.CategorieRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
@@ -336,6 +337,7 @@ public class MainController {
 				articleForm.setCategorie(currentCategorie);
 				
 				articleVenduValidator.validate(articleForm, result);
+
 				
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
@@ -352,14 +354,13 @@ public class MainController {
 				model.addAttribute("title_newSale", "Nouvelle vente");
 				model.addAttribute("titre_newSale", "Nouvelle vente");
 				return "newSalePage";
+				
 			}
-			
 			ArticleVendu newArticle = null;
-			Retrait newRetrait = null; 
 			
 			try {
 				newArticle = articleVenduManager.ajouterArticleVendu(articleForm);
-				newRetrait = retraitManager.ajouterRetrait(newArticle);
+				retraitManager.ajouterRetrait(new RetraitId(newArticle), articleForm);
 			} catch (Exception e) {
 				model.addAttribute("title_newSale", "Nouvelle vente");
 				model.addAttribute("titre_newSale", "Nouvelle vente");

@@ -58,7 +58,9 @@ public class ArticleVenduManager {
 												articleForm.getUtilisateur(),
 												articleForm.getCategorie()
 												); 
+			System.out.println(nouvelArticle);
 				nouvelArticle = this.articleVenduRep.save(nouvelArticle);
+			System.out.println(nouvelArticle);
 				
 			// TODO - appel des autres classes : à revoir 
 			//Iterable<Categorie> listCategorie = categorieRep.findAll() ; 

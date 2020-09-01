@@ -41,4 +41,6 @@ insert into categories (libelle) values ('jardin');
 
 select * from articles_vendus;
 
+select * from retraits;
+
 select * from categories; 
