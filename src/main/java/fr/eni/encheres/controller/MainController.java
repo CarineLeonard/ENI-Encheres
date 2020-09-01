@@ -1,18 +1,10 @@
 package fr.eni.encheres.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,13 +29,11 @@ import fr.eni.encheres.bll.UserDetailsServiceImpl;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.RetraitId;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.CategorieRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.ArticleVenduForm;
-import fr.eni.encheres.services.RetraitForm;
 import fr.eni.encheres.services.UtilisateurForm;
 import fr.eni.encheres.services.WebUtils;
 
@@ -102,6 +92,12 @@ public class MainController {
 	    public String welcomePage(Model model) {
 	        model.addAttribute("title_welcome", "Accueil");
 	        model.addAttribute("titre_welcome", "Liste des enchères");
+	        try {
+				model.addAttribute("articles", articleVenduManager.selectionnerTousArticleVendus());
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+			}
 	        return "welcomePage";
 	    }
 	 
