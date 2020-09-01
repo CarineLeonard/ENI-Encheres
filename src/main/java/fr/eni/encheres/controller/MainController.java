@@ -104,6 +104,8 @@ public class MainController {
 	    public String welcomePage(Model model) {
 	        model.addAttribute("title_welcome", "Accueil");
 	        model.addAttribute("titre_welcome", "Liste des enchères");
+			Iterable<Categorie> list = categorieRepository.findAll();
+			model.addAttribute("categories", list);
 	        try {
 				model.addAttribute("articles", articleVenduManager.selectionnerTousArticleVendus());
 			} catch (Exception e) {
@@ -311,8 +313,8 @@ public class MainController {
 			model.addAttribute("title_newSale", "Nouvelle vente");
 			model.addAttribute("titre_newSale", "Nouvelle vente");
 			model.addAttribute("articleForm", form);
-			Iterable<Categorie> list = categorieRepository.findAll(); 
-			model.addAttribute("categories", list); 	        
+			Iterable<Categorie> list = categorieRepository.findAll();
+			model.addAttribute("categories", list);
 	        return "newSalePage";
 	    }
 	    
