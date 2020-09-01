@@ -297,6 +297,7 @@ public class MainController {
 	    public String newSale(Model model, Principal principal) {
 	    	String pseudo = principal.getName();
 	    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+	        model.addAttribute("user", user);
 
 			ArticleVenduForm form = new ArticleVenduForm();
 			model.addAttribute("title_newSale", "Nouvelle vente");
