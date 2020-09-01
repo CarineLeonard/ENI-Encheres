@@ -12,6 +12,7 @@ function handleFiles() {
 		img.classList.add("img-fluid");
 		img.alt = "Aperçu de l'article'"
 		img.file = file;
+		document.getElementById("containerImg").firstChild.remove();
 		document.getElementById("containerImg").appendChild(img);
 		
 		let reader = new FileReader();
