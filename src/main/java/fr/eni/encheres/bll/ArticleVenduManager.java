@@ -1,17 +1,11 @@
 package fr.eni.encheres.bll;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.eni.encheres.bo.AppRole;
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.dao.ArticleVenduRepository;
 import fr.eni.encheres.dao.CategorieRepository;
 import fr.eni.encheres.dao.EnchereRepository;
@@ -19,62 +13,57 @@ import fr.eni.encheres.dao.RetraitRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.ArticleVenduForm;
 
-@Component 
+@Component
 public class ArticleVenduManager {
-	
+
 	@Autowired
-	ArticleVenduRepository articleVenduRep; 
-	
+	ArticleVenduRepository articleVenduRep;
+
 	@Autowired
-	CategorieRepository categorieRep; 
-	
+	CategorieRepository categorieRep;
+
 	@Autowired
-	EnchereRepository enchereRep; 
-	
+	EnchereRepository enchereRep;
+
 	@Autowired
-	RetraitRepository retraitRep; 
-	
+	RetraitRepository retraitRep;
+
 	@Autowired
-	UtilisateurRepository utilisateurRep; 
-	
+	UtilisateurRepository utilisateurRep;
+
 	@Autowired
-	CategorieManager categorieManage; 
-	
-	//@Autowired
-	//RetraitManager retraitManage ; 
-	
-	
+	CategorieManager categorieManage;
+
 	public ArticleVendu ajouterArticleVendu(ArticleVenduForm articleForm) throws Exception {
-		
-		ArticleVendu nouvelArticle = null; 
+		ArticleVendu nouvelArticle = null;
 		try {
-			nouvelArticle = new ArticleVendu(articleForm.getNoArticle(), 
-												articleForm.getNomArticle().trim(),
-												articleForm.getDescription().trim(),
-												articleForm.getDateDebutEncheres(),
-												articleForm.getDateFinEncheres(),
-												articleForm.getPrixInital(),
-												articleForm.getPrixVente(),
-												articleForm.getUtilisateur(),
-												articleForm.getCategorie()
-												); 
+			nouvelArticle = new ArticleVendu(articleForm.getNoArticle(), articleForm.getNomArticle().trim(),
+					articleForm.getDescription().trim(), articleForm.getDateDebutEncheres(),
+					articleForm.getDateFinEncheres(), articleForm.getPrixInital(), articleForm.getPrixVente(),
+					articleForm.getUtilisateur(), articleForm.getCategorie());
 			System.out.println(nouvelArticle);
-				nouvelArticle = this.articleVenduRep.save(nouvelArticle);
+			nouvelArticle = this.articleVenduRep.save(nouvelArticle);
 			System.out.println(nouvelArticle);
-				
-			// TODO - appel des autres classes : à revoir 
-			//Iterable<Categorie> listCategorie = categorieRep.findAll() ; 
-		
-			//Retrait retrait = retraitManage.ajouterRetrait(nouvelArticle);
-						
+
+			// TODO - appel des autres classes : à revoir
+			// Iterable<Categorie> listCategorie = categorieRep.findAll() ;
+
+			// Retrait retrait = retraitManage.ajouterRetrait(nouvelArticle);
+
 		} catch (Exception e) {
-			throw  e;
+			throw e;
 		}
 		return nouvelArticle;
-		
 	}
 	
-	
-	
-	
+	public List<ArticleVendu> selectionnerTousArticleVendus() throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findAll();
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
 }
