@@ -25,6 +25,9 @@ public @Data class ArticleVenduForm {
 	 private int prixVente;
 	 private Utilisateur utilisateur;
 	 private Categorie categorie; 
+	 private String rue;
+	 private String code_postal;
+	 private String ville;
 
 	 // TODO - Udload de la photo : stockage où ? 
 	 

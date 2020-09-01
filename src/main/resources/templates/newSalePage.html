@@ -31,9 +31,8 @@
 					<textarea class="form-control col-8 my-2" rows="3" id="InputDescription" th:field="*{description}"></textarea>
 					<label class="col-6 my-2 py-1" for="InputCategorie" >Catégorie:</label>
 					<select class="form-control col-6 my-2" id="InputCategorie" name="categorie">
-						<!-- TODO : avec des if pour les options --> 
 						<option value=""> -- </option>
-						<option  th:each="categorie: ${categories}" th:value="${categorie.libelle}" th:utext="${categorie.libelle}" >..</option>
+						<option  th:each="categorie: ${categories}" th:value="${categorie.noCategorie}" th:utext="${categorie.libelle}" >..</option>
 					</select> 
 				</div>
 				<div class="input-group mb-3 col-md-6 offset-md-3 order-md-3">
@@ -58,11 +57,11 @@
 						<!-- TODO - partie retrait à faire !--> 
 						<legend class="">Retrait</legend>
 						<label class="col-6 my-2 py-1" for="InputRue" >Rue:</label>
-						<input class="form-control col-6 my-2" type="text" id="InputRue" >
+						<input class="form-control col-6 my-2" type="text" id="InputRue" th:field="*{rue}" >
 						<label class="col-6 my-2 py-1" for="InputCodePostal" >Code postal:</label>
-						<input class="form-control col-6 my-2" type="text" id="InputCodePostal">
+						<input class="form-control col-6 my-2" type="text" id="InputCodePostal" th:field="*{code_postal}">
 						<label class="col-6 my-2 py-1" for="InputVille" >Ville:</label>
-						<input class="form-control col-6 my-2" type="text" id="InputVille">
+						<input class="form-control col-6 my-2" type="text" id="InputVille" th:field="*{ville}">
 					</div>
 				</fieldset>
 				
@@ -73,7 +72,9 @@
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('dateFinEncheres')}" th:errors="*{dateFinEncheres}">..</span>
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('prixInital')}" th:errors="*{prixInital}">..</span>
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('categorie')}" th:errors="*{categorie}">..</span>
-					<!-- TODO - champs de retrait à ajouter -->
+					<span class="row justify-content-center" th:if="${#fields.hasErrors('rue')}" th:errors="*{rue}">..</span>
+					<span class="row justify-content-center" th:if="${#fields.hasErrors('code_postal')}" th:errors="*{code_postal}">..</span>
+					<span class="row justify-content-center" th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}">..</span>
 				</div>
 				<div class="form-group row col-md-6 offset-md-3 text-center order-md-7 mt-1">
 					<div class="col-6">

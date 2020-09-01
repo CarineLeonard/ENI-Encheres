@@ -18,8 +18,7 @@ public class RetraitManager {
 	@Autowired
 	ArticleVenduRepository articleVenduRep; 
 	
-	// TODO - ne marche pas encore 
-	/*public Retrait ajouterRetrait(ArticleVendu article) throws Exception {
+public Retrait ajouterRetrait(ArticleVendu article) throws Exception {
 		Retrait retrait = null;
 		try {
 			retrait = new Retrait();
@@ -28,6 +27,6 @@ public class RetraitManager {
 			throw e;
 		}
 		return retrait;
-	} */ 
+	} 
 	
 }

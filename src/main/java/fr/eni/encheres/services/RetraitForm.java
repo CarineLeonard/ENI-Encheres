@@ -5,10 +5,10 @@ import lombok.Data;
 
 public @Data class RetraitForm {
 
-	private Long noArticle;
+	private ArticleVendu articleVendu;
 	private String rue;
 	private String code_postal;
 	private String ville;
-	private ArticleVendu articleVendu;
+
 	 
 }

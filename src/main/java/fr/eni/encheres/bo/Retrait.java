@@ -27,7 +27,7 @@ public @Data class Retrait implements Serializable {
 	@EmbeddedId
 	private RetraitId retraitId;
 	 
-	@Column(name="rue", length = 30, nullable=false)
+	@Column(name="rue", length = 50, nullable=false)
     private String rue;
 	
 	@Column(name="code_postal", length = 30, nullable=false)

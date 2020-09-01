@@ -32,10 +32,10 @@ public class CategorieManager {
 		return listCategorie;		
 	}
 	
-	public Categorie selectionnerCategorie(String libelle) throws Exception {
+	public Categorie selectionnerCategorie(Long noCategorie) throws Exception {
 		Categorie categorie = null;
 		try {
-			categorie = categorieRep.findByLibelle(libelle);
+			categorie = categorieRep.findOneByNoCategorie(noCategorie);
 		} catch (Exception e) {
 			throw e;
 		}

@@ -1,11 +1,14 @@
 package fr.eni.encheres.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -29,14 +32,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.CategorieManager;
+import fr.eni.encheres.bll.RetraitManager;
 import fr.eni.encheres.bll.UserDetailsServiceImpl;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.CategorieRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.ArticleVenduForm;
+import fr.eni.encheres.services.RetraitForm;
 import fr.eni.encheres.services.UtilisateurForm;
 import fr.eni.encheres.services.WebUtils;
 
@@ -70,6 +76,9 @@ public class MainController {
 	
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
+	
+	@Autowired
+	private RetraitManager retraitManager ; 
 	
 	 // Set a form validator
     @InitBinder("utilisateurForm")
@@ -313,23 +322,21 @@ public class MainController {
 	    }
 	    
 		@RequestMapping(value = "/newSale", method = RequestMethod.POST)
-		public String saveNewSale(Model model, Principal principal, //
+		public String saveNewSale(Model model, Principal principal,  //
 				@ModelAttribute("articleForm") ArticleVenduForm articleForm, //
-				BindingResult result, //
+				BindingResult result, 
+				@RequestParam(value = "categorie") Long currentNoCategorie, //
 				final RedirectAttributes redirectAttributes) {
 			
 			try {
 				Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
 				articleForm.setUtilisateur(currentUser);
-				
-				//articleForm.setDateDebutEncheres(new SimpleDateFormat("dd/MM/yyyy").parse(""));
-				//articleForm.setDateFinEncheres(new SimpleDateFormat("dd/MM/yyyy").parse(""));
-				
-				Categorie currentCategorie = (Categorie) model.getAttribute("categories") ; 
-				 // currentCategorie = categorieManager.selectionnerCategorie(libelle);
+									
+				Categorie currentCategorie = categorieManager.selectionnerCategorie(currentNoCategorie);
 				articleForm.setCategorie(currentCategorie);
 				
 				articleVenduValidator.validate(articleForm, result);
+				
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
 				model.addAttribute("title_newSale", "Nouvelle vente");
@@ -348,9 +355,11 @@ public class MainController {
 			}
 			
 			ArticleVendu newArticle = null;
+			Retrait newRetrait = null; 
 			
 			try {
 				newArticle = articleVenduManager.ajouterArticleVendu(articleForm);
+				newRetrait = retraitManager.ajouterRetrait(newArticle);
 			} catch (Exception e) {
 				model.addAttribute("title_newSale", "Nouvelle vente");
 				model.addAttribute("titre_newSale", "Nouvelle vente");
