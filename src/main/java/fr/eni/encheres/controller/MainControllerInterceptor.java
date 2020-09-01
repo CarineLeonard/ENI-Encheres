@@ -58,6 +58,8 @@ public class MainControllerInterceptor implements HandlerInterceptor {
 	    	Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
 	    	req.getSession().setAttribute("user", currentUser);
 		}
+		// System.err.println(req.getAttribute("prixInital"));
+		
 	}
 
 	@Override

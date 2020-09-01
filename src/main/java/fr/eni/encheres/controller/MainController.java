@@ -1,11 +1,8 @@
 package fr.eni.encheres.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -373,18 +371,21 @@ public class MainController {
 	    
 		// TODO - partie en cours Carine
 		
-		 @RequestMapping(value = "/editSale", method = RequestMethod.GET)
-		    public String editSale(Model model, Principal principal) {
-		    	String pseudo = principal.getName();
+		 @RequestMapping(value = "/editSale/{noArticle}", method = RequestMethod.GET)
+		    public String editSale(@PathVariable("noArticle") Long noArticle, Model model, Principal principal) {
+		    	
+			 	String pseudo = principal.getName();
 		    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
 		        model.addAttribute("user", user);
+		        
+		        Iterable<Categorie> list = categorieRepository.findAll();
+				model.addAttribute("categories", list);
+				
 		        ArticleVenduForm form = new ArticleVenduForm();
 				model.addAttribute("articleForm", form);
-		// à récupérer 
-
+				
 				try {
-			        Long noArticleLong = 5L; 
-			        ArticleVendu article = articleVenduManager.selectionnerArticleVendu(noArticleLong);
+			        ArticleVendu article = articleVenduManager.selectionnerArticleVendu(noArticle);
 			        model.addAttribute("article", article); 
 			        
 					Retrait retrait = retraitManager.selectionnerRetrait(new RetraitId(article));
@@ -404,7 +405,7 @@ public class MainController {
 		        return "editSalePage";
 		    }
 		    
-		 // TODO 
+		 // TODO - à faire 
 			@RequestMapping(value = "/editSale", method = RequestMethod.POST)
 			public String editSale(Model model, Principal principal, //
 					@ModelAttribute("utilisateurForm") UtilisateurForm utilisateurForm, //
@@ -416,6 +417,7 @@ public class MainController {
 					utilisateurForm.setNoUtilisateur(currentUser.getNoUtilisateur());
 					
 				    utilisateurEditValidator.validate(utilisateurForm, result);
+				    
 				} catch (Exception e) {
 					model.addAttribute("errorMessage", "Error: " + e.getMessage());
 					model.addAttribute("title_editInfo", "Modifier mon compte");
@@ -451,21 +453,23 @@ public class MainController {
 				return "redirect:/userInfo";
 			}
 		 
-			// TODO 
-		    @RequestMapping(value = "/deleteSale", method = RequestMethod.GET)
-		    public String deleteSale(Model model, Principal principal, //
+			// TODO - à modifier 
+		    @RequestMapping(value = "/deleteSale/{noArticle}", method = RequestMethod.GET)
+		    public String deleteSale(@PathVariable("noArticle") Long noArticle, Model model, Principal principal, //
 					final RedirectAttributes redirectAttributes) {
 				try {
-			    	String pseudo = principal.getName();
-			    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
-			    	utilisateurManager.supprimerUtilisateur(user.getNoUtilisateur());
+					ArticleVendu articleVendu = articleVenduManager.selectionnerArticleVendu(noArticle);
+					Retrait retrait = retraitManager.selectionnerRetrait(new RetraitId(articleVendu));
+					retraitRepository.delete(retrait);
+					articleRepository.delete(articleVendu);					
+			    				    	
 				} catch (Exception e) {
 					System.out.println(e);
 					redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());
-					return "redirect:/editInfo";
+					return "editSalePage";
 				}
 
-				return "redirect:/logout";
+				return "redirect:/";
 		    }
 	
 	    
