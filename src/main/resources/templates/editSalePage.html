@@ -30,12 +30,12 @@
 					<label class="col-4 my-2 py-1" for="InputArticle" >Article:</label>
 					<input class="form-control col-8 my-2" type="text" id="InputArticle" th:name="nomArticle" th:value="*{nomArticle != null} ? *{nomArticle} : ${article.nomArticle}" >
 					<label class="col-4 my-2 py-1" for="InputDescription" >Description:</label>
-					<textarea class="form-control col-8 my-2" rows="3" id="InputDescription" th:name="description" th:value="*{description != null} ? *{description} : ${article.description}" ></textarea>
+					<textarea class="form-control col-8 my-2" rows="3" id="InputDescription" th:name="description" th:text="*{description != null} ? *{description} : ${article.description}" ></textarea>
 					<label class="col-6 my-2 py-1" for="InputCategorie" >Catégorie:</label>
 					<select class="form-control col-6 my-2" id="InputCategorie" name="categorie">
 						<option value=""> -- </option>
 						<option  th:each="c: ${categories}" th:value="${c.noCategorie}" th:utext="${c.libelle}" 
-						th:selected="${c == articleForm.categorie}">..</option>
+						th:selected="${c == article.categorie}">..</option>
 					</select> 
 					<div class="input-group my-2">
 						<div class="custom-file">
@@ -46,7 +46,7 @@
 				</div>
 				<div class="form-group row col-md-6 offset-md-3 order-3 order-md-3">
 					<label class="col-6 my-2 py-1" for="InputPrixInital" >Mise à prix:</label>
-					<input class="form-control col-3 my-2" type="number" id="InputPrixInital" th:name="prixInital" th:value="*{prixInital != null} ? *{prixInital} : ${article.prixInital}" >
+					<input class="form-control col-3 my-2" type="number" id="InputPrixInital" th:name="prixInital" th:placeholder="-1" th:value="${prixInital > 0 } ? *{prixInital} : ${article.prixInital}" >
 					<label class="col-6 my-2 py-1" for="InputDebutEnchere" >Début de l'enchère:</label>
 					<input class="form-control col-6 my-2" type="date" id="InputDebutEnchere" th:name="dateDebutEncheres" th:value="*{dateDebutEncheres != null} ? *{dateDebutEncheres} : ${article.dateDebutEncheres}" >
 					<label class="col-6 my-2 py-1" for="InputFinEnchere" >Fin de l'enchère:</label>
@@ -77,15 +77,15 @@
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}">..</span>
 				</div>
 			
-			<div class="form-group row justify-content-center">
+			<div class="form-group row col-md-6 offset-md-3 text-center mt-1 order-6 order-md-6">
 				<div class="col-12 col-sm-auto">
-					<button type="submit" class="btn btn-success btn-lg my-1">Enregistrer</button>
-				</div>
-				<div class="col-12 d-md-none">
-					<button class="btn btn-secondary btn-lg my-1" form ="" onclick="window.history.go(-1)">Retour</button>
+					<button type="submit" class="btn btn-success btn-lg">Enregistrer</button>
 				</div>
 				<div class="col-12 col-sm-auto">
-					<a class="btn btn-danger btn-lg my-1 text-nowrap" th:href="@{/deleteSale}">Annuler la vente</a>
+					<a class="btn btn-secondary btn-lg my-1" th:href="@{/}">Annuler</a>
+				</div>
+				<div class="col-12 col-sm-auto">
+					<a class="btn btn-danger btn-lg text-nowrap" th:href="@{/deleteSale}">Annuler la vente</a>
 				</div>
 				</div>
 			</div>

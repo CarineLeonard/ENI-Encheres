@@ -1,11 +1,8 @@
 package fr.eni.encheres.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -375,16 +372,21 @@ public class MainController {
 		
 		 @RequestMapping(value = "/editSale", method = RequestMethod.GET)
 		    public String editSale(Model model, Principal principal) {
-		    	String pseudo = principal.getName();
+		    	
+			 	String pseudo = principal.getName();
 		    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
 		        model.addAttribute("user", user);
+		        
+		        Iterable<Categorie> list = categorieRepository.findAll();
+				model.addAttribute("categories", list);
+				
 		        ArticleVenduForm form = new ArticleVenduForm();
 				model.addAttribute("articleForm", form);
-		// à récupérer 
-
+				
 				try {
-			        Long noArticleLong = 5L; 
+			        Long noArticleLong = 5L;  // à récupérer 
 			        ArticleVendu article = articleVenduManager.selectionnerArticleVendu(noArticleLong);
+			        System.err.println(article.getPrixInital());
 			        model.addAttribute("article", article); 
 			        
 					Retrait retrait = retraitManager.selectionnerRetrait(new RetraitId(article));
@@ -416,6 +418,7 @@ public class MainController {
 					utilisateurForm.setNoUtilisateur(currentUser.getNoUtilisateur());
 					
 				    utilisateurEditValidator.validate(utilisateurForm, result);
+				    
 				} catch (Exception e) {
 					model.addAttribute("errorMessage", "Error: " + e.getMessage());
 					model.addAttribute("title_editInfo", "Modifier mon compte");
