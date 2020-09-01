@@ -138,14 +138,7 @@ public class MainController {
 	    		pseudo = principal.getName();
 	    	}
 	    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
-	        model.addAttribute("userPseudo", user.getPseudo());
-	        model.addAttribute("userNom", user.getNom());
-	        model.addAttribute("userPrenom", user.getPrenom());
-	        model.addAttribute("userEmail", user.getEmail());
-	        model.addAttribute("userTelephone", user.getTelephone());
-	        model.addAttribute("userRue", user.getRue());
-	        model.addAttribute("userCodePostal", user.getCode_postal());
-	        model.addAttribute("userVille", user.getVille());
+	        model.addAttribute("user", user);
 	        
 	        return "userInfoPage";
 	    }
@@ -154,15 +147,7 @@ public class MainController {
 	    public String editInfo(Model model, Principal principal) {
 	    	String pseudo = principal.getName();
 	    	Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
-	        model.addAttribute("userPseudo", user.getPseudo());
-	        model.addAttribute("userNom", user.getNom());
-	        model.addAttribute("userPrenom", user.getPrenom());
-	        model.addAttribute("userEmail", user.getEmail());
-	        model.addAttribute("userTelephone", user.getTelephone());
-	        model.addAttribute("userRue", user.getRue());
-	        model.addAttribute("userCodePostal", user.getCode_postal());
-	        model.addAttribute("userVille", user.getVille());
-	        model.addAttribute("userCredits", user.getCredit());
+	        model.addAttribute("user", user);
 
 			UtilisateurForm form = new UtilisateurForm();
 			model.addAttribute("title_editInfo", "Modifier mon compte");

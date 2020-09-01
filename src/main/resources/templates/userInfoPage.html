@@ -23,41 +23,41 @@
 				<tbody>
 					<tr>
 						<th scope="row" class="text-left col-6">Pseudo :</th>
-						<td class="col-6" th:text="${userPseudo}"></td>
+						<td class="col-6" th:text="${user.pseudo}"></td>
 					</tr>
 					<tr>
 						<th scope="row" class="text-left">Nom :</th>
-						<td th:text="${userNom}"></td>
+						<td th:text="${user.nom}"></td>
 					</tr>
 					<tr>
 						<th scope="row" class="text-left">Prénom :</th>
-						<td th:text="${userPrenom}"></td>
+						<td th:text="${user.prenom}"></td>
 					</tr>
 					<tr>
 						<th scope="row" class="text-left">Email :</th>
-						<td th:text="${userEmail}"></td>
+						<td th:text="${user.email}"></td>
 					</tr>
 					<tr>
 						<th scope="row" class="text-left">Téléphone :</th>
-						<td th:text="${userTelephone}"></td>
+						<td th:text="${user.telephone}"></td>
 					</tr>
 					<tr>
 						<th scope="row" class="text-left">Rue :</th>
-						<td th:text="${userRue}"></td>
+						<td th:text="${user.rue}"></td>
 					</tr>
 					<tr>
 						<th scope="row" class="text-left">Code postal :</th>
-						<td th:text="${userCodePostal}"></td>
+						<td th:text="${user.code_postal}"></td>
 					</tr>
 					<tr>
 						<th scope="row" class="text-left">Ville :</th>
-						<td th:text="${userVille}"></td>
+						<td th:text="${user.ville}"></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		
-		<a class="btn btn-secondary" th:if="${session.userPseudo == userPseudo}" th:href="@{/editInfo}">Modifier</a>
+		<a class="btn btn-secondary" th:if="${session.user.pseudo == user.pseudo}" th:href="@{/editInfo}">Modifier</a>
 		
 	</section>
 

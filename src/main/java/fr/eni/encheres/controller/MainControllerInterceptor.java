@@ -52,11 +52,11 @@ public class MainControllerInterceptor implements HandlerInterceptor {
 	    	}
 		}
 		
-		String userPseudo = (String) req.getSession().getAttribute("userPseudo");
+		Utilisateur user = (Utilisateur) req.getSession().getAttribute("user");
 		
-		if ((userPseudo == null || !userPseudo.equals(principal.getName())) && modelAndView != null && principal != null) {
+		if ((user == null || !user.getPseudo().equals(principal.getName())) && modelAndView != null && principal != null) {
 	    	Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
-	    	req.getSession().setAttribute("userPseudo", currentUser.getPseudo());
+	    	req.getSession().setAttribute("user", currentUser);
 		}
 	}
 
