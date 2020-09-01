@@ -35,12 +35,15 @@ public class ArticleBlockManager {
 
 	@Autowired
 	CategorieManager categorieManager;
+
+	@Autowired
+	ArticleVenduManager articleVenduManager;
 	
 	public List<ArticleBlock> selectionnerTousArticleBlocks() throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yy");
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduRepository.findAll();
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerTousArticleVendus();
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = new ArticleBlock();
