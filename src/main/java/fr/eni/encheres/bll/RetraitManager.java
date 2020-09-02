@@ -1,7 +1,5 @@
 package fr.eni.encheres.bll;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
