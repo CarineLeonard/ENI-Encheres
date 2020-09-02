@@ -8,12 +8,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class EnchereId implements Serializable{
+public @Data class EnchereId implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 

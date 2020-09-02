@@ -39,7 +39,8 @@
 			</div>
 			<div class="row col-md-6 offset-md-3 order-4">
 				<p class="col-6 my-2 py-1" >Meilleure offre :</p>
-				<p class="col-3 my-2" th:utext="${article.meilleureOffre != null} ? ${article.meilleureOffre.montantEnchere} : ${'Aucune'}"></p>
+				<p class="col-3 my-2" th:if="${#request.userPrincipal != null}" th:utext="${article.meilleureOffre != null} ? ${article.meilleureOffre.montantEnchere + ' par <a href=''userInfo?pseudo=' + article.meilleureOffre.enchereId.utilisateur.pseudo + '''>' + article.meilleureOffre.enchereId.utilisateur.pseudo + '</a>'} : ${'Aucune'}"></p>
+				<p class="col-3 my-2" th:if="${#request.userPrincipal == null}" th:utext="${article.meilleureOffre != null} ? ${article.meilleureOffre.montantEnchere + ' par ' + article.meilleureOffre.enchereId.utilisateur.pseudo} : ${'Aucune'}"></p>
 				<p class="col-6 my-2 py-1" >Mise à prix :</p>
 				<p class="col-3 my-2" th:utext="${article.miseAPrix}"></p>
 				<p class="col-6 my-2 py-1" >Fin de l'enchère:</p>
@@ -52,12 +53,15 @@
 			</div>
 			
 			<form class="form-group row col-md-6 offset-md-3 text-left mt-1 order-5" th:action="@{/encheres?id={id}(id=${enchere_id})}" th:object="${enchereForm}" method="POST" th:if="${#request.userPrincipal != null}">
-					<label class="col-6 my-2 py-1">Ma proposition :</label>
-					<input class="col-2 my-2" type="number" name="montantEnchere" th:min="${article.meilleureOffre != null} ? ${article.meilleureOffre.montantEnchere + 1} : ${article.miseAPrix}"
-															th:value="${article.meilleureOffre != null} ? ${article.meilleureOffre.montantEnchere + 1} : ${article.miseAPrix}" />
-					<div class="col-4">
-						<button class="btn btn-success btn-lg my-1" type="submit">Enchérir</button>
-					</div>
+				<label class="col-6 my-2 py-1">Ma proposition :</label>
+				<input class="col-2 my-2" type="number" name="montantEnchere" th:min="${article.meilleureOffre != null} ? ${article.meilleureOffre.montantEnchere + 1} : ${article.miseAPrix}"
+														th:value="${article.meilleureOffre != null} ? ${article.meilleureOffre.montantEnchere + 1} : ${article.miseAPrix}" />
+				<div class="col-4">
+					<button class="btn btn-success btn-lg my-1" type="submit">Enchérir</button>
+				</div>
+				<div class="erreurs form-group col-md-6 offset-md-3 text-center mt-1 order-6">
+					<span class="row justify-content-center" th:if="${#fields.hasErrors('montantEnchere')}" th:errors="*{montantEnchere}">..</span>
+				</div>
 			</form>
 		</div>
 	</section>

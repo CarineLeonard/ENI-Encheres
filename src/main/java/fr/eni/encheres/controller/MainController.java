@@ -106,6 +106,7 @@ public class MainController {
 	
 	@RequestMapping(value = { "/", "/encheres" }, method = RequestMethod.GET)
 	public String encheres(@RequestParam(value = "id", defaultValue = "") Long id, Model model, Principal principal) {
+		
 		model.addAttribute("title_welcome", "Enchères");
 		model.addAttribute("titre_welcome", "Liste des enchères");
 		if(id != null) {
@@ -119,6 +120,9 @@ public class MainController {
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
 			}
 			model.addAttribute("article", article);
+			
+			EnchereForm form = new EnchereForm();
+			model.addAttribute("enchereForm", form);
 	
 			return "viewSalePage";
 		} 
@@ -160,7 +164,6 @@ public class MainController {
 		model.addAttribute("article", article);
 
 		try {
-			System.out.println(enchereForm);
 			enchereValidator.validate(enchereForm, result);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -168,7 +171,7 @@ public class MainController {
 			model.addAttribute("path", "encheres?id=" + id);
 			return "viewSalePage";
 		}
-
+		
 		if (result.hasErrors()) {
 			model.addAttribute("path", "encheres?id=" + id);
 			return "viewSalePage";
@@ -182,7 +185,7 @@ public class MainController {
 			model.addAttribute("path", "encheres?id=" + id);
 			return "viewSalePage";
 		}
-
+		
 		return "redirect:/encheres?id=" + id;
 	}
 
@@ -215,7 +218,7 @@ public class MainController {
 	public String userInfo(@RequestParam(value = "pseudo", defaultValue = "") String pseudo, Model model,
 			Principal principal) {
 		model.addAttribute("title_userInfo", "Profil");
-		model.addAttribute("titre_userInfo", "Mon profil");
+		model.addAttribute("titre_userInfo", "Profil");
 		if (pseudo.equals("")) {
 			pseudo = principal.getName();
 		}
