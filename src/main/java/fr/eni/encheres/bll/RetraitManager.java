@@ -20,7 +20,7 @@ public class RetraitManager {
 	RetraitRepository retraitRep; 
 	
 	@Autowired
-	ArticleVenduRepository articleVenduRep; 
+	ArticleVenduRepository articleVenduRep;  
 
 public Retrait ajouterRetrait(RetraitId newRetraitId, ArticleVenduForm articleForm) {
 	Retrait retrait = null;

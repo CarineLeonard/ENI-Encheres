@@ -52,7 +52,7 @@ public class MainController {
 	private ArticleBlockManager articleBlockManager;
 	@Autowired
 	private CategorieManager categorieManager;
-	@Autowired
+	@Autowired 
 	private RetraitManager retraitManager;
 	@Autowired
 	private UtilisateurManager utilisateurManager;

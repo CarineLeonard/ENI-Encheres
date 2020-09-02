@@ -12,7 +12,7 @@ import fr.eni.encheres.dao.CategorieRepository;
 import fr.eni.encheres.dao.EnchereRepository;
 import fr.eni.encheres.dao.RetraitRepository;
 import fr.eni.encheres.dao.UtilisateurRepository;
-import fr.eni.encheres.services.ArticleVenduForm;
+import fr.eni.encheres.services.ArticleVenduForm; 
 
 @Component
 public class ArticleVenduManager {

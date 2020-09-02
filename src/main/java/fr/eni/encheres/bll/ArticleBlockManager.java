@@ -19,7 +19,7 @@ public class ArticleBlockManager {
 	ArticleVenduManager articleVenduManager;
 
 	@Autowired
-	RetraitManager retraitManager;
+	RetraitManager retraitManager; 
 
 	@Autowired
 	EnchereManager enchereManager;
