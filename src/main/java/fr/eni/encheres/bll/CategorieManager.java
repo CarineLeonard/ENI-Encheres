@@ -41,5 +41,10 @@ public class CategorieManager {
 		}
 		return categorie;
 	}
+
+	public Iterable<Categorie> selectionnerTous() {
+		Iterable<Categorie> list = categorieRep.findAll();
+		return list;
+	}
 	
 }

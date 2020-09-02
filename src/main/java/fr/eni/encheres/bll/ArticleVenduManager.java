@@ -95,5 +95,11 @@ public class ArticleVenduManager {
 		}
 		return newArticleVendu; 
 	}
+
+	public void supprimerArticle(ArticleVendu articleVendu) {
+		articleVenduRep.delete(articleVendu);
+		
+	}
+
 	
 }

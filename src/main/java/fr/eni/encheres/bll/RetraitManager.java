@@ -45,5 +45,20 @@ public Retrait selectionnerRetrait(RetraitId retraitId) {
 	return retrait;
 }
 
+public void supprimerRetrait(Retrait retrait) {
+	retraitRep.delete(retrait);
+	
+}
+
+public void updateRetrait(RetraitId retraitId, ArticleVenduForm articleForm) {
+	Retrait retrait = null;
+	try {
+		retrait = new Retrait(retraitId, articleForm.getRue(), articleForm.getCode_postal(), articleForm.getVille());
+		retrait = retraitRep.save(retrait);
+	} catch (Exception e) {
+		throw e;
+	}
+}
+
 } 
 	

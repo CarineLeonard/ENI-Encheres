@@ -44,13 +44,14 @@ public class ArticleVenduValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "rue", "NotEmpty.ArticleVenduForm.rue");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code_postal", "NotEmpty.ArticleVenduForm.code_postal");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "ville", "NotEmpty.ArticleVenduForm.ville");
-		
+		System.err.println("vali1");
 		// vérifier connexion 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Utilisateur currentUser = utilisateurRep.findByPseudo(authentication.getName());
-		
+		System.err.println("vali2");
 		// autres 
 		if (!errors.hasErrors()) { 
+			System.err.println("vali3");
 			if (articleForm.getNomArticle().trim().length() > 30) {
 				errors.rejectValue("nomArticle", "Size.ArticleVenduForm.nomArticle");
 
@@ -64,7 +65,7 @@ public class ArticleVenduValidator implements Validator{
 			
 			if (articleForm.getDateDebutEncheres().compareTo(dateactuelle) < 0) {
 				errors.rejectValue("dateDebutEncheres", "Pattern.ArticleVenduForm.dateDebutEncheres"); 
-	
+
 			}
 			if (articleForm.getDateFinEncheres().compareTo(dateactuelle) < 0 || articleForm.getDateFinEncheres().compareTo(articleForm.getDateDebutEncheres()) < 0 ) {
 				errors.rejectValue("dateDebutEncheres", "Pattern.ArticleVenduForm.dateFinEncheres"); 
@@ -72,17 +73,17 @@ public class ArticleVenduValidator implements Validator{
 			}
 			/*if (articleForm.getPrixVente() < articleForm.getPrixInital()) {
 				errors.rejectValue("prixVente", "Pattern.ArticleVenduForm.prixVente");
-				System.out.println("5");
+
 			} */
 			
 			if (articleForm.getPrixInital()<0) {
 				errors.rejectValue("prixInital", "Pattern.ArticleVenduForm.prixInitial");
-
+	
 			}
 			// rue
 			if (articleForm.getRue().trim().length() > 50) {
 				errors.rejectValue("rue", "Size.ArticleVenduForm.rue");
-
+	
 			}
 			// codepostal
 			if (articleForm.getCode_postal().trim().length() > 10) {

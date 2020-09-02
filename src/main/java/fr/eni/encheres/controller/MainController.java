@@ -35,9 +35,6 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.RetraitId;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dao.ArticleVenduRepository;
-import fr.eni.encheres.dao.CategorieRepository;
-import fr.eni.encheres.dao.RetraitRepository;
 import fr.eni.encheres.services.ArticleVenduForm;
 import fr.eni.encheres.services.UtilisateurForm;
 import fr.eni.encheres.services.WebUtils;
@@ -48,40 +45,26 @@ public class MainController {
 
 	@Autowired
 	private ArticleVenduManager articleVenduManager;
-
 	@Autowired
 	private ArticleBlockManager articleBlockManager;
-
 	@Autowired
 	private CategorieManager categorieManager;
-
 	@Autowired
 	private RetraitManager retraitManager;
-
 	@Autowired
 	private UtilisateurManager utilisateurManager;
 
 	@Autowired
 	private UtilisateurValidator utilisateurValidator;
-
 	@Autowired
 	private UtilisateurEditValidator utilisateurEditValidator;
-
 	@Autowired
 	private ArticleVenduValidator articleVenduValidator;
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 
-	@Autowired
-	private ArticleVenduRepository articleRepository;
-
-	@Autowired
-	private RetraitRepository retraitRepository;
-
-	@Autowired
-	private CategorieRepository categorieRepository;
-
+	
 	// Set a form validator
 	@InitBinder("utilisateurForm")
 	protected void initBinder(WebDataBinder dataBinder) {
@@ -103,7 +86,7 @@ public class MainController {
 	public String welcomePage(Model model) {
 		model.addAttribute("title_welcome", "Accueil");
 		model.addAttribute("titre_welcome", "Liste des enchères");
-		Iterable<Categorie> list = categorieRepository.findAll();
+		Iterable<Categorie> list = categorieManager.selectionnerTous();
 		model.addAttribute("categories", list);
 		try {
 			model.addAttribute("articles", articleBlockManager.selectionnerTousArticleBlocks());
@@ -284,7 +267,6 @@ public class MainController {
 		return "403Page";
 	}
 
-	// Show Register page.
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String viewRegister(Model model) {
 
@@ -296,16 +278,12 @@ public class MainController {
 		return "registerPage";
 	}
 
-	// This method is called to save the registration information.
-	// @Validated: To ensure that this Form
-	// has been Validated before this method is invoked.
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String saveRegister(Model model, //
 			@ModelAttribute("utilisateurForm") @Validated UtilisateurForm utilisateurForm, //
 			BindingResult result, //
 			final RedirectAttributes redirectAttributes) {
 
-		// Validate result
 		if (result.hasErrors()) {
 			model.addAttribute("title_register", "Créer un compte");
 			model.addAttribute("titre_register", "Créer un compte");
@@ -352,7 +330,7 @@ public class MainController {
 		model.addAttribute("title_newSale", "Nouvelle vente");
 		model.addAttribute("titre_newSale", "Nouvelle vente");
 		model.addAttribute("articleForm", form);
-		Iterable<Categorie> list = categorieRepository.findAll();
+		Iterable<Categorie> list = categorieManager.selectionnerTous();
 		model.addAttribute("categories", list);
 		return "newSalePage";
 	}
@@ -369,20 +347,21 @@ public class MainController {
 
 			Categorie currentCategorie = categorieManager.selectionnerCategorie(currentNoCategorie);
 			articleForm.setCategorie(currentCategorie);
-
+	
 			articleVenduValidator.validate(articleForm, result);
+	
 
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 			model.addAttribute("title_newSale", "Nouvelle vente");
 			model.addAttribute("titre_newSale", "Nouvelle vente");
-			Iterable<Categorie> list = categorieRepository.findAll();
+			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
 			return "newSalePage";
 		}
 
 		if (result.hasErrors()) {
-			Iterable<Categorie> list = categorieRepository.findAll();
+			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
 			model.addAttribute("title_newSale", "Nouvelle vente");
 			model.addAttribute("titre_newSale", "Nouvelle vente");
@@ -398,7 +377,7 @@ public class MainController {
 			model.addAttribute("title_newSale", "Nouvelle vente");
 			model.addAttribute("titre_newSale", "Nouvelle vente");
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
-			Iterable<Categorie> list = categorieRepository.findAll();
+			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
 			return "newSalePage";
 		}
@@ -407,8 +386,6 @@ public class MainController {
 
 		return "redirect:/welcome";
 	}
-
-	// TODO - partie en cours Carine
 
 	@RequestMapping(value = "/editSale/{noArticle}", method = RequestMethod.GET)
 	public String editSale(@PathVariable("noArticle") Long noArticle, Model model, Principal principal) {
@@ -423,7 +400,7 @@ public class MainController {
 		}
 		model.addAttribute("user", user);
 
-		Iterable<Categorie> list = categorieRepository.findAll();
+		Iterable<Categorie> list = categorieManager.selectionnerTous();
 		model.addAttribute("categories", list);
 
 		ArticleVenduForm form = new ArticleVenduForm();
@@ -443,69 +420,78 @@ public class MainController {
 
 		model.addAttribute("title_editSale", "Modifier ma vente");
 		model.addAttribute("titre_editSale", "Modifier ma vente");
-
 		return "editSalePage";
 	}
 
 	// TODO - à faire
-	@RequestMapping(value = "/editSale", method = RequestMethod.POST)
-	public String editSale(Model model, Principal principal, //
-			@ModelAttribute("utilisateurForm") UtilisateurForm utilisateurForm, //
-			BindingResult result, //
-			final RedirectAttributes redirectAttributes) {
-
+	@RequestMapping(value = "/editSale/{noArticle}", method = RequestMethod.POST)
+	public String editSale(@PathVariable("noArticle") Long noArticle, Model model, Principal principal, 
+			@RequestParam(value = "categorie") Long currentNoCategorie, 
+			@ModelAttribute("articleForm") ArticleVenduForm articleForm, BindingResult result, final RedirectAttributes redirectAttributes) {
+		System.err.println("1");
 		try {
+			ArticleVendu article = articleVenduManager.selectionnerArticleVendu(noArticle);
+			model.addAttribute("article", article);
+			
 			Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
-			utilisateurForm.setNoUtilisateur(currentUser.getNoUtilisateur());
-
-			utilisateurEditValidator.validate(utilisateurForm, result);
-
+			articleForm.setUtilisateur(currentUser);
+		System.err.println("2");	
+			Categorie currentCategorie = categorieManager.selectionnerCategorie(currentNoCategorie);
+			articleForm.setCategorie(currentCategorie);
+			articleForm.setNoArticle(noArticle);
+			
+		System.err.println("3");
+			articleVenduValidator.validate(articleForm, result);
+			System.err.println("4");
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
-			model.addAttribute("title_editInfo", "Modifier mon compte");
-			model.addAttribute("titre_editInfo", "Modifier mon compte");
-			return "editInfoPage";
+			model.addAttribute("title_editSale", "Modifier ma vente");
+			model.addAttribute("titre_editSale", "Modifier ma vente");
+			Iterable<Categorie> list = categorieManager.selectionnerTous();
+			model.addAttribute("categories", list);
+			System.err.println("5");
+			return "editSalePage";
 		}
 
 		if (result.hasErrors()) {
-			model.addAttribute("title_editInfo", "Modifier mon compte");
-			model.addAttribute("titre_editInfo", "Modifier mon compte");
-			return "editInfoPage";
+			model.addAttribute("title_editSale", "Modifier ma vente");
+			model.addAttribute("titre_editSale", "Modifier ma vente");
+			Iterable<Categorie> list = categorieManager.selectionnerTous();
+			model.addAttribute("categories", list);
+			System.err.println("6");
+			return "editSalePage";
 		}
 
-		Utilisateur newUser = null;
+		ArticleVendu newArticle = null;
 
 		try {
-			newUser = utilisateurManager.updateUtilisateur(utilisateurForm);
+			System.err.println("7");
+			newArticle = articleVenduManager.updateArticleVendu(articleForm);
+			retraitManager.updateRetrait(new RetraitId(newArticle), articleForm);
+			System.err.println("8");
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
-			model.addAttribute("title_editInfo", "Modifier mon compte");
-			model.addAttribute("titre_editInfo", "Modifier mon compte");
-			return "editInfoPage";
+			model.addAttribute("title_editSale", "Modifier ma vente");
+			model.addAttribute("titre_editSale", "Modifier ma vente");
+			Iterable<Categorie> list = categorieManager.selectionnerTous();
+			model.addAttribute("categories", list);
+			return "editSalePage";
 		}
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
-		Authentication authentication = new UsernamePasswordAuthenticationToken(
-				userDetailsServiceImpl.loadUserByUsername(newUser.getPseudo()), newUser.getMotDePasse(),
-				updatedAuthorities);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		redirectAttributes.addFlashAttribute("flashUser", newArticle);
 
-		redirectAttributes.addFlashAttribute("flashUser", newUser);
-
-		return "redirect:/userInfo";
+		return "redirect:/welcome";
 	}
 
-	// TODO - à modifier
 	@RequestMapping(value = "/deleteSale/{noArticle}", method = RequestMethod.GET)
 	public String deleteSale(@PathVariable("noArticle") Long noArticle, Model model, Principal principal, //
 			final RedirectAttributes redirectAttributes) {
 		try {
 			ArticleVendu articleVendu = articleVenduManager.selectionnerArticleVendu(noArticle);
 			Retrait retrait = retraitManager.selectionnerRetrait(new RetraitId(articleVendu));
-			retraitRepository.delete(retrait);
-			articleRepository.delete(articleVendu);
-
+			retraitManager.supprimerRetrait(retrait); 
+			articleVenduManager.supprimerArticle(articleVendu);
+			
 		} catch (Exception e) {
 			System.out.println(e);
 			redirectAttributes.addFlashAttribute("errorMessage", "Error: " + e.getMessage());

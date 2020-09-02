@@ -28,8 +28,8 @@
 		<div class="erreurs" th:if="${errorMessage != null}"
 			th:utext="${errorMessage}">...</div>
 
-		<form th:action="@{/editSale}" th:object="${articleForm}"
-			method="POST">
+		<form th:action="@{/editSale/{id}(id=*{noArticle == null} ? ${noArticle} : ${article.noArticle})}" th:object="${articleForm}" method="POST">
+				
 			<div class="row text-left">
 				<div class="col-12 col-md-3 text-center order-2 order-md-1 mx-2"
 					id="containerImg"></div>
