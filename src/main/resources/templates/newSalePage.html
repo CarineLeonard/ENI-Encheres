@@ -65,7 +65,7 @@
 					</div>
 				</fieldset>
 				
-				<div class="erreurs order-5 order-md-5 ">
+				<div class="erreurs form-group col-md-6 offset-md-3 text-center mt-1 order-5 order-md-5">
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('nomArticle')}" th:errors="*{nomArticle}">..</span>
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">..</span>
 					<span class="row justify-content-center" th:if="${#fields.hasErrors('dateDebutEncheres')}" th:errors="*{dateDebutEncheres}">..</span>

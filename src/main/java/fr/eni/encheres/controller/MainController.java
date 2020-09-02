@@ -215,7 +215,7 @@ public class MainController {
 	public String userInfo(@RequestParam(value = "pseudo", defaultValue = "") String pseudo, Model model,
 			Principal principal) {
 		model.addAttribute("title_userInfo", "Profil");
-
+		model.addAttribute("titre_userInfo", "Mon profil");
 		if (pseudo.equals("")) {
 			pseudo = principal.getName();
 		}

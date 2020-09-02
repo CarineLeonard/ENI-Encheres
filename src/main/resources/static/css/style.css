@@ -15,6 +15,12 @@ footer {
 	font-style : italic;
 }
 
+/* Boutons */ 
+.btn {
+	margin-top : 25px; 
+}
+
+
 /*
 body, input, select, textarea, label {
 	color: #555555;

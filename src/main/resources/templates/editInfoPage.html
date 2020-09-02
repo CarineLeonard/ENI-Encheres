@@ -54,7 +54,7 @@
 				<input type="password" class="form-control col-6 col-md-3 my-2" id="InputConfirmPassword" th:field="*{confirmPassword}">
 				<p class="col-6 col-md-2 my-2 py-1">Crédits:</p><p class="col-6 col-md-1 my-2 py-1" th:text="${user.credit}"></p>
 			</div>
-			<div class="erreurs">
+			<div class="erreurs form-group col-md-6 offset-md-3 text-center mt-1 order-5 order-md-5">
 				<span class="row justify-content-center" th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}">..</span>
 				<span class="row justify-content-center" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}">..</span>
 				<span class="row justify-content-center" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}">..</span>
