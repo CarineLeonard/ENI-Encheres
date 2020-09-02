@@ -38,7 +38,6 @@ import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.ArticleVenduRepository;
 import fr.eni.encheres.dao.CategorieRepository;
 import fr.eni.encheres.dao.RetraitRepository;
-import fr.eni.encheres.dao.UtilisateurRepository;
 import fr.eni.encheres.services.ArticleVenduForm;
 import fr.eni.encheres.services.UtilisateurForm;
 import fr.eni.encheres.services.WebUtils;
@@ -46,9 +45,6 @@ import fr.eni.encheres.services.WebUtils;
 // used to map web requests to Spring Controller methods.
 @Controller
 public class MainController {
-
-	@Autowired
-	private UtilisateurManager utilisateurManager;
 
 	@Autowired
 	private ArticleVenduManager articleVenduManager;
@@ -60,10 +56,10 @@ public class MainController {
 	private CategorieManager categorieManager;
 
 	@Autowired
-	private UtilisateurRepository utilisateurRepository;
+	private RetraitManager retraitManager;
 
 	@Autowired
-	private CategorieRepository categorieRepository;
+	private UtilisateurManager utilisateurManager;
 
 	@Autowired
 	private UtilisateurValidator utilisateurValidator;
@@ -78,13 +74,13 @@ public class MainController {
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 
 	@Autowired
-	private RetraitManager retraitManager;
-
-	@Autowired
 	private ArticleVenduRepository articleRepository;
 
 	@Autowired
 	private RetraitRepository retraitRepository;
+
+	@Autowired
+	private CategorieRepository categorieRepository;
 
 	// Set a form validator
 	@InitBinder("utilisateurForm")
@@ -168,7 +164,13 @@ public class MainController {
 		if (pseudo.equals("")) {
 			pseudo = principal.getName();
 		}
-		Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+		Utilisateur user = null;
+		try {
+			user = utilisateurManager.selectionnerUtilisateur(pseudo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage", "Error: " + e.getMessage());
+		}
 		model.addAttribute("user", user);
 
 		return "userInfoPage";
@@ -177,7 +179,13 @@ public class MainController {
 	@RequestMapping(value = "/editInfo", method = RequestMethod.GET)
 	public String editInfo(Model model, Principal principal) {
 		String pseudo = principal.getName();
-		Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+		Utilisateur user = null;
+		try {
+			user = utilisateurManager.selectionnerUtilisateur(pseudo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage", "Error: " + e.getMessage());
+		}
 		model.addAttribute("user", user);
 
 		UtilisateurForm form = new UtilisateurForm();
@@ -240,7 +248,13 @@ public class MainController {
 			final RedirectAttributes redirectAttributes) {
 		try {
 			String pseudo = principal.getName();
-			Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+			Utilisateur user = null;
+			try {
+				user = utilisateurManager.selectionnerUtilisateur(pseudo);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+			}
 			utilisateurManager.supprimerUtilisateur(user.getNoUtilisateur());
 		} catch (Exception e) {
 			System.out.println(e);
@@ -325,7 +339,13 @@ public class MainController {
 	@RequestMapping(value = "/newSale", method = RequestMethod.GET)
 	public String newSale(Model model, Principal principal) {
 		String pseudo = principal.getName();
-		Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+		Utilisateur user = null;
+		try {
+			user = utilisateurManager.selectionnerUtilisateur(pseudo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage", "Error: " + e.getMessage());
+		}
 		model.addAttribute("user", user);
 
 		ArticleVenduForm form = new ArticleVenduForm();
@@ -394,7 +414,13 @@ public class MainController {
 	public String editSale(@PathVariable("noArticle") Long noArticle, Model model, Principal principal) {
 
 		String pseudo = principal.getName();
-		Utilisateur user = utilisateurRepository.findByPseudo(pseudo);
+		Utilisateur user = null;
+		try {
+			user = utilisateurManager.selectionnerUtilisateur(pseudo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage", "Error: " + e.getMessage());
+		}
 		model.addAttribute("user", user);
 
 		Iterable<Categorie> list = categorieRepository.findAll();

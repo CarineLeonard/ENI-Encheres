@@ -9,53 +9,32 @@ import org.springframework.stereotype.Component;
 
 import fr.eni.encheres.bo.ArticleBlock;
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.dao.ArticleVenduRepository;
+import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.RetraitId;
 import fr.eni.encheres.dao.CategorieRepository;
-import fr.eni.encheres.dao.EnchereRepository;
-import fr.eni.encheres.dao.RetraitRepository;
-import fr.eni.encheres.dao.UtilisateurRepository;
 
 @Component
 public class ArticleBlockManager {
 
 	@Autowired
-	ArticleVenduRepository articleVenduRepository;
+	ArticleVenduManager articleVenduManager;
 
 	@Autowired
 	CategorieRepository categorieRepository;
 
 	@Autowired
-	EnchereRepository enchereRepository;
-
-	@Autowired
-	RetraitRepository retraitRepository;
-
-	@Autowired
-	UtilisateurRepository utilisateurRepository;
-
-	@Autowired
 	CategorieManager categorieManager;
 
 	@Autowired
-	ArticleVenduManager articleVenduManager;
+	RetraitManager retraitManager;
 	
 	public List<ArticleBlock> selectionnerTousArticleBlocks() throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
-		SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yy");
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerTousArticleVendus();
 			
 			for(ArticleVendu art : listeArticles) {
-				ArticleBlock articleBlock = new ArticleBlock();
-				articleBlock.setNoArticle(art.getNoArticle());
-				articleBlock.setNomArticle(art.getNomArticle());
-				articleBlock.setDescription(art.getDescription());
-				articleBlock.setMeilleureOffre(art.getPrixInital()); //TODO Faire le lien avec la meilleur enchere sur l'article
-				articleBlock.setMiseAPrix(art.getPrixInital());
-				articleBlock.setDateFinEncheres(dateFormater.format( art.getDateFinEncheres() ));
-				//articleBlock.setRetrait(retrait); //TODO Faire le lien avec le retrait de l'article
-				articleBlock.setPseudoVendeur(art.getUtilisateur().getPseudo());
-				//articleBlock.setImage(image); //TODO Là ya du boulot
+				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
 				articleBlocks.add(articleBlock);
 			}
 			
@@ -79,7 +58,10 @@ public class ArticleBlockManager {
 			articleBlock.setMeilleureOffre(art.getPrixInital()); //TODO Faire le lien avec la meilleur enchere sur l'article
 			articleBlock.setMiseAPrix(art.getPrixInital());
 			articleBlock.setDateFinEncheres(dateFormater.format( art.getDateFinEncheres() ));
-			//articleBlock.setRetrait(retrait); //TODO Faire le lien avec le retrait de l'article
+			
+			Retrait retrait = retraitManager.selectionnerRetrait(new RetraitId(art));
+			articleBlock.setRetrait(retrait);
+			
 			articleBlock.setPseudoVendeur(art.getUtilisateur().getPseudo());
 			//articleBlock.setImage(image); //TODO Là ya du boulot
 			
