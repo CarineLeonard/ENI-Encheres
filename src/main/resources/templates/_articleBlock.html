@@ -5,7 +5,7 @@
 		<div class="media-body text-left p-3">
 			<h5 class="mt-0" th:utext="${a.nomArticle}"></h5>
 			<p th:utext="${a.description}"></p>
-			<p th:utext="${'Prix : ' + a.meilleureOffre}"></p>
+			<p th:utext="${a.meilleureOffre != null ? 'Prix : ' + a.meilleureOffre.montantEnchere : 'Prix : ' + a.miseAPrix}"></p>
 			<p th:utext="${'Fin de l''ench&egrave;re : ' + a.dateFinEncheres}"></p>
 			<p th:utext="${'Vendeur : ' + a.pseudoVendeur}"></p>
 		</div>

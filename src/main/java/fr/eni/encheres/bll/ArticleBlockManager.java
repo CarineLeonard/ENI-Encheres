@@ -9,9 +9,8 @@ import org.springframework.stereotype.Component;
 
 import fr.eni.encheres.bo.ArticleBlock;
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.RetraitId;
-import fr.eni.encheres.dao.CategorieRepository;
 
 @Component
 public class ArticleBlockManager {
@@ -20,13 +19,10 @@ public class ArticleBlockManager {
 	ArticleVenduManager articleVenduManager;
 
 	@Autowired
-	CategorieRepository categorieRepository;
-
-	@Autowired
-	CategorieManager categorieManager;
-
-	@Autowired
 	RetraitManager retraitManager;
+
+	@Autowired
+	EnchereManager enchereManager;
 	
 	public List<ArticleBlock> selectionnerTousArticleBlocks() throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
@@ -48,20 +44,20 @@ public class ArticleBlockManager {
 		ArticleBlock articleBlock = null;
 		SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-			ArticleVendu art = this.articleVenduManager.selectionnerArticleVendu(id);
+			ArticleVendu art = articleVenduManager.selectionnerArticleVendu(id);
 			
 			articleBlock = new ArticleBlock();
 			articleBlock.setNoArticle(art.getNoArticle());
 			articleBlock.setNomArticle(art.getNomArticle());
 			articleBlock.setDescription(art.getDescription());
 			articleBlock.setCategorie(art.getCategorie().getLibelle());
-			articleBlock.setMeilleureOffre(art.getPrixInital()); //TODO Faire le lien avec la meilleur enchere sur l'article
+			Enchere meilleureEnchere = enchereManager.selectionnerMeilleureEnchere(art.getNoArticle());
+			if (meilleureEnchere != null) {
+				articleBlock.setMeilleureOffre(meilleureEnchere);
+			}
 			articleBlock.setMiseAPrix(art.getPrixInital());
 			articleBlock.setDateFinEncheres(dateFormater.format( art.getDateFinEncheres() ));
-			
-			Retrait retrait = retraitManager.selectionnerRetrait(new RetraitId(art));
-			articleBlock.setRetrait(retrait);
-			
+			articleBlock.setRetrait(retraitManager.selectionnerRetrait(new RetraitId(art)));
 			articleBlock.setPseudoVendeur(art.getUtilisateur().getPseudo());
 			//articleBlock.setImage(image); //TODO Là ya du boulot
 			

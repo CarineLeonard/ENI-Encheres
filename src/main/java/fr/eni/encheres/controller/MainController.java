@@ -26,16 +26,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import fr.eni.encheres.bll.ArticleBlockManager;
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.CategorieManager;
+import fr.eni.encheres.bll.EnchereManager;
 import fr.eni.encheres.bll.RetraitManager;
 import fr.eni.encheres.bll.UserDetailsServiceImpl;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleBlock;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.EnchereId;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.RetraitId;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.services.ArticleVenduForm;
+import fr.eni.encheres.services.EnchereForm;
 import fr.eni.encheres.services.UtilisateurForm;
 import fr.eni.encheres.services.WebUtils;
 
@@ -53,6 +56,8 @@ public class MainController {
 	private RetraitManager retraitManager;
 	@Autowired
 	private UtilisateurManager utilisateurManager;
+	@Autowired
+	private EnchereManager enchereManager;
 
 	@Autowired
 	private UtilisateurValidator utilisateurValidator;
@@ -60,6 +65,8 @@ public class MainController {
 	private UtilisateurEditValidator utilisateurEditValidator;
 	@Autowired
 	private ArticleVenduValidator articleVenduValidator;
+	@Autowired
+	private EnchereValidator enchereValidator;
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
@@ -82,10 +89,40 @@ public class MainController {
 	}
 
 	// répartition des accès au pages avec web security
-	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
-	public String welcomePage(Model model) {
-		model.addAttribute("title_welcome", "Accueil");
+//	@RequestMapping(value = { "/", "/encheres" }, method = RequestMethod.GET)
+//	public String welcomePage(Model model) {
+//		model.addAttribute("title_welcome", "Accueil");
+//		model.addAttribute("titre_welcome", "Liste des enchères");
+//		Iterable<Categorie> list = categorieManager.selectionnerTous();
+//		model.addAttribute("categories", list);
+//		try {
+//			model.addAttribute("articles", articleBlockManager.selectionnerTousArticleBlocks());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			model.addAttribute("errorMessage", "Error: " + e.getMessage());
+//		}
+//		return "welcomePage";
+//	}
+	
+	@RequestMapping(value = { "/", "/encheres" }, method = RequestMethod.GET)
+	public String encheres(@RequestParam(value = "id", defaultValue = "") Long id, Model model, Principal principal) {
+		model.addAttribute("title_welcome", "Enchères");
 		model.addAttribute("titre_welcome", "Liste des enchères");
+		if(id != null) {
+			model.addAttribute("enchere_id", id);
+			
+			ArticleBlock article = null;
+			try {
+				article = articleBlockManager.selectionnerArticleBlockById(id);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+			}
+			model.addAttribute("article", article);
+	
+			return "viewSalePage";
+		} 
+		
 		Iterable<Categorie> list = categorieManager.selectionnerTous();
 		model.addAttribute("categories", list);
 		try {
@@ -96,22 +133,57 @@ public class MainController {
 		}
 		return "welcomePage";
 	}
-	
-	@RequestMapping(value = "/encheres", method = RequestMethod.GET)
-	public String encheres(@RequestParam(value = "id", defaultValue = "") Long id, Model model, Principal principal) {
+
+	@RequestMapping(value = "/encheres", method = RequestMethod.POST)
+	public String newEnchere(@RequestParam(value = "id", defaultValue = "") Long id, Model model, Principal principal, //
+			@ModelAttribute("enchereForm") EnchereForm enchereForm, //
+			BindingResult result, //
+			final RedirectAttributes redirectAttributes) {
+
 		model.addAttribute("title_welcome", "Enchères");
 		model.addAttribute("titre_welcome", "Liste des enchères");
+		model.addAttribute("enchere_id", id);
 		
+		Utilisateur currentUser = null;
+		ArticleVendu articleVendu = null;
 		ArticleBlock article = null;
 		try {
+			currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
+			articleVendu = articleVenduManager.selectionnerArticleVendu(id);
 			article = articleBlockManager.selectionnerArticleBlockById(id);
+			enchereForm.setArticleVendu(articleVendu);
+			enchereForm.setUtilisateur(currentUser);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 		}
 		model.addAttribute("article", article);
 
-		return "viewSalePage";
+		try {
+			System.out.println(enchereForm);
+			enchereValidator.validate(enchereForm, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage", "Error: " + e.getMessage());
+			model.addAttribute("path", "encheres?id=" + id);
+			return "viewSalePage";
+		}
+
+		if (result.hasErrors()) {
+			model.addAttribute("path", "encheres?id=" + id);
+			return "viewSalePage";
+		}
+
+		try {
+			enchereManager.ajouterEnchere(new EnchereId(enchereForm.getUtilisateur(), enchereForm.getArticleVendu()), enchereForm);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage", "Error: " + e.getMessage());
+			model.addAttribute("path", "encheres?id=" + id);
+			return "viewSalePage";
+		}
+
+		return "redirect:/encheres?id=" + id;
 	}
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)

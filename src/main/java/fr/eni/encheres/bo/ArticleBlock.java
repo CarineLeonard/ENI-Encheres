@@ -14,7 +14,7 @@ public @Data class ArticleBlock {
 	private String nomArticle;
 	private String description;
 	private String categorie;
-	private Integer meilleureOffre;
+	private Enchere meilleureOffre;
 	private int miseAPrix;
 	private String dateFinEncheres;
 	private Retrait retrait;

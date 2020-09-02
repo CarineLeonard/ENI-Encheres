@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/vendor/css/bootstrap.min.css}"/>
 	<link href="/css/style.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<title th:utext="${title_newSale}"></title>
+	<title th:utext="${title_welcome}"></title>
 </head>
 
 <body class="homepage">
@@ -24,19 +24,22 @@
 		
 		<div class="row text-left">
 			<div class="col-12 col-md-3 text-center order-2 order-md-1 mx-2" id="containerImg">
+				<img src="/images/placeholder.png" alt="" />
 			</div>
-			<div class="form-group row col-md-6 order-1 order-md-2">
+			<div class="row col-md-6 order-1 order-md-2">
 				<p class="col-12 my-2 py-1" th:utext="${article.nomArticle}"></p>
-				
-				<label class="col-4 my-2 py-1" for="InputDescription" >Description:</label>
-				<p class="col-8 my-2 text-right" rows="3" th:utext="${article.description}"></p>
+			</div>
+			
+			<div class="row col-md-6 offset-md-3 order-3">
+				<label class="col-6 my-2 py-1" for="InputDescription" >Description:</label>
+				<p class="col-6 my-2" th:utext="${article.description}"></p>
 				
 				<label class="col-6 my-2 py-1">Catégorie</label>
 				<p class="col-6 my-2" th:utext="${article.categorie}"></p>
 			</div>
-			<div class="form-group row col-md-6 offset-md-3 order-3">
+			<div class="row col-md-6 offset-md-3 order-4">
 				<p class="col-6 my-2 py-1" >Meilleure offre :</p>
-				<p class="col-3 my-2" th:utext="${article.meilleureOffre != null} ? ${article.meilleureOffre} : ${'Aucune'}"></p>
+				<p class="col-3 my-2" th:utext="${article.meilleureOffre != null} ? ${article.meilleureOffre.montantEnchere} : ${'Aucune'}"></p>
 				<p class="col-6 my-2 py-1" >Mise à prix :</p>
 				<p class="col-3 my-2" th:utext="${article.miseAPrix}"></p>
 				<p class="col-6 my-2 py-1" >Fin de l'enchère:</p>
@@ -44,16 +47,18 @@
 				<label class="col-6 my-2 py-1">Retrait :</label>
 				<p class="col-6 my-2" th:utext="${article.retrait.rue}"></p>
 				<p class="col-6 offset-6 my-2" th:utext="${article.retrait.code_postal + ' ' + article.retrait.ville}"></p>
+				<p class="col-6 my-2 py-1" >Vendeur :</p>
+				<p class="col-3 my-2" th:utext="${article.pseudoVendeur}"></p>
 			</div>
 			
-			<div class="form-group row col-md-6 offset-md-3 text-center mt-1 order-6 order-md-6">
-				<div class="col-6">
-					<button class="btn btn-success btn-lg my-1" type="submit">Enregistrer</button>
-				</div>
-				<div class="col-6">
-					<a class="btn btn-secondary btn-lg my-1" th:href="@{/}">Annuler</a>
-				</div>
-			</div>
+			<form class="form-group row col-md-6 offset-md-3 text-left mt-1 order-5" th:action="@{/encheres?id={id}(id=${enchere_id})}" th:object="${enchereForm}" method="POST" th:if="${#request.userPrincipal != null}">
+					<label class="col-6 my-2 py-1">Ma proposition :</label>
+					<input class="col-2 my-2" type="number" name="montantEnchere" th:min="${article.meilleureOffre != null} ? ${article.meilleureOffre.montantEnchere + 1} : ${article.miseAPrix}"
+															th:value="${article.meilleureOffre != null} ? ${article.meilleureOffre.montantEnchere + 1} : ${article.miseAPrix}" />
+					<div class="col-4">
+						<button class="btn btn-success btn-lg my-1" type="submit">Enchérir</button>
+					</div>
+			</form>
 		</div>
 	</section>
 		
