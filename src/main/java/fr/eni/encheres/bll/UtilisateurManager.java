@@ -95,6 +95,15 @@ public class UtilisateurManager {
 		}
 		return nouvelUtilisateur;
 	}
+
+	public Utilisateur updateUtilisateur(Utilisateur utilisateur) throws Exception {
+		try {
+			utilisateur = this.utilisateurRepository.save(utilisateur);
+		} catch (Exception e) {
+			throw e;
+		}
+		return utilisateur;
+	}
 	
 	public void supprimerUtilisateur(Long noUtilisateur) throws Exception {
 		try {

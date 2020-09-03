@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.EnchereId;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.EnchereRepository;
 import fr.eni.encheres.services.EnchereForm;
 
@@ -15,10 +16,29 @@ public class EnchereManager {
 	
 	@Autowired
 	EnchereRepository enchereRepository;
+	
+	@Autowired
+	UtilisateurManager utilisateurManager;
 
-	public Enchere ajouterEnchere(EnchereId newEnchereId, EnchereForm enchereForm) {
+	public Enchere ajouterEnchere(EnchereId newEnchereId, EnchereForm enchereForm) throws Exception {
 		Enchere enchere = null;
 		try {
+			Enchere encherePrecedente = selectionnerMeilleureEnchere(newEnchereId.getArticleVendu().getNoArticle());
+			if (encherePrecedente != null) {
+				int montantPrecedent = encherePrecedente.getMontantEnchere();
+				Utilisateur userPrecedent = encherePrecedente.getEnchereId().getUtilisateur();
+				userPrecedent.setCredit(userPrecedent.getCredit() + montantPrecedent);
+				utilisateurManager.updateUtilisateur(userPrecedent);
+			}
+			
+			int montant = enchereForm.getMontantEnchere();
+			System.out.println(montant);
+			Utilisateur nouvelUser = newEnchereId.getUtilisateur();
+			System.out.println(nouvelUser.getCredit() + " - " + montant);
+			nouvelUser.setCredit(nouvelUser.getCredit() - montant);
+			System.out.println(nouvelUser.getCredit());
+			utilisateurManager.updateUtilisateur(nouvelUser);
+			
 			enchere = new Enchere(newEnchereId, LocalDateTime.now(), enchereForm.getMontantEnchere());
 			enchere = enchereRepository.save(enchere);
 		} catch (Exception e) {
