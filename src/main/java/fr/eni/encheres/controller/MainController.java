@@ -1,14 +1,11 @@
 package fr.eni.encheres.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -584,4 +581,20 @@ public class MainController {
 		return "redirect:/";
 	}
 
+	@RequestMapping(value = "/endSale/{noArticle}", method = RequestMethod.GET)
+	public String endSale(@PathVariable("noArticle") Long noArticle, Model model, Principal principal) {
+		model.addAttribute("title_endSale", "Enchère terminée");
+		ArticleVendu article = null; 
+		ArticleBlock articleBlock = null; 
+		try {
+			article = articleVenduManager.selectionnerArticleVendu(noArticle);
+			articleBlock = articleBlockManager.selectionnerArticleBlockById(noArticle);
+		} catch (Exception e) {
+			System.out.println(e);
+			model.addAttribute("errorMessage", "Error: " + e.getMessage());
+		} 
+		model.addAttribute("article", article);
+		model.addAttribute("articleBlock", articleBlock);
+		return "endSalePage";
+	}
 }

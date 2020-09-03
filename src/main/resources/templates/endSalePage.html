@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Site d'enchères">
+	<meta name="author" content="L&L">
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/css/bootstrap.min.css}"/>
+	<link href="/css/style.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<title th:utext="${title_endSale}"></title>
+</head>
+
+<body>
+
+	<!-- Include _header.html -->
+	<th:block th:include="/_header"></th:block>
+
+	<section class="container text-center">
+		<h2 class="my-5" th:if="${#request.userPrincipal != null and #strings.equals(session.user.pseudo, 
+		articleBlock.meilleureOffre.enchereId.utilisateur.pseudo)}">Vous avez remporté la vente</h2>
+		<h2 class="my-5" th:if="${#request.userPrincipal != null and !#strings.equals(session.user.pseudo, 
+		articleBlock.meilleureOffre.enchereId.utilisateur.pseudo)}" th:text="|${articleBlock.meilleureOffre.enchereId.utilisateur.pseudo} a remporté l'enchère|"></h2>
+		<div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-5">
+			<table class="table table-borderless text-nowrap">
+				<tbody>
+					<tr>
+						<td colspan="2" class="col-6" th:text="${articleBlock.nomArticle}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-left">Description :</th>
+						<td th:text="${articleBlock.description}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-left">Meilleure offre :</th>
+						<td th:text="${articleBlock.meilleureOffre.montantEnchere}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-left">Mise à prix :</th>
+						<td th:text="${articleBlock.miseAPrix}"></td>
+					</tr>
+					<tr>
+						<th rowspan="2" scope="row" class="text-left">Retrait :</th>
+						<td th:text="${articleBlock.retrait.rue}"></td>
+					</tr>
+					<tr>
+						<td th:text="${articleBlock.retrait.code_postal + ' ' + articleBlock.retrait.ville}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-left">Vendeur :</th>
+						<td th:text="${articleBlock.pseudoVendeur}"></td>
+					</tr>
+					<tr>
+						<th scope="row" class="text-left">Téléphone :</th>
+						<td th:text="${article.utilisateur.telephone}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-12 col-sm-auto">
+			<a class="btn btn-secondary btn-lg my-1" th:href="@{/}">Retour</a>
+		</div>
+		<div class="" th:if="${#request.userPrincipal != null and #strings.equals(session.user.pseudo,	articleBlock.pseudoVendeur)}">
+			<a  class="btn btn-secondary btn-lg my-1">Retrait effectué</a>
+		</div>
+
+	</section>
+
+	<!-- Include _footer.html -->
+	<th:block th:include="/_footer"></th:block>
+</body>
+</html>
