@@ -109,6 +109,7 @@ public class MainController {
 		
 		model.addAttribute("title_welcome", "Enchères");
 		model.addAttribute("titre_welcome", "Liste des enchères");
+		
 		if(id != null) {
 			model.addAttribute("enchere_id", id);
 			
