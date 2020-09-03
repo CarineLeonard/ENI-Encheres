@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dao.ArticleVenduRepository;
 import fr.eni.encheres.dao.CategorieRepository;
 import fr.eni.encheres.dao.EnchereRepository;
@@ -60,6 +59,130 @@ public class ArticleVenduManager {
 		return listeArticles;
 	}
 	
+	public List<ArticleVendu> selectionnerArticleVendusEncheresOuvertes() throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findEncheresOuvertes();
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	public List<ArticleVendu> selectionnerArticleVendusMesEncheresEncours(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesEncheresEncours(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	public List<ArticleVendu> selectionnerArticleVendusMesEncheresRemportees(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesEncheresRemportees(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	
+	public List<ArticleVendu> selectionnerArticleVendusEncheresOuvertesMesEncheresEncours() throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findEncheresOuvertes();
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	public List<ArticleVendu> selectionnerArticleVendusEncheresOuvertesMesEncheresRemportees(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findEncheresOuvertesMesEncheresRemportees(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	public List<ArticleVendu> selectionnerArticleVendusMesEncheresEncoursMesEncheresRemportees(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesEncheresEncoursMesEncheresRemportees(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesEnCours(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesEnCours(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesNonDebutees(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesNonDebutees(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesTerminees(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesTerminees(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesEnCoursMesVentesNonDebutees(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesEnCoursMesVentesNonDebutees(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesEnCoursMesVentesTerminees(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesEnCoursMesVentesTerminees(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesNonDebuteesMesVentesTerminees(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesNonDebuteesMesVentesTerminees(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
+	
 	public ArticleVendu selectionnerArticleVendu(Long noArticle) throws Exception {
 		ArticleVendu article = null;
 		try {
@@ -68,16 +191,6 @@ public class ArticleVenduManager {
 			throw e;
 		}
 		return article;
-	}
-	
-	public void supprimerArticleVendu (Long noArticle) throws Exception {
-		try {
-			ArticleVendu articleVendu = articleVenduRep.findByNoArticle(noArticle);
-			retraitRep.deleteById(noArticle);
-			articleVenduRep.deleteById(noArticle);
-		} catch (Exception e) {
-			throw e;
-		}
 	}
 	
 	public ArticleVendu updateArticleVendu(ArticleVenduForm articleForm) throws Exception {
@@ -93,10 +206,18 @@ public class ArticleVenduManager {
 		}
 		return newArticleVendu; 
 	}
+	
+	public void supprimerArticleVendu (Long noArticle) throws Exception {
+		try {
+			retraitRep.deleteById(noArticle);
+			articleVenduRep.deleteById(noArticle);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 	public void supprimerArticle(ArticleVendu articleVendu) {
 		articleVenduRep.delete(articleVendu);
-		
 	}
 
 	
