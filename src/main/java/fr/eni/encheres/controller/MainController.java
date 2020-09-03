@@ -347,7 +347,7 @@ public class MainController {
 
 		UtilisateurForm form = new UtilisateurForm();
 		model.addAttribute("title_register", "Créer un compte");
-		model.addAttribute("titre_register", "Créer un compte");
+		model.addAttribute("titre_register", "Mon profil");
 		model.addAttribute("utilisateurForm", form);
 
 		return "registerPage";

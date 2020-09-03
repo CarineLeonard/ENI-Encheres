@@ -20,6 +20,23 @@ footer {
 	margin-top : 25px; 
 }
 
+/* Blocs */ 
+.blocs {
+	white-space: normal;
+}
+
+.blocs a, .blocs a:hover {
+	color : #46506B; 
+	text-decoration: underline;
+}
+
+.appelBlocs  {
+	margin-top : 50px; 
+}
+
+.aere {
+	margin-top : 30px; 
+}
 
 /*
 body, input, select, textarea, label {

@@ -61,12 +61,12 @@
 				<span class="row justify-content-center" th:if="${#fields.hasErrors('motDePasse')}" th:errors="*{motDePasse}">..</span>
 				<span class="row justify-content-center" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">..</span>	
 			</div>
-			<div class="form-group row justify-content-center mt-4">
-				<div class="col-6 col-sm-auto">
-					<button class="btn btn-success btn-lg" type="submit">Créer</button>
+			<div class="form-group row justify-content-center mt-4 col-md-6 offset-md-3 text-center mt-1 order-6 order-md-6">
+				<div class="col-6 ">
+					<button class="btn btn-success btn-lg my-1" type="submit">Créer</button>
 				</div>
-				<div class="col-6 col-sm-auto">
-					<a class="btn btn-secondary btn-lg" th:href="@{/login}">Annuler</a>
+				<div class="col-6 ">
+					<a class="btn btn-secondary btn-lg my-1" th:href="@{/login}">Annuler</a>
 				</div>
 			</div>
 		</form>

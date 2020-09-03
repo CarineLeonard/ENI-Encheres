@@ -22,9 +22,9 @@
 		<div class="erreurs my-5" th:if="${errorMessage != null}" th:utext="${errorMessage}">...</div>
 		
 		<div class="row col-md-10 offset-md-1 justify-content-center text-left mx-auto">
-			<div class="form-group row col-12 col-md-6">
+			<div class="form-group row col-12 col-md-8">
 				<h5 class="col-12 order-1">Filtres :</h5>
-				<div class="row col-12 order-2 order-md-3 mx-auto">
+				<div class="row col-12 order-3 order-md-3 mx-auto aere">
 					<label class="col-4 pl-0 my-auto" for="InputCategorie" >Catégories :</label>
 					<select class="form-control col-8" id="InputCategorie" name="categorie">
 						<option value="0">Toutes</option>
@@ -40,13 +40,59 @@
 					</div>
 					<input class="form-control" type="text" placeholder="Le nom de l'article contient" aria-label="Recherche" aria-describedby="inputRechercheIcon">
 				</div>
+				<!--  ! visible que si connecté ! -->
+				<div class="row col-12 order-4 order-lg-4 mx-auto aere order-2 order-md-2">
+					<div class="form-check form-check-inline col-lg-6 order-lg-5 ">
+						<input type="radio" id="achat" name="choix" value="achat" checked class="form-check-input">
+						<label for="achat" class="form-check-label">Achats</label>
+					</div>
+					<div class="form-check col-lg-6 order-lg-7 ">
+						<div class=col-12>
+						<input type="checkbox" id="choixachat" name="Aouvertes" checked class="row form-check-input">
+							<label for="Aouvertes" class="form-check-label">enchères ouvertes</label>
+						</div>
+						<div class=col-12>
+						<input type="checkbox" id="choixachat" name="Aencours" class="row form-check-input">
+							<label for="Aencours" class="form-check-label">mes enchères en cours</label>			
+						</div>
+						<div class=col-12>				
+						<input type="checkbox" id="choixachat" name="Aremportees" class="row form-check-input">
+							<label for="Aremportees" class="form-check-label">mes enchères remportées</label>	
+						</div>
+					</div>	
+					<div class="form-check form-check-inline order-lg-6 col-lg-5">
+						<input type="radio" id="vente" name="choix" value="vente" class=" form-check-input">
+						<label for="vente" class="form-check-label">Mes ventes</label>
+					</div>
+					<div class="form-check col-lg-5 order-lg-8 ">
+						<div class=col-12>
+						<input type="checkbox" id="choixvente" name="Vencours" class="row form-check-input">
+							<label for="Vencours" class="form-check-label">mes ventes en cours</label>
+						</div>
+						<div class=col-12>
+						<input type="checkbox" id="choixvente" name="Vnondebute" class="row form-check-input">
+							<label for="Vnondebute" class="form-check-label">ventes non débutées</label>
+						</div>
+						<div class=col-12>
+						<input type="checkbox" id="choixvente" name="Vterminees" class="row form-check-input">
+							<label for="Vterminees" class="form-check-label">ventes terminées</label>
+						</div>
+					</div>	
+				</div>
 			</div>
-			<div class="row col-12 col-md-6">
-				<button class="col-12 btn btn-success btn-lg my-1" type="submit">Rechercher</button>
+			<div class="row col-12 col-md-4 justify-content-around">
+				<button class=" col-lg-8 btn btn-secondary btn-lg m-5 my-1 h-50" type="submit">Rechercher</button>
 			</div>
 			<div class="w-100"></div>
 		</div>
-		<div class="row col-md-10 offset-md-1 mx-auto">
+		
+		<div class="row col-md-10 offset-md-1 justify-content-center text-left mx-auto">
+			
+			
+			
+		</div>
+		
+		<div class="row col-md-10 offset-md-1 mx-auto appelBlocs">
 			<th:block th:include="/_articleBlock" th:each="a: ${articles}"></th:block>
 		</div>
 		
