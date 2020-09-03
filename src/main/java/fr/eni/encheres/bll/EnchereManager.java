@@ -32,11 +32,8 @@ public class EnchereManager {
 			}
 			
 			int montant = enchereForm.getMontantEnchere();
-			System.out.println(montant);
 			Utilisateur nouvelUser = newEnchereId.getUtilisateur();
-			System.out.println(nouvelUser.getCredit() + " - " + montant);
 			nouvelUser.setCredit(nouvelUser.getCredit() - montant);
-			System.out.println(nouvelUser.getCredit());
 			utilisateurManager.updateUtilisateur(nouvelUser);
 			
 			enchere = new Enchere(newEnchereId, LocalDateTime.now(), enchereForm.getMontantEnchere());
