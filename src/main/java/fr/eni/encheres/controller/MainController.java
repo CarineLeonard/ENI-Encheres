@@ -1,9 +1,13 @@
 package fr.eni.encheres.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -581,28 +585,24 @@ public class MainController {
 	public String editSale(@PathVariable("noArticle") Long noArticle, Model model, Principal principal, 
 			@RequestParam(value = "categorie") Long currentNoCategorie, 
 			@ModelAttribute("articleForm") ArticleVenduForm articleForm, BindingResult result, final RedirectAttributes redirectAttributes) {
-		System.err.println("1");
 		try {
 			ArticleVendu article = articleVenduManager.selectionnerArticleVendu(noArticle);
 			model.addAttribute("article", article);
 			
 			Utilisateur currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
 			articleForm.setUtilisateur(currentUser);
-		System.err.println("2");	
 			Categorie currentCategorie = categorieManager.selectionnerCategorie(currentNoCategorie);
 			articleForm.setCategorie(currentCategorie);
 			articleForm.setNoArticle(noArticle);
-			
-		System.err.println("3");
+
 			articleVenduValidator.validate(articleForm, result);
-			System.err.println("4");
+
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 			model.addAttribute("title_editSale", "Modifier ma vente");
 			model.addAttribute("titre_editSale", "Modifier ma vente");
 			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
-			System.err.println("5");
 			return "editSalePage";
 		}
 
@@ -611,17 +611,14 @@ public class MainController {
 			model.addAttribute("titre_editSale", "Modifier ma vente");
 			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
-			System.err.println("6");
 			return "editSalePage";
 		}
 
 		ArticleVendu newArticle = null;
 
 		try {
-			System.err.println("7");
 			newArticle = articleVenduManager.updateArticleVendu(articleForm);
 			retraitManager.updateRetrait(new RetraitId(newArticle), articleForm);
-			System.err.println("8");
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 			model.addAttribute("title_editSale", "Modifier ma vente");
@@ -633,7 +630,7 @@ public class MainController {
 
 		redirectAttributes.addFlashAttribute("flashUser", newArticle);
 
-		return "redirect:/welcome";
+		return "redirect:/encheres";
 	}
 
 	@RequestMapping(value = "/deleteSale/{noArticle}", method = RequestMethod.GET)
@@ -669,5 +666,65 @@ public class MainController {
 		model.addAttribute("article", article);
 		model.addAttribute("articleBlock", articleBlock);
 		return "endSalePage";
+	}
+	
+	@RequestMapping(value= "/article/{noArticle}", method = RequestMethod.GET)
+	public String article(@PathVariable("noArticle") Long noArticle, Model model, Principal principal) {
+		
+		Utilisateur currentUser=null;
+		try {
+			currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		ArticleVendu article1 = null; 
+		ArticleBlock a = null; 
+		System.err.println("coucou");
+		try {
+			article1 = articleVenduManager.selectionnerArticleVendu(noArticle);
+			System.err.println("toi");
+			a = articleBlockManager.selectionnerArticleBlockById(noArticle);
+			System.err.println("moi");
+		} catch (Exception e) {
+			System.out.println(e);
+			model.addAttribute("errorMessage", "Error: " + e.getMessage());
+		} 
+		System.err.println(a);
+		
+		Date datejour = new Date();
+		
+		String aretournerString = null; 
+		
+		// si date fin enchères pas passé mais que date début enchère passée 
+		if ((article1.getDateFinEncheres().compareTo(datejour) > 0) & (article1.getDateDebutEncheres().compareTo(datejour) < 0)) {
+			return "redirect:/encheres?id=" + noArticle;
+		}
+		// 				model.addAttribute("path", "encheres?id=" + id);
+		// return "viewSalePage";
+		
+		// si user en cours est le vendeur et que date début enchère pas passé 
+		if (currentUser.getPseudo().equals(a.getPseudoVendeur()) &  (article1.getDateDebutEncheres().compareTo(datejour) > 0)) {
+			return "redirect:/editSale/" + noArticle;
+		}
+		
+		// si user en cours est un autre user et que date début enchère pas passée 
+		if (!currentUser.getPseudo().equals(a.getPseudoVendeur()) &  (article1.getDateDebutEncheres().compareTo(datejour) > 0)) {
+			model.addAttribute("path", "encheres?id=" + noArticle);
+			model.addAttribute("article1", article1);
+			return "redirect:/encheres?id=" + noArticle;
+		}
+		
+		// si date fin enchère est passée 
+		if (article1.getDateFinEncheres().compareTo(datejour) < 0) {
+			model.addAttribute("path", noArticle);		
+			return "redirect:/endSale/" + noArticle; 
+		}
+		
+		return aretournerString;
+		
+		
+
+		
 	}
 }

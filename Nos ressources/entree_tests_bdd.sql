@@ -38,7 +38,7 @@ insert into articles_vendus (nom_article, description, date_debut_encheres, date
 values ('Vélo', 'Vélo ancien en bon état de marche', '2020-09-05', '2020-09-12', 150, 1, 2); 
 
 insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) 
-values ('Robot multifonction', 'Robot de cuisine, fonctionne très bien', '2020-09-06', '2020-09-011', 50, 1, 3); 
+values ('Robot multifonction', 'Robot de cuisine, fonctionne très bien', '2020-09-06', '2020-09-11', 50, 1, 3); 
 
 insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) 
 values ('Chaise de jardin', 'Chaise de jardin en bois vert', '2020-09-06', '2020-09-09', 100, 2, 2); 
@@ -47,10 +47,10 @@ insert into articles_vendus (nom_article, description, date_debut_encheres, date
 values ('Vélo enfant', 'Vélo en très état de marche', '2020-09-03', '2020-09-06', 200, 2, 2); 
 
 insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) 
-values ('Sophie la girafe', 'Jouet pour bébé', '2020-09-03', '2020-09-10', 150, 1, 1); 
+values ('Sophie la girafe', 'Jouet pour bébé', '2020-09-01', '2020-09-02', 150, 1, 1); 
 
 insert into articles_vendus (nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, no_utilisateur, no_categorie) 
-values ('Wii', 'Wii de 2010, plus de manuel mais bon état de marche', '2020-09-05', '2020-09-09', 300, 1, 1); 
+values ('Wii', 'Wii de 2010, plus de manuel mais bon état de marche', '2020-09-02', '2020-09-09', 300, 1, 1); 
 
 ---
 
@@ -77,4 +77,5 @@ select * from categories;
 
 -- 
 
-update utilisateurs set credit=10000; 
+
+update articles_vendus set date_fin_encheres='2020-09-03', date_debut_encheres='2020-09-01' where no_article=1; 
