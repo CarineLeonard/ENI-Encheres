@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import fr.eni.encheres.bo.ArticleBlock;
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.RetraitId;
 
@@ -68,7 +67,7 @@ public class ArticleBlockManager {
 		return articleBlock;
 	}
 	
-	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertes(String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertes(Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusEncheresOuvertes(categorie, string);
@@ -83,7 +82,7 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresEncours(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresEncours(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesEncheresEncours(noUtilisateur, categorie, string);
@@ -98,7 +97,7 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresRemportees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresRemportees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesEncheresRemportees(noUtilisateur, categorie, string);
@@ -114,7 +113,7 @@ public class ArticleBlockManager {
 		return articleBlocks;
 	}
 	
-	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours(String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours(Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusEncheresOuvertesMesEncheresEncours(categorie, string);
@@ -129,7 +128,7 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, string);
@@ -144,7 +143,7 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesEncheresEncoursMesEncheresRemportees(noUtilisateur, categorie, string);
@@ -160,7 +159,7 @@ public class ArticleBlockManager {
 		return articleBlocks;
 	}
 	
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCours(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCours(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesEnCours(noUtilisateur, categorie, string);
@@ -175,7 +174,7 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesNonDebutees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesNonDebutees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesNonDebutees(noUtilisateur, categorie, string);
@@ -190,7 +189,7 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesTerminees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesTerminees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesTerminees(noUtilisateur, categorie, string);
@@ -206,7 +205,7 @@ public class ArticleBlockManager {
 		return articleBlocks;
 	}
 
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesEnCoursMesVentesNonDebutees(noUtilisateur, categorie, string);
@@ -221,7 +220,7 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesEnCoursMesVentesTerminees(noUtilisateur, categorie, string);
@@ -236,7 +235,7 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesNonDebuteesMesVentesTerminees(noUtilisateur, categorie, string);
@@ -251,7 +250,7 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksToutesMesVentes(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksToutesMesVentes(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
 			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusToutesMesVentes(noUtilisateur, categorie, string);

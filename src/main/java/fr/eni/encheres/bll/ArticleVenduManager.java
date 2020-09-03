@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dao.ArticleVenduRepository;
 import fr.eni.encheres.dao.CategorieRepository;
 import fr.eni.encheres.dao.EnchereRepository;
@@ -60,7 +59,7 @@ public class ArticleVenduManager {
 		return listeArticles;
 	}
 	
-	public List<ArticleVendu> selectionnerArticleVendusEncheresOuvertes(String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusEncheresOuvertes(Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findEncheresOuvertes(categorie, string);
@@ -70,7 +69,7 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
-	public List<ArticleVendu> selectionnerArticleVendusMesEncheresEncours(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusMesEncheresEncours(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesEncheresEncours(noUtilisateur, categorie, string);
@@ -80,7 +79,7 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
-	public List<ArticleVendu> selectionnerArticleVendusMesEncheresRemportees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusMesEncheresRemportees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesEncheresRemportees(noUtilisateur, categorie, string);
@@ -91,7 +90,7 @@ public class ArticleVenduManager {
 		return listeArticles;
 	}
 	
-	public List<ArticleVendu> selectionnerArticleVendusEncheresOuvertesMesEncheresEncours(String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusEncheresOuvertesMesEncheresEncours(Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findEncheresOuvertes(categorie, string);
@@ -101,7 +100,7 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
-	public List<ArticleVendu> selectionnerArticleVendusEncheresOuvertesMesEncheresRemportees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusEncheresOuvertesMesEncheresRemportees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, string);
@@ -111,7 +110,7 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
-	public List<ArticleVendu> selectionnerArticleVendusMesEncheresEncoursMesEncheresRemportees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusMesEncheresEncoursMesEncheresRemportees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesEncheresEncoursMesEncheresRemportees(noUtilisateur, categorie, string);
@@ -122,7 +121,7 @@ public class ArticleVenduManager {
 		return listeArticles;
 	}
 	
-	public List<ArticleVendu> selectionnerArticleVendusMesVentesEnCours(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesEnCours(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesEnCours(noUtilisateur, categorie, string);
@@ -132,7 +131,7 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
-	public List<ArticleVendu> selectionnerArticleVendusMesVentesNonDebutees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesNonDebutees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesNonDebutees(noUtilisateur, categorie, string);
@@ -142,7 +141,7 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
-	public List<ArticleVendu> selectionnerArticleVendusMesVentesTerminees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesTerminees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesTerminees(noUtilisateur, categorie, string);
@@ -153,7 +152,7 @@ public class ArticleVenduManager {
 		return listeArticles;
 	}
 
-	public List<ArticleVendu> selectionnerArticleVendusMesVentesEnCoursMesVentesNonDebutees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesEnCoursMesVentesNonDebutees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesEnCoursMesVentesNonDebutees(noUtilisateur, categorie, string);
@@ -163,7 +162,7 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
-	public List<ArticleVendu> selectionnerArticleVendusMesVentesEnCoursMesVentesTerminees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesEnCoursMesVentesTerminees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesEnCoursMesVentesTerminees(noUtilisateur, categorie, string);
@@ -173,7 +172,7 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
-	public List<ArticleVendu> selectionnerArticleVendusMesVentesNonDebuteesMesVentesTerminees(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusMesVentesNonDebuteesMesVentesTerminees(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findMesVentesNonDebuteesMesVentesTerminees(noUtilisateur, categorie, string);
@@ -183,7 +182,7 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
-	public List<ArticleVendu> selectionnerArticleVendusToutesMesVentes(Long noUtilisateur, String categorie, String string) throws Exception {
+	public List<ArticleVendu> selectionnerArticleVendusToutesMesVentes(Long noUtilisateur, Long categorie, String string) throws Exception {
 		List<ArticleVendu> listeArticles = null;
 		try {
 			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findToutesMesVentes(noUtilisateur, categorie, string);

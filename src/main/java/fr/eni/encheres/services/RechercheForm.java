@@ -1,11 +1,10 @@
 package fr.eni.encheres.services;
 
-import fr.eni.encheres.bo.Categorie;
 import lombok.Data;
 
 public @Data class RechercheForm {
 
-	 private Categorie categorie;
+	 private Long categorie;
 	 private String recherche;
 	 
 	 private boolean radio;

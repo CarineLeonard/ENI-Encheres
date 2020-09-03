@@ -198,7 +198,9 @@ public class MainController {
 			
 			return "redirect:/encheres?id=" + id;
 		}
-
+		
+		Iterable<Categorie> list = categorieManager.selectionnerTous();
+		model.addAttribute("categories", list);
 		
 		Long noUtilisateur = null;
 		try {
@@ -207,20 +209,16 @@ public class MainController {
 			e.printStackTrace();
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 		}
-		Categorie cat = rechercheForm.getCategorie();
-		System.err.println(cat);
-		String categorie;
-		if (cat == null) {
-			categorie = "%%";
-		} else {
-			categorie = String.valueOf(rechercheForm.getCategorie().getNoCategorie());
+		
+		System.err.println(rechercheForm.getCategorie());
+		Long categorie = null;
+		if (rechercheForm.getCategorie() != 0) {
+			categorie = rechercheForm.getCategorie();
 		}
-		System.err.println(categorie);
-
-		Iterable<Categorie> list = categorieManager.selectionnerTous();
-		model.addAttribute("categories", list);
-
-		System.err.println("Coucou ! :[");
+		if (rechercheForm.getRecherche().length()<=0) {
+			rechercheForm.setRecherche(null);
+		}
+		
 		try {
 			if(!rechercheForm.isRadio()) {
 				if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
@@ -260,7 +258,7 @@ public class MainController {
 			e.printStackTrace();
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 		}
-		System.err.println("Coucou ! :]");
+		
 		return "welcomePage";
 		
 //		return "redirect:/encheres";

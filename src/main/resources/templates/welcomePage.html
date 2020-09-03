@@ -26,10 +26,10 @@
 				<h5 class="col-12 order-1">Filtres :</h5>
 				<div class="row col-12 order-3 order-md-3 mx-auto aere">
 					<label class="col-4 pl-0 my-auto" for="InputCategorie" >Catégories :</label>
-					<select class="form-control col-8" id="InputCategorie" name="*{categorie}">
+					<select class="form-control col-8" id="InputCategorie" name="categorie">
 						<option value="0">Toutes</option>
 <!-- 						<option  th:each="c: ${categories}" th:value="${c.noCategorie}" th:utext="${c.libelle}">..</option> -->
-						<option th:each="c: ${categories}" th:value="${c.noCategorie}" th:utext="${c.libelle}" th:selected="${c == rechercheForm.categorie}">..</option>
+						<option th:each="c: ${categories}" th:value="${c.noCategorie}" th:utext="${c.libelle}" th:selected="${c.noCategorie == rechercheForm.categorie}">..</option>
 					</select>
 				</div>
 <!-- 				<input class="form-control col-12 order-3" type="text" id="InputRecherche" th:field="*{champRecherche}"> -->
