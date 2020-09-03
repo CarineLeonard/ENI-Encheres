@@ -1,10 +1,14 @@
 package fr.eni.encheres.controller;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -481,6 +485,9 @@ public class MainController {
 
 		ArticleVenduForm form = new ArticleVenduForm();
 		model.addAttribute("articleForm", form);
+		
+		Date datejour = new Date();
+		model.addAttribute("datejour", datejour);
 
 		try {
 			ArticleVendu article = articleVenduManager.selectionnerArticleVendu(noArticle);

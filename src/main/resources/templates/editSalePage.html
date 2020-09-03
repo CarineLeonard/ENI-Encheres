@@ -120,13 +120,13 @@
 
 				<div
 					class="form-group row col-md-6 offset-md-3 text-center mt-1 order-6 order-md-6">
-					<div class="col-12 col-sm-auto">
+					<div class="col-12 col-sm-auto" th:if="${article.dateDebutEncheres.after(datejour)}">
 						<button type="submit" class="btn btn-success btn-lg">Enregistrer</button>
 					</div>
 					<div class="col-12 col-sm-auto">
-						<a class="btn btn-secondary btn-lg my-1" th:href="@{/}">Annuler</a>
+						<a class="btn btn-secondary btn-lg my-1" th:href="@{/}">Retour</a>
 					</div>
-					<div class="col-12 col-sm-auto">
+					<div class="col-12 col-sm-auto" th:if="${article.dateDebutEncheres.after(datejour)}">
 						<a class="btn btn-danger btn-lg text-nowrap"
 							th:href="@{/deleteSale/{noArticle}(noArticle=${article.noArticle})}">Annuler
 							la vente</a>
