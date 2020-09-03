@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import fr.eni.encheres.bo.ArticleBlock;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.RetraitId;
 
@@ -67,10 +68,10 @@ public class ArticleBlockManager {
 		return articleBlock;
 	}
 	
-	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertes() throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertes(String categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusEncheresOuvertes();
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusEncheresOuvertes(categorie, string);
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
@@ -82,10 +83,10 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresEncours(Long noUtilisateur) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresEncours(Long noUtilisateur, String categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesEncheresEncours(noUtilisateur);
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesEncheresEncours(noUtilisateur, categorie, string);
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
@@ -97,56 +98,10 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresRemportees(Long noUtilisateur) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresRemportees(Long noUtilisateur, String categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesEncheresRemportees(noUtilisateur);
-			
-			for(ArticleVendu art : listeArticles) {
-				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
-				articleBlocks.add(articleBlock);
-			}
-
-		} catch (Exception e) {
-			throw e;
-		}
-		return articleBlocks;
-	}
-	
-	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours() throws Exception {
-		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
-		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusEncheresOuvertesMesEncheresEncours();
-			
-			for(ArticleVendu art : listeArticles) {
-				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
-				articleBlocks.add(articleBlock);
-			}
-
-		} catch (Exception e) {
-			throw e;
-		}
-		return articleBlocks;
-	}
-	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(Long noUtilisateur) throws Exception {
-		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
-		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusEncheresOuvertesMesEncheresRemportees(noUtilisateur);
-			
-			for(ArticleVendu art : listeArticles) {
-				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
-				articleBlocks.add(articleBlock);
-			}
-
-		} catch (Exception e) {
-			throw e;
-		}
-		return articleBlocks;
-	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(Long noUtilisateur) throws Exception {
-		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
-		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesEncheresEncoursMesEncheresRemportees(noUtilisateur);
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesEncheresRemportees(noUtilisateur, categorie, string);
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
@@ -159,10 +114,25 @@ public class ArticleBlockManager {
 		return articleBlocks;
 	}
 	
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCours(Long noUtilisateur) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours(String categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesEnCours(noUtilisateur);
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusEncheresOuvertesMesEncheresEncours(categorie, string);
+			
+			for(ArticleVendu art : listeArticles) {
+				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle()); //TODO kesskya ?
+				articleBlocks.add(articleBlock);
+			}
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return articleBlocks;
+	}
+	public List<ArticleBlock> selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(Long noUtilisateur, String categorie, String string) throws Exception {
+		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
+		try {
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, string);
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
@@ -174,10 +144,10 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesNonDebutees(Long noUtilisateur) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(Long noUtilisateur, String categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesNonDebutees(noUtilisateur);
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesEncheresEncoursMesEncheresRemportees(noUtilisateur, categorie, string);
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
@@ -189,10 +159,41 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesTerminees(Long noUtilisateur) throws Exception {
+	
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCours(Long noUtilisateur, String categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesTerminees(noUtilisateur);
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesEnCours(noUtilisateur, categorie, string);
+			
+			for(ArticleVendu art : listeArticles) {
+				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
+				articleBlocks.add(articleBlock);
+			}
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return articleBlocks;
+	}
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesNonDebutees(Long noUtilisateur, String categorie, String string) throws Exception {
+		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
+		try {
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesNonDebutees(noUtilisateur, categorie, string);
+			
+			for(ArticleVendu art : listeArticles) {
+				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
+				articleBlocks.add(articleBlock);
+			}
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return articleBlocks;
+	}
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesTerminees(Long noUtilisateur, String categorie, String string) throws Exception {
+		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
+		try {
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesTerminees(noUtilisateur, categorie, string);
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
@@ -205,10 +206,10 @@ public class ArticleBlockManager {
 		return articleBlocks;
 	}
 
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(Long noUtilisateur) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(Long noUtilisateur, String categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesEnCoursMesVentesNonDebutees(noUtilisateur);
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesEnCoursMesVentesNonDebutees(noUtilisateur, categorie, string);
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
@@ -220,10 +221,10 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(Long noUtilisateur) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(Long noUtilisateur, String categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesEnCoursMesVentesTerminees(noUtilisateur);
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesEnCoursMesVentesTerminees(noUtilisateur, categorie, string);
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
@@ -235,10 +236,10 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(Long noUtilisateur) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(Long noUtilisateur, String categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesNonDebuteesMesVentesTerminees(noUtilisateur);
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusMesVentesNonDebuteesMesVentesTerminees(noUtilisateur, categorie, string);
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
@@ -250,10 +251,10 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
-	public List<ArticleBlock> selectionnerArticleBlocksToutesMesVentes(Long noUtilisateur) throws Exception {
+	public List<ArticleBlock> selectionnerArticleBlocksToutesMesVentes(Long noUtilisateur, String categorie, String string) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
 		try {
-			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusToutesMesVentes(noUtilisateur);
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusToutesMesVentes(noUtilisateur, categorie, string);
 			
 			for(ArticleVendu art : listeArticles) {
 				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());

@@ -211,7 +211,16 @@ public class MainController {
 			e.printStackTrace();
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 		}
-		
+		Categorie cat = rechercheForm.getCategorie();
+		System.err.println(cat);
+		String categorie;
+		if (cat == null) {
+			categorie = "%%";
+		} else {
+			categorie = String.valueOf(rechercheForm.getCategorie().getNoCategorie());
+		}
+		System.err.println(categorie);
+
 		Iterable<Categorie> list = categorieManager.selectionnerTous();
 		model.addAttribute("categories", list);
 
@@ -219,35 +228,35 @@ public class MainController {
 		try {
 			if(!rechercheForm.isRadio()) {
 				if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours());
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours(categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsRemportees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isAchatsOuvertes()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes());
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isAchatsEnCours()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncours(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncours(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isAchatsRemportees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresRemportees(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				}
 			} else {
 				if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksToutesMesVentes(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksToutesMesVentes(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesTerminees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isVentesEnCours()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCours(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCours(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isVentesNonDebutees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebutees(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebutees(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				} else if (rechercheForm.isVentesTerminees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesTerminees(noUtilisateur));
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
 				}
 				
 			}
