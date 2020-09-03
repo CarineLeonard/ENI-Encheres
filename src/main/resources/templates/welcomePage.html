@@ -42,38 +42,38 @@
 				<!--  ! visible que si connecté ! -->
 				<div class="row col-12 order-4 order-lg-4 mx-auto aere order-2 order-md-2" th:if="${#request.userPrincipal != null}">
 					<div class="form-check form-check-inline col-lg-6 order-lg-5 ">
-						<input type="radio" id="achat" checked class="form-check-input" th:value="*{achats}">
+						<input type="radio" class="form-check-input" name="achats" value="0" th:field="*{radio}" th:checked="*{radio}">
 						<label for="achat" class="form-check-label">Achats</label>
 					</div>
 					<div class="form-check col-lg-6 order-lg-7 ">
 						<div class=col-12>
-						<input type="checkbox" id="choixachat" checked class="row form-check-input" th:field="*{achatsOuvertes}">
+						<input type="checkbox" class="row form-check-input" th:field="*{achatsOuvertes}" th:checked="*{achatsOuvertes}">
 							<label for="Aouvertes" class="form-check-label">enchères ouvertes</label>
 						</div>
 						<div class=col-12>
-						<input type="checkbox" id="choixachat" class="row form-check-input" th:field="*{achatsEnCours}">
+						<input type="checkbox" class="row form-check-input" th:field="*{achatsEnCours}" th:checked="*{achatsEnCours}">
 							<label for="Aencours" class="form-check-label">mes enchères en cours</label>			
 						</div>
 						<div class=col-12>				
-						<input type="checkbox" id="choixachat" name="Aremportees" class="row form-check-input" th:field="*{achatsRemportees}">
+						<input type="checkbox" class="row form-check-input" th:field="*{achatsRemportees}" th:checked="*{achatsRemportees}">
 							<label for="Aremportees" class="form-check-label">mes enchères remportées</label>	
 						</div>
 					</div>	
 					<div class="form-check form-check-inline order-lg-6 col-lg-5">
-						<input type="radio" id="vente" name="ventes" value="vente" class=" form-check-input" th:value="*{ventes}">
+						<input type="radio" class=" form-check-input" name="ventes" value="1" th:field="*{radio}" th:checked="!*{radio}">
 						<label for="vente" class="form-check-label">Mes ventes</label>
 					</div>
 					<div class="form-check col-lg-5 order-lg-8 ">
 						<div class=col-12>
-						<input type="checkbox" id="choixvente" name="Vencours" class="row form-check-input" th:field="*{ventesEnCours}">
+						<input type="checkbox" id="choixvente" name="Vencours" class="row form-check-input" th:field="*{ventesEnCours}" th:checked="*{ventesEnCours}">
 							<label for="Vencours" class="form-check-label">mes ventes en cours</label>
 						</div>
 						<div class=col-12>
-						<input type="checkbox" id="choixvente" name="Vnondebute" class="row form-check-input" th:field="*{ventesNonDebutees}">
+						<input type="checkbox" id="choixvente" name="Vnondebute" class="row form-check-input" th:field="*{ventesNonDebutees}" th:checked="*{ventesNonDebutees}">
 							<label for="Vnondebute" class="form-check-label">ventes non débutées</label>
 						</div>
 						<div class=col-12>
-						<input type="checkbox" id="choixvente" name="Vterminees" class="row form-check-input" th:field="*{ventesTerminees}">
+						<input type="checkbox" id="choixvente" name="Vterminees" class="row form-check-input" th:field="*{ventesTerminees}" th:checked="*{ventesTerminees}">
 							<label for="Vterminees" class="form-check-label">ventes terminées</label>
 						</div>
 					</div>

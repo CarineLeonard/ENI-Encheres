@@ -250,5 +250,20 @@ public class ArticleBlockManager {
 		}
 		return articleBlocks;
 	}
+	public List<ArticleBlock> selectionnerArticleBlocksToutesMesVentes(Long noUtilisateur) throws Exception {
+		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
+		try {
+			List<ArticleVendu> listeArticles = (List<ArticleVendu>) this.articleVenduManager.selectionnerArticleVendusToutesMesVentes(noUtilisateur);
+			
+			for(ArticleVendu art : listeArticles) {
+				ArticleBlock articleBlock = selectionnerArticleBlockById(art.getNoArticle());
+				articleBlocks.add(articleBlock);
+			}
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return articleBlocks;
+	}
 
 }

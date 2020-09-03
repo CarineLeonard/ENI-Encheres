@@ -140,7 +140,6 @@ public class MainController {
 		}
 		
 		RechercheForm form = new RechercheForm();
-		form.setAchats(true);
 		form.setAchatsOuvertes(true);
 		model.addAttribute("rechercheForm", form);
 		
@@ -199,17 +198,63 @@ public class MainController {
 			
 			return "redirect:/encheres?id=" + id;
 		}
+
 		
-		Iterable<Categorie> list = categorieManager.selectionnerTous();
-		model.addAttribute("categories", list);
+		Long noUtilisateur = null;
 		try {
-			model.addAttribute("articles", articleBlockManager.selectionnerTousArticleBlocks());
+			noUtilisateur = utilisateurManager.selectionnerUtilisateur(principal.getName()).getNoUtilisateur();
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 		}
-		System.out.println(rechercheForm);
-		return "redirect:/encheres";
+		
+		Iterable<Categorie> list = categorieManager.selectionnerTous();
+		model.addAttribute("categories", list);
+
+		System.err.println("Coucou ! :[");
+		try {
+			if(!rechercheForm.isRadio()) {
+				if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur));
+				} else if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours());
+				} else if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsRemportees()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur));
+				} else if (rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(noUtilisateur));
+				} else if (rechercheForm.isAchatsOuvertes()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes());
+				} else if (rechercheForm.isAchatsEnCours()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncours(noUtilisateur));
+				} else if (rechercheForm.isAchatsRemportees()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresRemportees(noUtilisateur));
+				}
+			} else {
+				if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksToutesMesVentes(noUtilisateur));
+				} else if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(noUtilisateur));
+				} else if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesTerminees()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(noUtilisateur));
+				} else if (rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(noUtilisateur));
+				} else if (rechercheForm.isVentesEnCours()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCours(noUtilisateur));
+				} else if (rechercheForm.isVentesNonDebutees()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebutees(noUtilisateur));
+				} else if (rechercheForm.isVentesTerminees()) {
+					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesTerminees(noUtilisateur));
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage", "Error: " + e.getMessage());
+		}
+		System.err.println("Coucou ! :]");
+		return "welcomePage";
+		
+//		return "redirect:/encheres";
 	}
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)

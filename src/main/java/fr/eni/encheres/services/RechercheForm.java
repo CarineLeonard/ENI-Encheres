@@ -8,12 +8,12 @@ public @Data class RechercheForm {
 	 private Categorie categorie;
 	 private String recherche;
 	 
-	 private boolean achats;
+	 private boolean radio;
+	 
 	 private boolean achatsOuvertes;
 	 private boolean achatsEnCours;
 	 private boolean achatsRemportees;
 	 
-	 private boolean ventes;
 	 private boolean ventesEnCours;
 	 private boolean ventesNonDebutees;
 	 private boolean ventesTerminees;

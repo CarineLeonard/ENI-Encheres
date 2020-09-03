@@ -182,6 +182,16 @@ public class ArticleVenduManager {
 		}
 		return listeArticles;
 	}
+	public List<ArticleVendu> selectionnerArticleVendusToutesMesVentes(Long noUtilisateur) throws Exception {
+		List<ArticleVendu> listeArticles = null;
+		try {
+			listeArticles = (List<ArticleVendu>) this.articleVenduRep.findToutesMesVentes(noUtilisateur);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return listeArticles;
+	}
 	
 	public ArticleVendu selectionnerArticleVendu(Long noArticle) throws Exception {
 		ArticleVendu article = null;
