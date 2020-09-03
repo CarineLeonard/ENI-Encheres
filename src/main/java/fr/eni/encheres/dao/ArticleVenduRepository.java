@@ -11,31 +11,31 @@ public interface ArticleVenduRepository extends CrudRepository<ArticleVendu, Lon
 
 	ArticleVendu findByNoArticle(Long noArticle);
 
-	@Query("SELECT a FROM ArticlesVendu a WHERE a.dateDebutEncheres >= CAST(NOW() AS DATE) AND a.dateFinEncheres < CAST(NOW() AS DATE) ORDER BY a.dateFinEncheres DESC")
+	@Query("SELECT a FROM ArticleVendu a WHERE a.dateDebutEncheres >= CAST(NOW() AS LocalDate) AND a.dateFinEncheres < CAST(NOW() AS LocalDate) ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findEncheresOuvertes();
-	@Query("SELECT e.enchereId.articleVendu FROM Encheres e WHERE e.enchereId.articleVendu.dateDebutEncheres >= CAST(NOW() AS DATE) AND e.enchereId.articleVendu.dateFinEncheres < CAST(NOW() AS DATE) AND e.utilisateur.noUtilisateur=?1 ORDER BY e.enchereId.articleVendu.dateFinEncheres DESC")
+	@Query("SELECT e.enchereId.articleVendu FROM Enchere e WHERE e.enchereId.articleVendu.dateDebutEncheres >= CAST(NOW() AS LocalDate) AND e.enchereId.articleVendu.dateFinEncheres < CAST(NOW() AS LocalDate) AND e.enchereId.utilisateur.noUtilisateur=?1 ORDER BY e.enchereId.articleVendu.dateFinEncheres DESC")
 	List<ArticleVendu> findMesEncheresEncours(Long noUtilisateur);
-	@Query("SELECT e.enchereId.articleVendu FROM Encheres e WHERE e.enchereId.articleVendu.dateFinEncheres >= CAST(NOW() AS DATE) AND e.utilisateur.noUtilisateur=?1 AND e.montantEnchere=(SELECT MAX(ee.montantEnchere) FROM Encheres ee WHERE ee.enchereId.articleVendu=e.enchereId.articleVendu) ORDER BY e.enchereId.articleVendu.dateFinEncheres DESC")
+	@Query("SELECT e.enchereId.articleVendu FROM Enchere e WHERE e.enchereId.articleVendu.dateFinEncheres >= CAST(NOW() AS LocalDate) AND e.enchereId.utilisateur.noUtilisateur=?1 AND e.montantEnchere=(SELECT MAX(ee.montantEnchere) FROM Enchere ee WHERE ee.enchereId.articleVendu=e.enchereId.articleVendu) ORDER BY e.enchereId.articleVendu.dateFinEncheres DESC")
 	List<ArticleVendu> findMesEncheresRemportees(Long noUtilisateur);
 
-	@Query("SELECT a FROM ArticlesVendu a JOIN Encheres e WHERE (a.dateDebutEncheres >= CAST(NOW() AS DATE) AND a.dateFinEncheres < CAST(NOW() AS DATE)) OR (e.enchereId.articleVendu.dateFinEncheres >= CAST(NOW() AS DATE) AND e.utilisateur.noUtilisateur=?1 AND e.montantEnchere=(SELECT MAX(ee.montantEnchere) FROM Encheres ee WHERE ee.enchereId.articleVendu=e.enchereId.articleVendu)) ORDER BY a.dateFinEncheres DESC")
+	@Query("SELECT a FROM ArticleVendu a JOIN Enchere e WHERE (a.dateDebutEncheres >= CAST(NOW() AS LocalDate) AND a.dateFinEncheres < CAST(NOW() AS LocalDate)) OR (e.enchereId.articleVendu.dateFinEncheres >= CAST(NOW() AS LocalDate) AND e.enchereId.utilisateur.noUtilisateur=?1 AND e.montantEnchere=(SELECT MAX(ee.montantEnchere) FROM Enchere ee WHERE ee.enchereId.articleVendu=e.enchereId.articleVendu)) ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findEncheresOuvertesMesEncheresRemportees(Long noUtilisateur);
-	@Query("SELECT e.enchereId.articleVendu FROM Encheres e WHERE e.enchereId.articleVendu.dateDebutEncheres >= CAST(NOW() AS DATE) AND (e.enchereId.articleVendu.dateFinEncheres < CAST(NOW() AS DATE) OR e.montantEnchere=(SELECT MAX(ee.montantEnchere) FROM Encheres ee WHERE ee.enchereId.articleVendu=e.enchereId.articleVendu)) AND e.utilisateur.noUtilisateur=?1 ORDER BY e.enchereId.articleVendu.dateFinEncheres DESC")
+	@Query("SELECT e.enchereId.articleVendu FROM Enchere e WHERE e.enchereId.articleVendu.dateDebutEncheres >= CAST(NOW() AS LocalDate) AND (e.enchereId.articleVendu.dateFinEncheres < CAST(NOW() AS LocalDate) OR e.montantEnchere=(SELECT MAX(ee.montantEnchere) FROM Enchere ee WHERE ee.enchereId.articleVendu=e.enchereId.articleVendu)) AND e.enchereId.utilisateur.noUtilisateur=?1 ORDER BY e.enchereId.articleVendu.dateFinEncheres DESC")
 	List<ArticleVendu> findMesEncheresEncoursMesEncheresRemportees(Long noUtilisateur);
 
-	@Query("SELECT a FROM ArticlesVendu a WHERE a.dateDebutEncheres >= CAST(NOW() AS DATE) AND a.dateFinEncheres < CAST(NOW() AS DATE) AND a.utilisateur.noUtilisteur=?1 ORDER BY a.dateFinEncheres DESC")
+	@Query("SELECT a FROM ArticleVendu a WHERE a.dateDebutEncheres >= CAST(NOW() AS LocalDate) AND a.dateFinEncheres < CAST(NOW() AS LocalDate) AND a.utilisateur.noUtilisateur=?1 ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findMesVentesEnCours(Long noUtilisateur);
-	@Query("SELECT a FROM ArticlesVendu a WHERE a.dateDebutEncheres < CAST(NOW() AS DATE) AND a.utilisateur.noUtilisteur=?1 ORDER BY a.dateFinEncheres DESC")
+	@Query("SELECT a FROM ArticleVendu a WHERE a.dateDebutEncheres < CAST(NOW() AS LocalDate) AND a.utilisateur.noUtilisateur=?1 ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findMesVentesNonDebutees(Long noUtilisateur);
-	@Query("SELECT a FROM ArticlesVendu a WHERE a.dateFinEncheres >= CAST(NOW() AS DATE) AND a.utilisateur.noUtilisteur=?1 ORDER BY a.dateFinEncheres DESC")
+	@Query("SELECT a FROM ArticleVendu a WHERE a.dateFinEncheres >= CAST(NOW() AS LocalDate) AND a.utilisateur.noUtilisateur=?1 ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findMesVentesTerminees(Long noUtilisateur);
 
-	@Query("SELECT a FROM ArticlesVendu a WHERE a.dateFinEncheres < CAST(NOW() AS DATE) AND a.utilisateur.noUtilisteur=?1 ORDER BY a.dateFinEncheres DESC")
+	@Query("SELECT a FROM ArticleVendu a WHERE a.dateFinEncheres < CAST(NOW() AS LocalDate) AND a.utilisateur.noUtilisateur=?1 ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findMesVentesEnCoursMesVentesNonDebutees(Long noUtilisateur);
-	@Query("SELECT a FROM ArticlesVendu a WHERE a.dateDebutEncheres >= CAST(NOW() AS DATE) AND a.utilisateur.noUtilisteur=?1 ORDER BY a.dateFinEncheres DESC")
+	@Query("SELECT a FROM ArticleVendu a WHERE a.dateDebutEncheres >= CAST(NOW() AS LocalDate) AND a.utilisateur.noUtilisateur=?1 ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findMesVentesEnCoursMesVentesTerminees(Long noUtilisateur);
-	@Query("SELECT a FROM ArticlesVendu a WHERE a.dateDebutEncheres < CAST(NOW() AS DATE) AND a.dateFinEncheres >= CAST(NOW() AS DATE) AND a.utilisateur.noUtilisteur=?1 ORDER BY a.dateFinEncheres DESC")
+	@Query("SELECT a FROM ArticleVendu a WHERE a.dateDebutEncheres < CAST(NOW() AS LocalDate) AND a.dateFinEncheres >= CAST(NOW() AS LocalDate) AND a.utilisateur.noUtilisateur=?1 ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findMesVentesNonDebuteesMesVentesTerminees(Long noUtilisateur);
-	@Query("SELECT a FROM ArticlesVendu a WHERE a.utilisateur.noUtilisteur=?1 ORDER BY a.dateFinEncheres DESC")
+	@Query("SELECT a FROM ArticleVendu a WHERE a.utilisateur.noUtilisateur=?1 ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findToutesMesVentes(Long noUtilisateur);
 }

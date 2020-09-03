@@ -40,6 +40,7 @@ import fr.eni.encheres.bo.RetraitId;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.services.ArticleVenduForm;
 import fr.eni.encheres.services.EnchereForm;
+import fr.eni.encheres.services.RechercheForm;
 import fr.eni.encheres.services.UtilisateurForm;
 import fr.eni.encheres.services.WebUtils;
 
@@ -137,58 +138,78 @@ public class MainController {
 			e.printStackTrace();
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 		}
+		
+		RechercheForm form = new RechercheForm();
+		form.setAchats(true);
+		form.setAchatsOuvertes(true);
+		model.addAttribute("rechercheForm", form);
+		
 		return "welcomePage";
 	}
 
 	@RequestMapping(value = "/encheres", method = RequestMethod.POST)
 	public String newEnchere(@RequestParam(value = "id", defaultValue = "") Long id, Model model, Principal principal, //
 			@ModelAttribute("enchereForm") EnchereForm enchereForm, //
+			@ModelAttribute("rechercheForm") RechercheForm rechercheForm,
 			BindingResult result, //
 			final RedirectAttributes redirectAttributes) {
 
 		model.addAttribute("title_welcome", "Enchères");
 		model.addAttribute("titre_welcome", "Liste des enchères");
-		model.addAttribute("enchere_id", id);
+		if(id != null) {
+			model.addAttribute("enchere_id", id);
+			
+			Utilisateur currentUser = null;
+			ArticleVendu articleVendu = null;
+			ArticleBlock article = null;
+			try {
+				currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
+				articleVendu = articleVenduManager.selectionnerArticleVendu(id);
+				article = articleBlockManager.selectionnerArticleBlockById(id);
+				enchereForm.setArticleVendu(articleVendu);
+				enchereForm.setUtilisateur(currentUser);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+			}
+			model.addAttribute("article", article);
+	
+			try {
+				enchereValidator.validate(enchereForm, result);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+				model.addAttribute("path", "encheres?id=" + id);
+				return "viewSalePage";
+			}
+			
+			if (result.hasErrors()) {
+				model.addAttribute("path", "encheres?id=" + id);
+				return "viewSalePage";
+			}
+	
+			try {
+				enchereManager.ajouterEnchere(new EnchereId(enchereForm.getUtilisateur(), enchereForm.getArticleVendu()), enchereForm);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+				model.addAttribute("path", "encheres?id=" + id);
+				return "viewSalePage";
+			}
+			
+			return "redirect:/encheres?id=" + id;
+		}
 		
-		Utilisateur currentUser = null;
-		ArticleVendu articleVendu = null;
-		ArticleBlock article = null;
+		Iterable<Categorie> list = categorieManager.selectionnerTous();
+		model.addAttribute("categories", list);
 		try {
-			currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
-			articleVendu = articleVenduManager.selectionnerArticleVendu(id);
-			article = articleBlockManager.selectionnerArticleBlockById(id);
-			enchereForm.setArticleVendu(articleVendu);
-			enchereForm.setUtilisateur(currentUser);
+			model.addAttribute("articles", articleBlockManager.selectionnerTousArticleBlocks());
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 		}
-		model.addAttribute("article", article);
-
-		try {
-			enchereValidator.validate(enchereForm, result);
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMessage", "Error: " + e.getMessage());
-			model.addAttribute("path", "encheres?id=" + id);
-			return "viewSalePage";
-		}
-		
-		if (result.hasErrors()) {
-			model.addAttribute("path", "encheres?id=" + id);
-			return "viewSalePage";
-		}
-
-		try {
-			enchereManager.ajouterEnchere(new EnchereId(enchereForm.getUtilisateur(), enchereForm.getArticleVendu()), enchereForm);
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMessage", "Error: " + e.getMessage());
-			model.addAttribute("path", "encheres?id=" + id);
-			return "viewSalePage";
-		}
-		
-		return "redirect:/encheres?id=" + id;
+		System.out.println(rechercheForm);
+		return "redirect:/encheres";
 	}
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
