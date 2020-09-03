@@ -3,9 +3,7 @@
 	<div class="media border rounded border-dark w-100">
 		<img class="align-self-center pl-3" src="/images/placeholder.png" alt="Photo de l'article">
 		<div class="media-body text-left p-3">
-			<a th:if="${#request.userPrincipal != null and !#strings.equals(session.user.pseudo, a.pseudoVendeur)}" th:href="${'/encheres?id=' + a.noArticle}"><h5 class="mt-0" th:utext="${a.nomArticle}"></h5></a>
-		<a th:if="${#request.userPrincipal != null and #strings.equals(session.user.pseudo, a.pseudoVendeur)}" th:href="${'/editSale/' + a.noArticle}"><h5 class="mt-0" th:utext="${a.nomArticle}"></h5></a>
-			<a th:if="${#request.userPrincipal == null}" th:href="${'/encheres?id=' + a.noArticle}"><h5 class="mt-0" th:utext="${a.nomArticle}"></h5></a>			
+			<a th:href="${'/article/' + a.noArticle}"><h5 class="mt-0" th:utext="${a.nomArticle}"></h5></a>
 			<p th:utext="${a.description}"></p>
 			<p th:utext="${a.meilleureOffre != null ? 'Prix : ' + a.meilleureOffre.montantEnchere + ' points' : 'Prix : ' + a.miseAPrix + ' points'}"></p>
 			<p th:utext="${'Fin de l''ench&egrave;re : ' + a.dateFinEncheres}"></p>
