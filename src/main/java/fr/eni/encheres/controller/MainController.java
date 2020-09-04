@@ -1,13 +1,9 @@
 package fr.eni.encheres.controller;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -111,7 +107,17 @@ public class MainController {
 //	}
 	
 	@RequestMapping(value = { "/", "/encheres" }, method = RequestMethod.GET)
-	public String encheres(@RequestParam(value = "id", defaultValue = "") Long id, Model model, Principal principal) {
+	public String encheres(@RequestParam(value = "id", defaultValue = "") Long id,
+			@RequestParam(value = "noCategorie", defaultValue = "0") Long noCategorie,
+			@RequestParam(value = "recherche", defaultValue = "") String recherche,
+			@RequestParam(value = "radio", defaultValue = "false") boolean radio,
+			@RequestParam(value = "achatsOuvertes", defaultValue = "false") boolean achatsOuvertes,
+			@RequestParam(value = "achatsEnCours", defaultValue = "false") boolean achatsEnCours,
+			@RequestParam(value = "achatsRemportees", defaultValue = "false") boolean achatsRemportees,
+			@RequestParam(value = "ventesEnCours", defaultValue = "false") boolean ventesEnCours,
+			@RequestParam(value = "ventesNonDebutees", defaultValue = "false") boolean ventesNonDebutees,
+			@RequestParam(value = "ventesTerminees", defaultValue = "false") boolean ventesTerminees,
+			Model model, Principal principal) {
 		
 		model.addAttribute("title_welcome", "Enchères");
 		model.addAttribute("titre_welcome", "Liste des enchères");
@@ -132,20 +138,97 @@ public class MainController {
 			model.addAttribute("enchereForm", form);
 	
 			return "viewSalePage";
-		} 
-		
-		Iterable<Categorie> list = categorieManager.selectionnerTous();
-		model.addAttribute("categories", list);
-		try {
-			model.addAttribute("articles", articleBlockManager.selectionnerTousArticleBlocks());
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 		}
-		
-		RechercheForm form = new RechercheForm();
-		form.setAchatsOuvertes(true);
-		model.addAttribute("rechercheForm", form);
+
+		if(noCategorie == 0) {
+			Iterable<Categorie> list = categorieManager.selectionnerTous();
+			model.addAttribute("categories", list);
+			try {
+				model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(null, null));
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+			}
+			
+			RechercheForm form = new RechercheForm();
+			form.setAchatsOuvertes(true);
+			model.addAttribute("rechercheForm", form);
+		} else {
+			RechercheForm rechercheForm = new RechercheForm();
+			rechercheForm.setCategorie(noCategorie);
+			rechercheForm.setRecherche(recherche);
+			rechercheForm.setRadio(radio);
+			rechercheForm.setAchatsOuvertes(achatsOuvertes);
+			rechercheForm.setAchatsEnCours(achatsEnCours);
+			rechercheForm.setAchatsRemportees(achatsRemportees);
+			rechercheForm.setVentesEnCours(ventesEnCours);
+			rechercheForm.setVentesNonDebutees(ventesNonDebutees);
+			rechercheForm.setVentesTerminees(ventesTerminees);
+			model.addAttribute("rechercheForm", rechercheForm);
+			
+			Iterable<Categorie> list = categorieManager.selectionnerTous();
+			model.addAttribute("categories", list);
+			
+			Long noUtilisateur = null;
+			try {
+				if (principal != null) {
+					noUtilisateur = utilisateurManager.selectionnerUtilisateur(principal.getName()).getNoUtilisateur();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+			}
+			
+			Long categorie = null;
+			if (rechercheForm.getCategorie() != 0) {
+				categorie = rechercheForm.getCategorie();
+			}
+			if (rechercheForm.getRecherche().length()<=0) {
+				rechercheForm.setRecherche(null);
+			}
+			
+			try {
+				if(!rechercheForm.isRadio()) {
+					if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours(categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsRemportees()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isAchatsOuvertes()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isAchatsEnCours()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncours(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isAchatsRemportees()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(categorie, rechercheForm.getRecherche()));
+					}
+				} else {
+					if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksToutesMesVentes(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesTerminees()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isVentesEnCours()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCours(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isVentesNonDebutees()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebutees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					} else if (rechercheForm.isVentesTerminees()) {
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+					}
+					
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "Error: " + e.getMessage());
+			}
+		}
 		
 		return "welcomePage";
 	}
@@ -202,70 +285,16 @@ public class MainController {
 			
 			return "redirect:/encheres?id=" + id;
 		}
-		
-		Iterable<Categorie> list = categorieManager.selectionnerTous();
-		model.addAttribute("categories", list);
-		
-		Long noUtilisateur = null;
-		try {
-			noUtilisateur = utilisateurManager.selectionnerUtilisateur(principal.getName()).getNoUtilisateur();
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMessage", "Error: " + e.getMessage());
-		}
-		
-		System.err.println(rechercheForm.getCategorie());
-		Long categorie = null;
-		if (rechercheForm.getCategorie() != 0) {
-			categorie = rechercheForm.getCategorie();
-		}
-		if (rechercheForm.getRecherche().length()<=0) {
-			rechercheForm.setRecherche(null);
-		}
-		
-		try {
-			if(!rechercheForm.isRadio()) {
-				if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours(categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsRemportees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isAchatsOuvertes()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isAchatsEnCours()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncours(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isAchatsRemportees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				}
-			} else {
-				if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksToutesMesVentes(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesTerminees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isVentesEnCours()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCours(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isVentesNonDebutees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebutees(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				} else if (rechercheForm.isVentesTerminees()) {
-					model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
-				}
-				
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMessage", "Error: " + e.getMessage());
-		}
-		
-		return "welcomePage";
-		
-//		return "redirect:/encheres";
+		String params = "?noCategorie=" + rechercheForm.getCategorie()
+						+"&recherche=" + rechercheForm.getRecherche()
+						+"&radio=" + rechercheForm.isRadio()
+						+"&achatsOuvertes=" + rechercheForm.isAchatsOuvertes()
+						+"&achatsEnCours=" + rechercheForm.isAchatsEnCours()
+						+"&achatsRemportees=" + rechercheForm.isAchatsRemportees()
+						+"&ventesEnCours=" + rechercheForm.isVentesEnCours()
+						+"&ventesNonDebutees=" + rechercheForm.isVentesNonDebutees()
+						+"&ventesTerminees=" + rechercheForm.isVentesTerminees();
+		return "redirect:/encheres"+params;
 	}
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -673,7 +702,9 @@ public class MainController {
 		
 		Utilisateur currentUser=null;
 		try {
-			currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
+			if (principal != null) {
+				currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
+			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

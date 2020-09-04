@@ -22,14 +22,14 @@ public interface ArticleVenduRepository extends CrudRepository<ArticleVendu, Lon
 	@Query("SELECT e.enchereId.articleVendu FROM Enchere e WHERE"
 			+ " e.enchereId.articleVendu.dateDebutEncheres <= CAST(current_date() AS LocalDate)"
 			+ " AND e.enchereId.articleVendu.dateFinEncheres > CAST(current_date() AS LocalDate)"
-			+ " AND e.enchereId.utilisateur.noUtilisateur=:noUtilisateur"
+			+ " AND (:noUtilisateur IS null OR e.enchereId.utilisateur.noUtilisateur=:noUtilisateur)"
 			+ " AND (:categorie IS null OR e.enchereId.articleVendu.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR e.enchereId.articleVendu.nomArticle LIKE %:string%)"
 			+ " ORDER BY e.enchereId.articleVendu.dateFinEncheres DESC")
 	List<ArticleVendu> findMesEncheresEncours(@Param("noUtilisateur") Long noUtilisateur, @Param("categorie") Long categorie, @Param("string") String string);
 	@Query("SELECT e.enchereId.articleVendu FROM Enchere e WHERE"
 			+ " e.enchereId.articleVendu.dateFinEncheres <= CAST(current_date() AS LocalDate)"
-			+ " AND e.enchereId.utilisateur.noUtilisateur=:noUtilisateur"
+			+ " AND (:noUtilisateur IS null OR e.enchereId.utilisateur.noUtilisateur=:noUtilisateur)"
 			+ " AND e.montantEnchere=(SELECT MAX(ee.montantEnchere) FROM Enchere ee WHERE ee.enchereId.articleVendu=e.enchereId.articleVendu)"
 			+ " AND (:categorie IS null OR e.enchereId.articleVendu.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR e.enchereId.articleVendu.nomArticle LIKE %:string%)"
@@ -40,7 +40,7 @@ public interface ArticleVenduRepository extends CrudRepository<ArticleVendu, Lon
 			+ " (a.dateDebutEncheres <= CAST(current_date() AS LocalDate)"
 			+ " AND a.dateFinEncheres > CAST(current_date() AS LocalDate))"
 			+ " OR (e.enchereId.articleVendu.dateFinEncheres <= CAST(current_date() AS LocalDate)"
-				+ " AND e.enchereId.utilisateur.noUtilisateur=:noUtilisateur"
+				+ " AND (:noUtilisateur IS null OR e.enchereId.utilisateur.noUtilisateur=:noUtilisateur)"
 				+ " AND e.montantEnchere=(SELECT MAX(ee.montantEnchere) FROM Enchere ee WHERE ee.enchereId.articleVendu=e.enchereId.articleVendu))"
 			+ " AND (:categorie IS null OR a.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR a.nomArticle LIKE %:string%)"
@@ -50,7 +50,7 @@ public interface ArticleVenduRepository extends CrudRepository<ArticleVendu, Lon
 			+ " e.enchereId.articleVendu.dateDebutEncheres <= CAST(current_date() AS LocalDate)"
 			+ " AND (e.enchereId.articleVendu.dateFinEncheres > CAST(current_date() AS LocalDate)"
 				+ " OR e.montantEnchere=(SELECT MAX(ee.montantEnchere) FROM Enchere ee WHERE ee.enchereId.articleVendu=e.enchereId.articleVendu))"
-			+ " AND e.enchereId.utilisateur.noUtilisateur=:noUtilisateur"
+				+ " AND (:noUtilisateur IS null OR e.enchereId.utilisateur.noUtilisateur=:noUtilisateur)"
 			+ " AND (:categorie IS null OR e.enchereId.articleVendu.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR e.enchereId.articleVendu.nomArticle LIKE %:string%)"
 			+ " ORDER BY e.enchereId.articleVendu.dateFinEncheres DESC")
@@ -59,21 +59,21 @@ public interface ArticleVenduRepository extends CrudRepository<ArticleVendu, Lon
 	@Query("SELECT a FROM ArticleVendu a WHERE"
 			+ " a.dateDebutEncheres <= CAST(current_date() AS LocalDate)"
 			+ " AND a.dateFinEncheres > CAST(current_date() AS LocalDate)"
-			+ " AND a.utilisateur.noUtilisateur=:noUtilisateur"
+			+ " AND (:noUtilisateur IS null OR a.utilisateur.noUtilisateur=:noUtilisateur)"
 			+ " AND (:categorie IS null OR a.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR a.nomArticle LIKE %:string%)"
 			+ " ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findMesVentesEnCours(@Param("noUtilisateur") Long noUtilisateur, @Param("categorie") Long categorie, @Param("string") String string);
 	@Query("SELECT a FROM ArticleVendu a WHERE"
 			+ " a.dateDebutEncheres > CAST(current_date() AS LocalDate)"
-			+ " AND a.utilisateur.noUtilisateur=:noUtilisateur"
+			+ " AND (:noUtilisateur IS null OR a.utilisateur.noUtilisateur=:noUtilisateur)"
 			+ " AND (:categorie IS null OR a.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR a.nomArticle LIKE %:string%)"
 			+ " ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findMesVentesNonDebutees(@Param("noUtilisateur") Long noUtilisateur, @Param("categorie") Long categorie, @Param("string") String string);
 	@Query("SELECT a FROM ArticleVendu a WHERE"
 			+ " a.dateFinEncheres <= CAST(current_date() AS LocalDate)"
-			+ " AND a.utilisateur.noUtilisateur=:noUtilisateur"
+			+ " AND (:noUtilisateur IS null OR a.utilisateur.noUtilisateur=:noUtilisateur)"
 			+ " AND (:categorie IS null OR a.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR a.nomArticle LIKE %:string%)"
 			+ " ORDER BY a.dateFinEncheres DESC")
@@ -81,14 +81,14 @@ public interface ArticleVenduRepository extends CrudRepository<ArticleVendu, Lon
 
 	@Query("SELECT a FROM ArticleVendu a WHERE"
 			+ " a.dateFinEncheres > CAST(current_date() AS LocalDate)"
-			+ " AND a.utilisateur.noUtilisateur=:noUtilisateur"
+			+ " AND (:noUtilisateur IS null OR a.utilisateur.noUtilisateur=:noUtilisateur)"
 			+ " AND (:categorie IS null OR a.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR a.nomArticle LIKE %:string%)"
 			+ " ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findMesVentesEnCoursMesVentesNonDebutees(@Param("noUtilisateur") Long noUtilisateur, @Param("categorie") Long categorie, @Param("string") String string);
 	@Query("SELECT a FROM ArticleVendu a WHERE"
 			+ " a.dateDebutEncheres <= CAST(current_date() AS LocalDate)"
-			+ " AND a.utilisateur.noUtilisateur=:noUtilisateur"
+			+ " AND (:noUtilisateur IS null OR a.utilisateur.noUtilisateur=:noUtilisateur)"
 			+ " AND (:categorie IS null OR a.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR a.nomArticle LIKE %:string%)"
 			+ " ORDER BY a.dateFinEncheres DESC")
@@ -96,13 +96,13 @@ public interface ArticleVenduRepository extends CrudRepository<ArticleVendu, Lon
 	@Query("SELECT a FROM ArticleVendu a WHERE"
 			+ " a.dateDebutEncheres > CAST(current_date() AS LocalDate)"
 			+ " OR a.dateFinEncheres <= CAST(current_date() AS LocalDate)"
-			+ " AND a.utilisateur.noUtilisateur=:noUtilisateur"
+			+ " AND (:noUtilisateur IS null OR a.utilisateur.noUtilisateur=:noUtilisateur)"
 			+ " AND (:categorie IS null OR a.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR a.nomArticle LIKE %:string%)"
 			+ " ORDER BY a.dateFinEncheres DESC")
 	List<ArticleVendu> findMesVentesNonDebuteesMesVentesTerminees(@Param("noUtilisateur") Long noUtilisateur, @Param("categorie") Long categorie, @Param("string") String string);
 	@Query("SELECT a FROM ArticleVendu a WHERE"
-			+ " a.utilisateur.noUtilisateur=:noUtilisateur"
+			+ " (:noUtilisateur IS null OR a.utilisateur.noUtilisateur=:noUtilisateur)"
 			+ " AND (:categorie IS null OR a.categorie.noCategorie=:categorie)"
 			+ " AND (:string IS null OR a.nomArticle LIKE %:string%)"
 			+ " ORDER BY a.dateFinEncheres DESC")
