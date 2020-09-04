@@ -18,10 +18,12 @@
 	<th:block th:include="/_header"></th:block>
 
 	<section class="container text-center">
-		<h2 class="my-5" th:if="${#request.userPrincipal != null and #strings.equals(session.user.pseudo, 
+		<h2 class="my-5" th:if="${#request.userPrincipal != null and articleBlock.meilleureOffre != null and #strings.equals(session.user.pseudo, 
 		articleBlock.meilleureOffre.enchereId.utilisateur.pseudo)}">Vous avez remporté la vente</h2>
-		<h2 class="my-5" th:if="${#request.userPrincipal != null and !#strings.equals(session.user.pseudo, 
-		articleBlock.meilleureOffre.enchereId.utilisateur.pseudo)}" th:text="|${articleBlock.meilleureOffre.enchereId.utilisateur.pseudo} a remporté l'enchère|"></h2>
+		<h2 class="my-5" th:if="${#request.userPrincipal != null and articleBlock.meilleureOffre != null and !#strings.equals(session.user.pseudo, articleBlock.meilleureOffre.enchereId.utilisateur.pseudo)}"
+							th:text="|${articleBlock.meilleureOffre.enchereId.utilisateur.pseudo} a remporté l'enchère|"></h2>
+		<h2 class="my-5" th:if="${#request.userPrincipal != null and #strings.equals(session.user.pseudo, articleBlock.pseudoVendeur)}"
+							th:text="|Personne n'a enchéri|"></h2>
 		<div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-5">
 			<table class="table table-borderless text-nowrap">
 				<tbody>
@@ -34,7 +36,7 @@
 					</tr>
 					<tr>
 						<th scope="row" class="text-left">Meilleure offre :</th>
-						<td th:text="${articleBlock.meilleureOffre.montantEnchere}"></td>
+						<td th:utext="${articleBlock.meilleureOffre != null} ? ${articleBlock.meilleureOffre.montantEnchere} : ${'Aucune'}"></td>
 					</tr>
 					<tr>
 						<th scope="row" class="text-left">Mise à prix :</th>
@@ -61,7 +63,7 @@
 		<div class="col-12 col-sm-auto">
 			<a class="btn btn-secondary btn-lg my-1" th:href="@{/}">Retour</a>
 		</div>
-		<div class="" th:if="${#request.userPrincipal != null and #strings.equals(session.user.pseudo,	articleBlock.pseudoVendeur)}">
+		<div class="" th:if="${#request.userPrincipal != null and articleBlock.meilleureOffre != null and #strings.equals(session.user.pseudo,	articleBlock.pseudoVendeur)}">
 			<a  class="btn btn-secondary btn-lg my-1">Retrait effectué</a>
 		</div>
 

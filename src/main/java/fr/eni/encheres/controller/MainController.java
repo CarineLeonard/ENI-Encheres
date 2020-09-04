@@ -238,8 +238,9 @@ public class MainController {
 	@RequestMapping(value = "/encheres", method = RequestMethod.POST)
 	public String newEnchere(@RequestParam(value = "id", defaultValue = "") Long id, Model model, Principal principal, //
 			@ModelAttribute("enchereForm") EnchereForm enchereForm, //
-			@ModelAttribute("rechercheForm") RechercheForm rechercheForm,
 			BindingResult result, //
+			@ModelAttribute("rechercheForm") RechercheForm rechercheForm,
+			BindingResult result2, //
 			final RedirectAttributes redirectAttributes) {
 
 		model.addAttribute("title_welcome", "Enchères");
