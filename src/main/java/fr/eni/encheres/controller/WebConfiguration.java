@@ -29,12 +29,14 @@ public class WebConfiguration implements WebMvcConfigurer {
 				"/images/**",
 				"/vendor/**",
 				"/css/**",
-				"/js/**")
+				"/js/**",
+				"/upload/**")
         		.addResourceLocations(
 						"classpath:/static/images/",
 						"classpath:/static/vendor/",
 						"classpath:/static/css/",
-						"classpath:/static/js/");
+						"classpath:/static/js/",
+						"classpath:/static/upload/");
     }
     
     @Bean

@@ -19,7 +19,7 @@ public @Data class ArticleBlock {
 	private String dateFinEncheres;
 	private Retrait retrait;
 	private String pseudoVendeur;
-	private Base64 image;
+	private String image;
 	
 	
 }

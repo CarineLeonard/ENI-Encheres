@@ -22,7 +22,7 @@
 		<!-- /login?error=true -->
 		<div class="erreurs" th:if="${errorMessage != null}" th:utext="${errorMessage}">...</div>
 		
-		<form th:action="@{/newSale}" th:object="${articleForm}" method="POST">
+		<form th:action="@{/newSale}" th:object="${articleForm}" method="POST" enctype="multipart/form-data">
 			<div class="row text-left">
 				<div class="col-12 col-md-3 text-center order-2 order-md-1 mx-2" id="containerImg">
 				</div>
@@ -39,7 +39,7 @@
 					</select> 
 					<div class="input-group my-2">
 						<div class="custom-file">
-							<input class="custom-file-input" type="file" id="InputPhoto" accept="image/png, image/jpeg">
+							<input class="custom-file-input" type="file" id="InputPhoto" accept="image/png, image/jpeg" th:field="*{fileDatas}">
 							<label class="custom-file-label" for="InputPhoto" id="LabelInputPhoto" data-browse="Uploader">Photo de l'article:</label>
 						</div>
 					</div>
