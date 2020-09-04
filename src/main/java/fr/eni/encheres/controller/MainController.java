@@ -140,7 +140,9 @@ public class MainController {
 			return "viewSalePage";
 		}
 
-		if(noCategorie == 0) {
+		if(noCategorie == 0 && recherche == "" && radio == false &&
+				achatsOuvertes == false && achatsEnCours == false && achatsRemportees == false &&
+				ventesEnCours == false && ventesNonDebutees == ventesTerminees && radio == false) {
 			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
 			try {
