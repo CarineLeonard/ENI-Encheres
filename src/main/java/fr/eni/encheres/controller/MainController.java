@@ -1,9 +1,14 @@
 package fr.eni.encheres.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.eni.encheres.bll.ArticleBlockManager;
@@ -107,8 +113,8 @@ public class MainController {
 //	}
 	
 	@RequestMapping(value = { "/", "/encheres" }, method = RequestMethod.GET)
-	public String encheres(@RequestParam(value = "id", defaultValue = "") Long id,
-			@RequestParam(value = "noCategorie", defaultValue = "0") Long noCategorie,
+	public String encheres(@RequestParam(value = "id", defaultValue = "") Long id, 
+			@RequestParam(value = "noCategorie", defaultValue = "0") Long noCategorie, HttpServletRequest request,
 			@RequestParam(value = "recherche", defaultValue = "") String recherche,
 			@RequestParam(value = "radio", defaultValue = "false") boolean radio,
 			@RequestParam(value = "achatsOuvertes", defaultValue = "false") boolean achatsOuvertes,
@@ -128,6 +134,15 @@ public class MainController {
 			ArticleBlock article = null;
 			try {
 				article = articleBlockManager.selectionnerArticleBlockById(id);
+				
+				String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + id;
+			    System.err.println("uploadPath=" + uploadPath);
+			    
+			    File file = new File(uploadPath);
+				if (file.exists()) {
+					model.addAttribute("file", file);
+				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
@@ -147,6 +162,13 @@ public class MainController {
 			model.addAttribute("categories", list);
 			try {
 				model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(null, null));
+				
+				String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + id;
+			    System.err.println("uploadPath=" + uploadPath);
+			    
+			    File file = new File(uploadPath);
+				if (file.exists()) {
+					model.addAttribute("file", file); }
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
@@ -208,6 +230,7 @@ public class MainController {
 					} else {
 						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(categorie, rechercheForm.getRecherche()));
 					}
+
 				} else {
 					if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
 						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksToutesMesVentes(noUtilisateur, categorie, rechercheForm.getRecherche()));
@@ -226,6 +249,12 @@ public class MainController {
 					}
 					
 				}
+				String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + id;
+			    System.err.println("uploadPath=" + uploadPath);
+			    
+			    File file = new File(uploadPath);
+				if (file.exists()) {
+				model.addAttribute("file", file); }
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
@@ -522,7 +551,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/newSale", method = RequestMethod.POST)
-	public String saveNewSale(Model model, Principal principal, //
+	public String saveNewSale(Model model, Principal principal, HttpServletRequest request,
 			@ModelAttribute("articleForm") ArticleVenduForm articleForm, //
 			BindingResult result, @RequestParam(value = "categorie") Long currentNoCategorie, //
 			final RedirectAttributes redirectAttributes) {
@@ -535,6 +564,7 @@ public class MainController {
 			articleForm.setCategorie(currentCategorie);
 	
 			articleVenduValidator.validate(articleForm, result);
+			System.err.println("1");
 	
 
 		} catch (Exception e) {
@@ -543,6 +573,7 @@ public class MainController {
 			model.addAttribute("titre_newSale", "Nouvelle vente");
 			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
+			System.err.println("2");
 			return "newSalePage";
 		}
 
@@ -551,6 +582,7 @@ public class MainController {
 			model.addAttribute("categories", list);
 			model.addAttribute("title_newSale", "Nouvelle vente");
 			model.addAttribute("titre_newSale", "Nouvelle vente");
+			System.err.println("2");
 			return "newSalePage";
 
 		}
@@ -565,12 +597,59 @@ public class MainController {
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
+			System.err.println("3");
 			return "newSalePage";
 		}
 
+		// photo !!
+		// Root Directory.
+	      String uploadRootPath = request.getServletContext().getRealPath("upload");
+	      System.err.println("uploadRootPath=" + uploadRootPath);
+	 
+	      File uploadRootDir = new File(uploadRootPath);
+	      // Create directory if it not exists.
+	      if (!uploadRootDir.exists()) {
+	         uploadRootDir.mkdirs();
+	      }
+	      MultipartFile[] fileDatas = articleForm.getFileDatas();
+	      //
+	      List<File> uploadedFiles = new ArrayList<File>();
+	      List<String> failedFiles = new ArrayList<String>();
+			System.err.println("5");
+	 
+	      for (MultipartFile fileData : fileDatas) {
+				System.err.println("6"); 
+	         // Client File Name
+	         String name = newArticle.getNoArticle().toString();
+	         System.out.println("Client File Name = " + name);
+	 
+	         if (name != null && name.length() > 0) {
+	 			System.err.println("7");
+	            try {
+	               // Create the file at server
+	               File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
+	 
+	               BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+	               stream.write(fileData.getBytes());
+	               stream.close();
+	               //
+	               uploadedFiles.add(serverFile);
+	               System.err.println("Write file: " + serverFile);
+	            } catch (Exception e) {
+	               System.err.println("Error Write file: " + name);
+	               failedFiles.add(name);
+
+	            }
+	         }
+	      }
+	      
+	      model.addAttribute("uploadedFiles", uploadedFiles);
+	      model.addAttribute("failedFiles", failedFiles);
+		
+		
 		redirectAttributes.addFlashAttribute("flashUser", newArticle);
 
-		return "redirect:/welcome";
+		return "redirect:/encheres";
 	}
 
 	@RequestMapping(value = "/editSale/{noArticle}", method = RequestMethod.GET)
@@ -684,13 +763,22 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/endSale/{noArticle}", method = RequestMethod.GET)
-	public String endSale(@PathVariable("noArticle") Long noArticle, Model model, Principal principal) {
+	public String endSale(@PathVariable("noArticle") Long noArticle, Model model, HttpServletRequest request, Principal principal) {
 		model.addAttribute("title_endSale", "Enchère terminée");
 		ArticleVendu article = null; 
 		ArticleBlock articleBlock = null; 
 		try {
 			article = articleVenduManager.selectionnerArticleVendu(noArticle);
 			articleBlock = articleBlockManager.selectionnerArticleBlockById(noArticle);
+		    
+			String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + noArticle;
+		    System.err.println("uploadPath=" + uploadPath);
+		    
+		    File file = new File(uploadPath);
+			if (file.exists()) {
+				model.addAttribute("file", file);
+			}
+				
 		} catch (Exception e) {
 			System.out.println(e);
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
@@ -701,7 +789,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value= "/article/{noArticle}", method = RequestMethod.GET)
-	public String article(@PathVariable("noArticle") Long noArticle, Model model, Principal principal) {
+	public String article(@PathVariable("noArticle") Long noArticle, Model model, HttpServletRequest request, Principal principal) {
 		
 		Utilisateur currentUser=null;
 		try {
@@ -714,17 +802,22 @@ public class MainController {
 		}
 		ArticleVendu article1 = null; 
 		ArticleBlock a = null; 
-		System.err.println("coucou");
 		try {
 			article1 = articleVenduManager.selectionnerArticleVendu(noArticle);
-			System.err.println("toi");
 			a = articleBlockManager.selectionnerArticleBlockById(noArticle);
-			System.err.println("moi");
+			
+			String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + noArticle;
+		    System.err.println("uploadPath=" + uploadPath);
+		    
+		    File file = new File(uploadPath);
+			if (file.exists()) {
+				model.addAttribute("file", file);
+			}
+			
 		} catch (Exception e) {
 			System.out.println(e);
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 		} 
-		System.err.println(a);
 		
 		Date datejour = new Date();
 		

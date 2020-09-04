@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import ch.qos.logback.core.joran.conditional.IfAction;
 import fr.eni.encheres.bo.ArticleBlock;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
@@ -40,6 +42,7 @@ public class ArticleBlockManager {
 		return articleBlocks;
 	}
 	
+
 	public ArticleBlock selectionnerArticleBlockById(Long id) throws Exception {
 		ArticleBlock articleBlock = null;
 		SimpleDateFormat dateFormater = new SimpleDateFormat("dd/MM/yyyy");
@@ -59,8 +62,6 @@ public class ArticleBlockManager {
 			articleBlock.setDateFinEncheres(dateFormater.format( art.getDateFinEncheres() ));
 			articleBlock.setRetrait(retraitManager.selectionnerRetrait(new RetraitId(art)));
 			articleBlock.setPseudoVendeur(art.getUtilisateur().getPseudo());
-			//articleBlock.setImage(image); //TODO Là ya du boulot
-			
 		} catch (Exception e) {
 			throw e;
 		}
