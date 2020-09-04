@@ -133,7 +133,7 @@ public class MainController {
 			
 			ArticleBlock article = null;
 			try {
-				article = articleBlockManager.selectionnerArticleBlockById(id);
+				article = articleBlockManager.selectionnerArticleBlockById(id, request);
 				
 				String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + id;
 			    System.err.println("uploadPath=" + uploadPath);
@@ -161,7 +161,7 @@ public class MainController {
 			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
 			try {
-				model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(null, null));
+				model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(null, null, request));
 				
 				String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + id;
 			    System.err.println("uploadPath=" + uploadPath);
@@ -214,47 +214,41 @@ public class MainController {
 			try {
 				if(!rechercheForm.isRadio()) {
 					if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsEnCours()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours(categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresEncours(categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isAchatsOuvertes() && rechercheForm.isAchatsRemportees()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertesMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isAchatsEnCours() && rechercheForm.isAchatsRemportees()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncoursMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isAchatsOuvertes()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isAchatsEnCours()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncours(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresEncours(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isAchatsRemportees()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesEncheresRemportees(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(categorie, rechercheForm.getRecherche(), request));
 					}
 
 				} else {
 					if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksToutesMesVentes(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksToutesMesVentes(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesNonDebutees()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesNonDebutees(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isVentesEnCours() && rechercheForm.isVentesTerminees()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCoursMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isVentesNonDebutees() && rechercheForm.isVentesTerminees()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebuteesMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isVentesEnCours()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCours(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesEnCours(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isVentesNonDebutees()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebutees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesNonDebutees(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					} else if (rechercheForm.isVentesTerminees()) {
-						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche()));
+						model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksMesVentesTerminees(noUtilisateur, categorie, rechercheForm.getRecherche(), request));
 					}
 					
 				}
-				String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + id;
-			    System.err.println("uploadPath=" + uploadPath);
-			    
-			    File file = new File(uploadPath);
-				if (file.exists()) {
-				model.addAttribute("file", file); }
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
@@ -265,7 +259,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/encheres", method = RequestMethod.POST)
-	public String newEnchere(@RequestParam(value = "id", defaultValue = "") Long id, Model model, Principal principal, //
+	public String newEnchere(@RequestParam(value = "id", defaultValue = "") Long id, Model model, Principal principal, HttpServletRequest request, //
 			@ModelAttribute("enchereForm") EnchereForm enchereForm, //
 			BindingResult result, //
 			@ModelAttribute("rechercheForm") RechercheForm rechercheForm,
@@ -283,7 +277,7 @@ public class MainController {
 			try {
 				currentUser = utilisateurManager.selectionnerUtilisateur(principal.getName());
 				articleVendu = articleVenduManager.selectionnerArticleVendu(id);
-				article = articleBlockManager.selectionnerArticleBlockById(id);
+				article = articleBlockManager.selectionnerArticleBlockById(id, request);
 				enchereForm.setArticleVendu(articleVendu);
 				enchereForm.setUtilisateur(currentUser);
 			} catch (Exception e) {
@@ -620,14 +614,14 @@ public class MainController {
 	      for (MultipartFile fileData : fileDatas) {
 				System.err.println("6"); 
 	         // Client File Name
-	         String name = newArticle.getNoArticle().toString();
+	         String name = newArticle.getNoArticle().toString() + "_";
 	         System.out.println("Client File Name = " + name);
 	 
 	         if (name != null && name.length() > 0) {
 	 			System.err.println("7");
 	            try {
 	               // Create the file at server
-	               File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
+	               File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name + fileData.getOriginalFilename());
 	 
 	               BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 	               stream.write(fileData.getBytes());
@@ -769,7 +763,7 @@ public class MainController {
 		ArticleBlock articleBlock = null; 
 		try {
 			article = articleVenduManager.selectionnerArticleVendu(noArticle);
-			articleBlock = articleBlockManager.selectionnerArticleBlockById(noArticle);
+			articleBlock = articleBlockManager.selectionnerArticleBlockById(noArticle, request);
 		    
 			String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + noArticle;
 		    System.err.println("uploadPath=" + uploadPath);
@@ -804,7 +798,7 @@ public class MainController {
 		ArticleBlock a = null; 
 		try {
 			article1 = articleVenduManager.selectionnerArticleVendu(noArticle);
-			a = articleBlockManager.selectionnerArticleBlockById(noArticle);
+			a = articleBlockManager.selectionnerArticleBlockById(noArticle, request);
 			
 			String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + noArticle;
 		    System.err.println("uploadPath=" + uploadPath);
