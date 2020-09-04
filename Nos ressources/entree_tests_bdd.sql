@@ -79,3 +79,4 @@ select * from categories;
 
 
 update articles_vendus set date_fin_encheres='2020-09-03', date_debut_encheres='2020-09-01' where no_article=1; 
+insert into encheres (date_enchere,montant_enchere,no_utilisateur,no_article) values ('2020-09-01', 151, 2, 5);
