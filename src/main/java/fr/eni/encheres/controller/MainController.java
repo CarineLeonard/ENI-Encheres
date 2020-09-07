@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -79,6 +80,8 @@ public class MainController {
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 
+    @Value("${upload.dir}")
+    private String uploadDir;
 	
 	// Set a form validator
 	@InitBinder("utilisateurForm")
@@ -134,15 +137,6 @@ public class MainController {
 			ArticleBlock article = null;
 			try {
 				article = articleBlockManager.selectionnerArticleBlockById(id, request);
-				
-				String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + id;
-			    System.err.println("uploadPath=" + uploadPath);
-			    
-			    File file = new File(uploadPath);
-				if (file.exists()) {
-					model.addAttribute("file", file);
-				}
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
@@ -162,13 +156,6 @@ public class MainController {
 			model.addAttribute("categories", list);
 			try {
 				model.addAttribute("articles", articleBlockManager.selectionnerArticleBlocksEncheresOuvertes(null, null, request));
-				
-				String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + id;
-			    System.err.println("uploadPath=" + uploadPath);
-			    
-			    File file = new File(uploadPath);
-				if (file.exists()) {
-					model.addAttribute("file", file); }
 			} catch (Exception e) {
 				e.printStackTrace();
 				model.addAttribute("errorMessage", "Error: " + e.getMessage());
@@ -558,7 +545,6 @@ public class MainController {
 			articleForm.setCategorie(currentCategorie);
 	
 			articleVenduValidator.validate(articleForm, result);
-			System.err.println("1");
 	
 
 		} catch (Exception e) {
@@ -567,7 +553,6 @@ public class MainController {
 			model.addAttribute("titre_newSale", "Nouvelle vente");
 			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
-			System.err.println("2");
 			return "newSalePage";
 		}
 
@@ -576,7 +561,6 @@ public class MainController {
 			model.addAttribute("categories", list);
 			model.addAttribute("title_newSale", "Nouvelle vente");
 			model.addAttribute("titre_newSale", "Nouvelle vente");
-			System.err.println("2");
 			return "newSalePage";
 
 		}
@@ -591,54 +575,35 @@ public class MainController {
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
 			Iterable<Categorie> list = categorieManager.selectionnerTous();
 			model.addAttribute("categories", list);
-			System.err.println("3");
 			return "newSalePage";
 		}
 
 		// photo !!
 		// Root Directory.
-	      String uploadRootPath = request.getServletContext().getRealPath("upload");
-	      System.err.println("uploadRootPath=" + uploadRootPath);
-	 
-	      File uploadRootDir = new File(uploadRootPath);
+	      File uploadRootDir = new File(uploadDir);
 	      // Create directory if it not exists.
 	      if (!uploadRootDir.exists()) {
 	         uploadRootDir.mkdirs();
 	      }
 	      MultipartFile[] fileDatas = articleForm.getFileDatas();
-	      //
-	      List<File> uploadedFiles = new ArrayList<File>();
-	      List<String> failedFiles = new ArrayList<String>();
-			System.err.println("5");
 	 
 	      for (MultipartFile fileData : fileDatas) {
-				System.err.println("6"); 
-	         // Client File Name
-	         String name = newArticle.getNoArticle().toString() + "_";
-	         System.out.println("Client File Name = " + name);
+	         String prefix = newArticle.getNoArticle().toString() + "_";
 	 
-	         if (name != null && name.length() > 0) {
-	 			System.err.println("7");
+	         if (prefix != null && prefix.length() > 0) {
 	            try {
-	               // Create the file at server
-	               File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name + fileData.getOriginalFilename());
+	               File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + prefix + fileData.getOriginalFilename());
 	 
 	               BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 	               stream.write(fileData.getBytes());
 	               stream.close();
-	               //
-	               uploadedFiles.add(serverFile);
+
 	               System.err.println("Write file: " + serverFile);
 	            } catch (Exception e) {
-	               System.err.println("Error Write file: " + name);
-	               failedFiles.add(name);
-
+	               System.err.println("Error Write file: " + prefix);
 	            }
 	         }
 	      }
-	      
-	      model.addAttribute("uploadedFiles", uploadedFiles);
-	      model.addAttribute("failedFiles", failedFiles);
 		
 		
 		redirectAttributes.addFlashAttribute("flashUser", newArticle);
@@ -764,15 +729,6 @@ public class MainController {
 		try {
 			article = articleVenduManager.selectionnerArticleVendu(noArticle);
 			articleBlock = articleBlockManager.selectionnerArticleBlockById(noArticle, request);
-		    
-			String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + noArticle;
-		    System.err.println("uploadPath=" + uploadPath);
-		    
-		    File file = new File(uploadPath);
-			if (file.exists()) {
-				model.addAttribute("file", file);
-			}
-				
 		} catch (Exception e) {
 			System.out.println(e);
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());
@@ -799,15 +755,6 @@ public class MainController {
 		try {
 			article1 = articleVenduManager.selectionnerArticleVendu(noArticle);
 			a = articleBlockManager.selectionnerArticleBlockById(noArticle, request);
-			
-			String uploadPath = request.getServletContext().getRealPath("/upload")+ "\\" + noArticle;
-		    System.err.println("uploadPath=" + uploadPath);
-		    
-		    File file = new File(uploadPath);
-			if (file.exists()) {
-				model.addAttribute("file", file);
-			}
-			
 		} catch (Exception e) {
 			System.out.println(e);
 			model.addAttribute("errorMessage", "Error: " + e.getMessage());

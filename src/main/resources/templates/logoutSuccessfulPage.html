@@ -15,7 +15,7 @@
 <body>
 
 	<!-- Include _header.html -->
-	<th:block th:include="/_header"></th:block>
+	<th:block th:include="_header"></th:block>
 
 	<section class="container text-center">
 		<h2 class="my-5" th:utext="${titre_logout}"></h2>
@@ -24,7 +24,7 @@
 	</section>
 
 	<!-- Include _footer.html -->
-	<th:block th:include="/_footer"></th:block>
+	<th:block th:include="_footer"></th:block>
 	<script>
 		function redirectionAccueil(){
 			window.location.replace("/encheres");

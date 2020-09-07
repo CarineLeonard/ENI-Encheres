@@ -1,6 +1,5 @@
 package fr.eni.encheres.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,14 +28,12 @@ public class WebConfiguration implements WebMvcConfigurer {
 				"/images/**",
 				"/vendor/**",
 				"/css/**",
-				"/js/**",
-				"/upload/**")
+				"/js/**")
         		.addResourceLocations(
 						"classpath:/static/images/",
 						"classpath:/static/vendor/",
 						"classpath:/static/css/",
-						"classpath:/static/js/",
-						"classpath:/static/upload/");
+						"classpath:/static/js/");
     }
     
     @Bean

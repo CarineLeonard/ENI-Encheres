@@ -8,10 +8,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
 import fr.eni.encheres.bo.ArticleBlock;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
@@ -28,6 +27,9 @@ public class ArticleBlockManager {
 
 	@Autowired
 	EnchereManager enchereManager;
+	
+    @Value("${upload.dir}")
+    private String uploadDir;
 	
 	public List<ArticleBlock> selectionnerTousArticleBlocks(HttpServletRequest request) throws Exception {
 		List<ArticleBlock> articleBlocks = new ArrayList<ArticleBlock>();
@@ -66,14 +68,14 @@ public class ArticleBlockManager {
 			articleBlock.setRetrait(retraitManager.selectionnerRetrait(new RetraitId(art)));
 			articleBlock.setPseudoVendeur(art.getUtilisateur().getPseudo());
 			
-//		    File dir = new File(request.getServletContext().getRealPath("/upload"));
-//	    	if (!dir.exists()) {
-//	    		dir.mkdirs();
-//	    	}
-//		    for(File file : dir.listFiles()) {
-//		        if(file.getName().startsWith(String.valueOf(id +"_")))
-//					articleBlock.setImage(file.getCanonicalPath());
-//		    }
+		    File dir = new File(uploadDir);
+	    	if (dir.exists()) {
+			    for(File file : dir.listFiles()) {
+			        if(file.getName().startsWith(String.valueOf(id +"_"))) {
+						articleBlock.setImage("/upload/" + file.getName());
+			        }
+			    }
+	    	}
 		} catch (Exception e) {
 			throw e;
 		}
